@@ -2,667 +2,1875 @@
 
 ## 1. Purpose
 
-The verify stage exists to determine whether implemented School Dashboard behavior actually satisfies the agreed requirements and acceptance criteria.
+The Verify stage exists to independently determine whether implemented School
+Dashboard work actually satisfies the accepted requirements.
 
-Verification should evaluate evidence rather than assume that implementation is correct because code exists, tests were added, or Build reported success.
+Verification should evaluate evidence rather than assume implementation is
+correct because:
 
-The goal is to answer:
+- code exists,
+- Build reported success,
+- tests pass,
+- the page looks plausible,
+- or the implementation follows common conventions.
 
-> Does the resulting system behave correctly, safely, and consistently with the intended School Dashboard requirements?
+The central question is:
 
-Verification is not a ceremonial final step.
+> Does the resulting implementation actually satisfy the accepted School
+> Dashboard requirements without violating scope, product invariants, or nearby
+> existing behavior?
 
-It is the quality gate between implementation and durable project truth.
+Verify is the final technical quality gate before work becomes accepted project
+reality.
 
----
+For School Dashboard, Verify should also finish routine task housekeeping when
+the evidence supports completion.
 
-## 2. When to Use This Stage
+That may include:
 
-Use the verify stage when work requires meaningful confirmation that implemented behavior works as intended.
+- repairing small obvious implementation defects,
+- rerunning verification,
+- updating current-state documentation,
+- updating task status,
+- committing the verified task,
+- and pushing the verified commit.
 
-Typical examples include:
-
-- verifying a new feature,
-- validating a bug fix,
-- checking a route or API,
-- validating database behavior,
-- testing authentication or authorization,
-- checking important edge cases,
-- confirming a refactor preserved behavior,
-- verifying an integration,
-- validating a deployment-sensitive change,
-- or confirming acceptance criteria before documenting implementation as complete.
-
-Trivial changes may require only lightweight verification.
-
-Use verification effort in proportion to the risk and importance of the change.
-
-For the initial UI milestone, verify behavior against the local mock/hardcoded academic data and `docs/V1_SPEC.md`. Generic database, authentication, integration, and dependency-failure checks apply only when such systems actually exist within accepted scope. During the documentation foundation, use document inspection and consistency checks; do not claim application runtime verification or create tooling merely to run it.
+The workflow should move quickly without weakening the evidence standard.
 
 ---
 
-## 3. Required Context
+# 2. Development Autonomy
 
-Before verification:
+School Dashboard intentionally uses a high-autonomy workflow.
 
-1. Read the root `AGENTS.md`.
-2. Read the root `CONTEXT.md`.
-3. Read this verify-stage context.
-4. Use the root context router to identify only the durable project sources relevant to the verification target.
-5. Inspect the actual implementation, tests, schema, configuration, Git diff, or runtime behavior needed to evaluate the task.
+Verify may autonomously perform ordinary low-risk verification and completion
+work when:
 
-Depending on the task, relevant context may include:
+- the accepted behavior is clear,
+- the change is reversible,
+- no material product decision is required,
+- no architecture boundary is being changed,
+- no security or privacy concern exists,
+- and no destructive Git operation is required.
 
-- `docs/PRODUCT_VISION.md` when product purpose or long-term direction matters,
-- the accepted plan under `icm/01_plan/output/` when one exists and its acceptance criteria matter,
-- a Build handoff or Build output when one exists and helps locate the change,
-- `docs/V1_SPEC.md` when product requirements or expected behavior matter,
-- `docs/ARCHITECTURE.md` when system structure or technical boundaries matter,
-- `docs/IMPLEMENTATION.md` when verifying changes to existing functionality,
-- `docs/DECISIONS.md` when settled decisions constrain expected behavior,
-- `docs/TASKS.md` when verification affects task status or sequencing.
+Mike does NOT need to manually approve:
 
-Do not load these sources automatically merely because they exist.
+- every verification command,
+- every browser check,
+- every lint/type/build command,
+- routine fixture validation,
+- small obvious implementation repairs,
+- routine documentation promotion,
+- normal task-status updates,
+- a normal commit of a verified task,
+- or a normal push of that verified commit.
 
-Treat Build descriptions and prior ICM artifacts as orientation, not proof.
-
-Do not automatically load unrelated documentation, historical ICM outputs, or the entire repository.
+Stop only when human judgment is materially useful.
 
 ---
 
-## 4. Verification Independence
+# 3. Verification Independence
 
-Treat Build claims as information to investigate, not proof.
+Treat Build claims as orientation, not proof.
 
 Build may say:
 
-> The course detail page works.
+> The Today page works.
 
-Verify should instead ask:
+Verify should ask:
 
-- What requirement says what the course detail page should show?
-- What code was changed?
-- What observable behavior proves it?
-- What failure cases matter?
-- What evidence exists?
-- Has related existing behavior been preserved?
+```text
+What requirement defines Today?
 
-Do not repeat Build's conclusions without independent evidence.
+What data should appear?
 
-Verification should challenge assumptions where reasonable.
+What data must not appear?
+
+What ordering is required?
+
+What empty state is required?
+
+Which product invariants apply?
+
+What observable evidence proves those behaviors?
+```
+
+Do not copy Build's conclusion into the Verify result.
+
+Independently inspect:
+
+- requirements,
+- code,
+- runtime behavior,
+- tests,
+- data,
+- configuration,
+- and Git diff
+
+as relevant.
 
 ---
 
-## 5. Verify Against Acceptance Criteria
+# 4. When to Use Verify
 
-The primary verification target is the accepted behavior, not the implementation details.
+Use Verify after meaningful implementation work.
 
-For each relevant acceptance criterion:
+Examples include:
 
-1. identify the expected behavior,
-2. determine the strongest practical way to test it,
-3. perform the check,
-4. record the result,
-5. and identify any limitation in the evidence.
+- application initialization,
+- new pages,
+- navigation,
+- shared components,
+- static academic fixtures,
+- data derivation,
+- progress calculations,
+- bug fixes,
+- routing,
+- architecture changes,
+- configuration changes,
+- dependencies,
+- later persistence or integration work.
+
+Trivial changes may need only lightweight verification.
+
+Use effort in proportion to:
+
+- task importance,
+- regression risk,
+- implementation complexity,
+- security sensitivity.
+
+Do not create ceremony for tiny changes.
+
+---
+
+# 5. Required Context
+
+Before meaningful verification:
+
+1. Read root `AGENTS.md`.
+2. Read root `CONTEXT.md`.
+3. Read this Verify-stage context.
+4. Read the accepted task Plan when one exists.
+5. Read the Build handoff when useful.
+6. Use the context router to load only relevant durable project sources.
+7. Inspect actual repository implementation and Git state.
+
+Do not load every durable document automatically.
+
+Do not treat ICM artifacts as stronger evidence than repository reality.
+
+---
+
+# 6. Common Verify Context
+
+Depending on the task, relevant durable sources may include:
+
+## `docs/V1_SPEC.md`
+
+Use when verifying:
+
+- product behavior,
+- academic semantics,
+- Today rules,
+- Assignment behavior,
+- progress,
+- V1 invariants,
+- exclusions.
+
+---
+
+## `docs/UI_SPEC.md`
+
+Use when verifying:
+
+- view hierarchy,
+- required information,
+- presentation responsibilities,
+- empty states,
+- navigation,
+- responsive behavior,
+- accessibility-related UI expectations.
+
+---
+
+## `docs/MOCK_DATA_SPEC.md`
+
+Use when verifying:
+
+- fixture structure,
+- stable identity,
+- Course relationships,
+- source-backed Course Facts,
+- personal-plan distinctions,
+- authored ordering,
+- reference-date behavior,
+- derived values,
+- fixture validation.
+
+---
+
+## `docs/ARCHITECTURE.md`
+
+Use when verification involves:
+
+- project structure,
+- technical boundaries,
+- dependencies,
+- routes,
+- shared data flow,
+- architecture changes.
+
+---
+
+## `docs/IMPLEMENTATION.md`
+
+Use when determining:
+
+- previously verified behavior,
+- existing implementation responsibilities,
+- whether current-state documentation now needs updating.
+
+---
+
+## `docs/DECISIONS.md`
+
+Use when accepted durable decisions constrain expected behavior.
+
+---
+
+## `docs/TASKS.md`
+
+Use when verification affects:
+
+- task status,
+- task sequencing,
+- milestone completion.
+
+---
+
+# 7. Context Minimization
+
+Do not automatically load:
+
+- the complete Physics textbook,
+- raw Course source materials,
+- unrelated historical Plan artifacts,
+- unrelated historical Verify artifacts,
+- future milestone documentation.
 
 Example:
 
-Acceptance criterion:
+For:
 
-> Opening a known course shows the selected course's details and only its associated mock assignments, weekly learning objectives, and daily study tasks; an unknown course shows a clear not-found state.
+`SD-001 — Initialize Next.js Application`
 
-Verification should separately confirm:
+Verify likely needs:
 
-- the selected course is correctly resolved from mock data,
-- the course card opens the corresponding detail view,
-- the displayed assignments belong to that course,
-- the weekly objectives and daily tasks belong to that course,
-- another course's academic items are not included,
-- empty lists are handled clearly,
-- and an unknown course shows the expected not-found state.
+```text
+AGENTS.md
+CONTEXT.md
+accepted SD-001 Plan
+Build handoff
+ARCHITECTURE.md
+IMPLEMENTATION.md
+TASKS.md
+relevant repository files
+```
 
-Do not treat one partial success as proof of the entire criterion.
+It probably does NOT need:
 
-When asked to evaluate a proposed or hypothetical behavior rather than an implemented repository change, verification may compare that behavior against the relevant accepted requirements, architecture, and decisions.
+```text
+full Physics textbook
+detailed Course fixture
+all UI specifications
+future AI planning context
+```
 
-In that case, clearly distinguish specification or design verification from runtime verification.
-
-Do not claim that unimplemented behavior was executed, tested, or proven in the application.
+Use the smallest sufficient context set.
 
 ---
 
-## 6. Verification Strategy
+# 8. Primary Verification Target
 
-Use the strongest practical verification available for the task.
+The primary verification target is accepted behavior.
+
+Implementation details matter only insofar as they:
+
+- produce that behavior,
+- violate architecture,
+- create security problems,
+- introduce regressions,
+- or expand scope.
+
+For each important acceptance criterion:
+
+```text
+Requirement
+    ↓
+Verification method
+    ↓
+Evidence
+    ↓
+Result
+```
+
+Do not substitute:
+
+```text
+Code looks reasonable
+```
+
+for observable verification when stronger evidence is practical.
+
+---
+
+# 9. Verify Acceptance Criteria Individually
+
+Do not treat one successful observation as proof of an entire feature.
+
+Example acceptance criterion:
+
+> Opening a known Course shows only that Course's relevant academic information
+> and an unknown Course shows a clear not-found state.
+
+Verify separately:
+
+- known Course resolves,
+- correct Course identity displays,
+- its Objectives belong to that Course,
+- its Assignments belong to that Course,
+- its Study Tasks belong to that Course,
+- unrelated Course data does not leak,
+- empty academic sections behave correctly,
+- unknown identifier produces the required not-found behavior.
+
+A partial success is not a full PASS.
+
+---
+
+# 10. Verification Methods
+
+Use the strongest practical evidence available.
 
 Possible methods include:
 
-- automated tests,
-- integration tests,
-- end-to-end tests,
-- type checking,
-- linting,
-- production builds,
-- database queries or inspection,
-- API requests,
-- browser testing,
-- local runtime testing,
-- controlled failure testing,
-- or targeted manual inspection.
+```text
+automated tests
 
-Prefer objective, repeatable evidence when practical.
+TypeScript checks
 
-Manual verification is valid when automation would be disproportionate or unavailable, but describe exactly what was checked.
+linting
 
-Do not claim a behavior was tested if it was only inferred from reading code.
+production build
 
----
+runtime execution
 
-## 7. Happy Path and Failure Path
+browser navigation
 
-Do not verify only the expected successful case.
+manual UI inspection
 
-Where relevant, check:
+route testing
 
-### Happy Path
+fixture validation
 
-Does valid input produce the required successful behavior?
+data relationship checks
 
-### Invalid Input
+API testing
 
-Does malformed, unknown, or unsupported input behave safely and predictably?
+database inspection
 
-### State Restrictions
+integration testing
 
-Does behavior correctly respect states such as:
+Git diff inspection
+```
 
-- inactive,
-- disabled,
-- unauthorized,
-- missing,
-- expired,
-- or otherwise invalid?
+Not every task requires every method.
 
-### Dependency Failure
-
-What happens when an expected database, service, or external dependency fails?
-
-### Boundary Conditions
-
-Are important limits or unusual cases handled correctly?
-
-Use judgment.
-
-Do not invent dozens of meaningless edge cases merely to make verification appear thorough.
-
-Focus on failures that could realistically affect correctness, security, or user experience.
+Choose the methods that best prove the accepted behavior.
 
 ---
 
-## 8. Regression Checking
+# 11. Source Inspection vs Runtime Evidence
 
-A successful new feature is not sufficient if it breaks existing behavior.
+Reading code is useful.
 
-When a change touches existing functionality, identify the nearby behavior most likely to regress.
+It is not the same thing as running behavior.
+
+Clearly distinguish:
+
+```text
+Verified by code inspection
+```
+
+from:
+
+```text
+Verified through runtime behavior
+```
+
+Do not claim:
+
+> The route works.
+
+when the route was only inspected.
+
+Say instead:
+
+> The route implementation was inspected, but runtime navigation was not
+> verified.
+
+when that is the actual evidence.
+
+---
+
+# 12. Happy Path Verification
+
+Verify normal expected behavior.
+
+Examples:
+
+- valid navigation succeeds,
+- expected Course renders,
+- correct static data appears,
+- progress displays correctly,
+- valid build completes,
+- expected route loads.
+
+Happy-path success is necessary but may not be sufficient.
+
+---
+
+# 13. Edge and Failure Cases
+
+Check meaningful cases that could realistically reveal incorrect behavior.
+
+Possible examples include:
+
+- unknown Course identifier,
+- Course with no Study Tasks,
+- missing duration estimate,
+- Assignment due today without a Study Task,
+- completed Study Task planned today,
+- earlier unfinished Study Task,
+- Study Task without an Objective,
+- Study Task without an Assignment,
+- multiple Courses with unequal task totals.
+
+Use the task's accepted criteria.
+
+Do not manufacture dozens of irrelevant edge cases merely to make verification
+look thorough.
+
+---
+
+# 14. V1 Invariant Verification
+
+For student-facing Milestone 1 work, verify relevant invariants from:
+
+`docs/V1_SPEC.md`
+
+Examples include:
+
+```text
+one shared academic plan
+
+stable Study Task identity
+
+Course Fact != personal planning choice
+
+Assignment due date != Study Task planned date
+
+Today =
+incomplete Study Tasks planned for referenceDate
+
+earlier unfinished Study Tasks do not automatically move to Today
+
+Next Action =
+first Today Study Task in authored order
+
+progress counts Study Tasks only
+
+V1 remains read-only
+```
+
+A visually functional implementation that violates an invariant is not a PASS.
+
+---
+
+# 15. Shared-Data Verification
+
+Where several views show the same academic information, confirm they agree.
+
+For example, the same Study Task appearing in:
+
+```text
+Dashboard
+Today
+Weekly Plan
+Course Page
+```
+
+should agree on relevant fields such as:
+
+- identity,
+- title,
+- Course,
+- completion state,
+- Assignment relationship,
+- Objective relationship,
+- date.
+
+Repeated UI appearances must not behave like separate academic records.
+
+---
+
+# 16. Progress Verification
+
+When a task touches progress, verify the actual calculation.
+
+For a given Academic Week:
+
+```text
+completed current-week Study Tasks
+/
+all current-week Study Tasks
+```
+
+Verify that progress does NOT count:
+
+- Assignments,
+- Learning Objectives,
+- Course Materials,
+- Class Meetings,
+- source artifacts.
+
+Verify Course-specific progress filters the same canonical Study Tasks by
+Course.
+
+Verify overall progress counts raw Study Tasks across Courses.
+
+Do not accept averaging of Course percentages.
+
+---
+
+# 17. Date Verification
+
+When the task touches date behavior, confirm:
+
+- the static shared reference date is used,
+- the machine date does not change V1 behavior,
+- Today filtering follows the reference date,
+- Assignment due dates remain distinct from Study Task planned dates,
+- earlier unfinished Study Tasks remain on their authored date,
+- Upcoming Assignments are ordered according to accepted rules.
+
+Date behavior should be proven through data and/or runtime evidence where
+practical.
+
+---
+
+# 18. UI Verification
+
+When verifying a UI task, evaluate both:
+
+```text
+Does the required information exist?
+```
+
+and:
+
+```text
+Does the interface communicate the required hierarchy and meaning?
+```
+
+Examples:
+
+- Next Action should actually be identifiable.
+- Assignments should not look indistinguishable from Study Tasks.
+- Weekly Plan should be a real dedicated view.
+- Today should be a real dedicated view.
+- empty states should not overclaim.
+- fake controls for unavailable features should not appear.
+
+Do not treat a screenshot that merely contains all required words as proof of
+good information hierarchy.
+
+---
+
+# 19. Responsive Verification
+
+When relevant, inspect more than one practical viewport width.
+
+Confirm:
+
+- core content remains accessible,
+- navigation remains usable,
+- important information is not hidden,
+- layout does not obviously break,
+- interactive elements remain usable.
+
+Do not require exhaustive device testing for every small UI task.
+
+Use proportional verification.
+
+---
+
+# 20. Accessibility Verification
+
+For UI tasks, check obvious accessibility requirements when relevant.
+
+Examples:
+
+- interactive controls use appropriate elements,
+- keyboard navigation remains reasonable,
+- heading hierarchy makes sense,
+- status is not communicated only through color,
+- links/buttons have understandable labels.
+
+Do not claim full accessibility certification from lightweight checks.
+
+---
+
+# 21. Regression Verification
+
+A feature is not successful if it breaks nearby accepted behavior.
+
+When a task touches existing functionality:
+
+identify the most likely regressions.
 
 Use:
 
 - existing tests,
-- targeted regression tests,
-- relevant build checks,
-- or focused manual verification.
+- targeted checks,
+- browser navigation,
+- build validation,
+- focused manual verification
 
-The verification scope should remain proportional to the change.
+as appropriate.
 
-Do not retest the entire application for every small task unless the change genuinely creates broad risk.
+Do not retest the entire application after every small task unless the change
+creates broad risk.
 
 ---
 
-## 9. Security Verification
+# 22. Dependency Verification
 
-When the task involves security-sensitive behavior, explicitly verify relevant protections.
+When a task adds or changes dependencies, verify:
 
-Examples include:
+- the dependency is expected,
+- lockfile changes are reasonable,
+- no unrelated package churn occurred,
+- the dependency is actually needed,
+- the project still builds/checks correctly.
 
-- authentication,
+If a material dependency appeared without accepted planning, surface it.
+
+Do not normalize scope expansion merely because installation succeeded.
+
+---
+
+# 23. Security and Privacy Verification
+
+When relevant, explicitly inspect:
+
+- secrets,
+- credentials,
+- environment files,
+- external URLs,
+- private Course data,
+- student information,
 - authorization,
-- public routes,
-- course-material links,
-- user-controlled input,
-- database writes,
-- course identifiers,
-- secrets or environment configuration,
 - external APIs,
-- or sensitive student and academic data.
+- user-controlled input.
 
-Relevant verification may include:
+For the current static milestone specifically check that:
 
-- unauthorized access attempts,
-- invalid identifiers,
-- unsafe external links,
-- unexpected user input,
-- accidental information exposure,
-- or improper privilege boundaries.
+- real secrets were not committed,
+- raw private Course files were not accidentally added,
+- large restricted materials were not copied unnecessarily into source.
 
-Do not claim security from code appearance alone.
-
-If meaningful security behavior cannot be adequately verified, document that limitation clearly.
+Do not claim security from appearance alone.
 
 ---
 
-## 10. Tests Are Evidence, Not Truth
+# 24. Git Diff Review Is Required
 
-Passing tests increase confidence but do not automatically prove the implementation is correct.
+Before completing meaningful verification, inspect:
 
-A test may:
+```text
+git status
 
-- test the wrong behavior,
-- miss an important case,
-- encode an outdated assumption,
-- or be weakened to match a broken implementation.
+git diff
 
-When reviewing tests, ask:
+git diff --staged
+```
 
-- Does this test correspond to an actual requirement?
-- Would it fail if the feature were meaningfully broken?
-- Does it cover the important behavior?
-- Is the assertion specific enough to be useful?
+as relevant.
 
-Do not modify tests simply to make a failing implementation appear correct.
+Confirm:
 
-If a test conflicts with an approved requirement, surface the contradiction.
+- expected files changed,
+- unrelated files did not change,
+- no secrets were added,
+- no private Course files were accidentally added,
+- no unwanted generated files are tracked,
+- important deletions are intentional,
+- scope matches the accepted task.
 
----
+Verification asks both:
 
-## 11. Build and Tooling Checks
-
-Where appropriate, verify that the project still passes relevant technical checks.
-
-These may include:
-
-- TypeScript checks,
-- linting,
-- automated tests,
-- production build,
-- dependency validation,
-- schema validation,
-- or framework-specific checks.
-
-A feature that behaves correctly in one narrow test but causes the project to fail compilation or build is not ready.
-
-Record which checks were run and their results.
-
----
-
-## 12. Git Diff Review
-
-Verification includes reviewing the actual change set.
-
-Inspect the Git diff and confirm:
-
-- changed files are expected,
-- unrelated changes were not introduced,
-- no secret or sensitive file is included,
-- no accidental generated file is being tracked,
-- the implementation scope matches the task,
-- and important deletions or configuration changes are intentional.
-
-Verification is about both:
-
-> Does the feature work?
+> Does the implementation satisfy the task?
 
 and:
 
-> Did we change only what we meant to change?
-
-Do not commit, push, merge, reset, or rewrite Git history unless Mike explicitly asks.
+> Did we change only what we intended?
 
 ---
 
-## 13. Verification Failures
+# 25. Tests Are Evidence, Not Truth
 
-A failed verification is useful information.
+Passing tests increase confidence.
 
-Do not hide, weaken, or reinterpret a failure merely to declare completion.
+They do not automatically prove correctness.
 
-When verification fails:
+A test may:
 
-1. identify the acceptance criterion or expected behavior that failed,
-2. record the evidence,
-3. identify the likely affected implementation area when possible,
-4. distinguish confirmed facts from hypotheses,
-5. and return the issue to Build or Plan as appropriate.
+- test the wrong requirement,
+- miss an edge case,
+- contain an outdated assumption,
+- or be too weak.
 
-### Return to Build
+Ask:
 
-Use Build when the requirement remains correct and the implementation is defective.
+```text
+Does this test correspond to a real requirement?
 
-### Return to Plan
+Would this test fail if the feature were meaningfully broken?
 
-Use Plan when verification reveals that the requirement, architecture, acceptance criterion, or implementation approach itself is materially flawed or incomplete.
+Does it cover the behavior we actually care about?
+```
 
-Do not patch production code inside Verify simply to make verification pass unless Mike explicitly asks for that workflow.
+Do not change a valid requirement merely so a test passes.
 
-Keep verification and repair conceptually separate.
+Do not weaken a test to hide broken implementation.
 
 ---
 
-## 14. Verification Output Artifacts
+# 26. Small Repair Lane
 
-For meaningful verification work, create a task-specific artifact under:
+Verify may automatically repair a small implementation defect when ALL of the
+following are true:
 
-`icm/03_verify/output/`
+- the accepted requirement is unambiguous,
+- the defect is localized,
+- the fix is low risk,
+- the fix does not change product behavior,
+- the fix does not materially change architecture,
+- the fix does not expand task scope,
+- no new significant dependency is required,
+- no human decision is needed.
 
-Create this directory only when a task needs a verification artifact; it need not exist during the documentation foundation.
+Examples:
+
+```text
+wrong link path
+
+simple missing empty state
+
+incorrect local filter condition
+
+small TypeScript issue
+
+obvious styling break
+
+missing accessible label
+
+simple test typo that conflicts with the accepted implementation intent
+```
+
+After repairing:
+
+1. rerun the relevant Build checks,
+2. rerun the affected Verify checks,
+3. inspect the resulting diff,
+4. report the repair.
+
+This avoids unnecessary Plan → Build → Verify loops for obvious defects.
+
+---
+
+# 27. What Verify Must NOT Repair Autonomously
+
+Return to Build or Plan when fixing the issue would materially change:
+
+- product behavior,
+- academic semantics,
+- architecture,
+- scope,
+- acceptance criteria,
+- persistence strategy,
+- dependency strategy,
+- security model,
+- external integration behavior.
 
 Example:
 
-`SD-004-course-detail-verification.md`
+Today automatically includes all overdue tasks.
 
-Use a verification artifact when the task benefits from a durable record of what was checked before the conclusions are promoted into project documentation.
+If the code intentionally implements that incorrect model across the
+application, do not quietly redesign the planning system inside Verify.
 
-Every substantial verification artifact should begin with a concise `Human Review Summary` before the detailed verification content.
+Return the issue appropriately.
 
-The summary is an acceptance aid for Mike, not merely a shorter agent report. It should make the result, proven behavior, evidence gaps, review priorities, routing, and next action clear without duplicating the detailed evidence.
+---
 
-The `Human Review Summary` should contain these sections near the top:
+# 28. Routing Failures
 
-### Verification Result
+## Return to Build
 
-State exactly one status:
+Use Build when:
 
-- PASS
-- PASS WITH LIMITATIONS
-- FAIL
-- BLOCKED
+- requirements remain correct,
+- architecture remains correct,
+- implementation is materially defective,
+- the repair exceeds the Small Repair Lane.
 
-Use the status meanings defined in this stage and do not claim completion more strongly than the evidence supports.
+---
 
-### What Was Proven
+## Return to Plan
 
-- Include only concise, evidence-backed claims.
-- Connect each claim to the relevant check or observation without repeating raw output.
-- If nothing was proven, say `None.`
+Use Plan when verification reveals that:
 
-### What Was Not Proven
+- requirements are ambiguous or wrong,
+- architecture is insufficient,
+- acceptance criteria need revision,
+- task scope was incorrect,
+- a material new decision is required.
 
-- Explicitly identify limitations, untested assumptions, unavailable environments, and other evidence gaps.
-- Do not invent a limitation merely to populate the section.
-- If the relevant behavior was sufficiently proven with no meaningful evidence gap, say `None.`
+---
 
-### Mike's Review Focus
+## Blocked
 
-- Identify the most important evidence, files, behavior, or failures Mike should personally inspect.
-- Explain briefly why each focus area matters when that is not obvious.
-- If no special human review focus exists, say `None.`
+Use BLOCKED when verification cannot proceed because necessary:
 
-### Learning Takeaways
+- environment,
+- access,
+- implementation,
+- dependency,
+- data,
+- or tooling
 
-- Concisely explain the most important engineering lessons revealed by verification.
-- Keep learning takeaways separate from verification evidence.
-- Do not turn the artifact into a tutorial or add unrelated concepts.
-- If there is no meaningful takeaway, say `None.`
+is unavailable.
 
-### Retrospective Candidates
+State the concrete blocker and next step.
 
-Build may surface possible candidates, but Verify provides the final task-level retrospective candidates after the available evidence is known.
+---
 
-- **Decision Candidates:** List only potential durable product or technical decisions requiring human review.
-- **ICM Improvement Candidates:** List only potential improvements to agent instructions or the ICM workflow requiring human review.
+# 29. Verification Status
 
-Candidates are surfaced for human review only. Do not automatically promote them into `docs/DECISIONS.md`, `AGENTS.md`, or other durable documentation. If a category has no meaningful candidates, say `None.`
+Use exactly one primary status.
 
-### Failures / Limitations and Routing
+## PASS
 
-- Describe confirmed failures and meaningful limitations without hiding them behind the overall status.
-- Route defective implementation to Build.
-- Route defective or unresolved requirements, design, architecture, acceptance criteria, or implementation approach to Plan.
-- Keep confirmed facts separate from hypotheses.
-- Do not repair production code inside Verify unless Mike explicitly asks for that workflow.
-- If there are no failures or meaningful limitations to route, say `None.`
+Use when:
 
-### Next Action
+- all required acceptance criteria were sufficiently verified,
+- no blocking defect remains,
+- meaningful regressions were not found,
+- scope remains correct.
 
-Clearly state whether the task should:
+---
 
-- return to Plan,
-- return to Build,
-- remain blocked,
-- or proceed to final human review and commit consideration.
+## PASS WITH LIMITATIONS
 
-### Final Acceptance Checklist
+Use when:
 
-When applicable, provide a concise checklist Mike can use to determine whether the work is ready to be accepted as the current project state. The checklist should reflect the actual acceptance criteria, evidence, limitations, regression status, security considerations, diff review, and justified documentation updates.
+- required behavior appears correct,
+- but a meaningful part of verification could not be completed,
+- and the missing evidence does NOT represent a known requirement failure.
 
-After the `Human Review Summary`, retain the detailed verification content needed to support independent review. Do not repeat the entire detailed artifact in the summary, and preserve progressive disclosure.
+State the limitation clearly.
 
-A useful verification artifact may contain:
+Do not use this status to hide a failing requirement.
 
-### Verification Target
+---
 
-What implementation or feature was evaluated.
+## FAIL
 
-### Acceptance Criteria
+Use when one or more accepted requirements are not satisfied.
 
-The criteria being tested.
+---
 
-### Verification Performed
+## BLOCKED
 
-Commands, tests, browser actions, queries, or other checks used.
+Use when verification cannot meaningfully proceed.
 
-### Results
+---
 
-What passed, failed, or could not be verified.
+# 30. Evidence Standard
 
-### Evidence
+Every final Verify conclusion should be traceable to evidence.
 
-Relevant test output, observed behavior, or concise findings.
+Useful evidence includes:
 
-### Regressions Checked
+```text
+command output
 
-Existing behavior that was specifically checked.
+runtime observation
 
-### Limitations
+browser behavior
 
-Anything the verification process could not confidently establish.
+test result
 
-### Final Status
+build result
+
+type-check result
+
+fixture calculation
+
+Git diff
+
+direct source inspection
+```
+
+Do not use:
+
+```text
+Build said it worked
+```
+
+as primary evidence.
+
+---
+
+# 31. Verification Artifacts
+
+For meaningful verification work, create a task-specific artifact under:
+
+```text
+icm/03_verify/output/
+```
+
+Example:
+
+```text
+SD-004-course-page-verification.md
+```
+
+Create an artifact when:
+
+- verification is substantial,
+- the evidence is worth preserving,
+- the task has meaningful acceptance criteria,
+- or future review would benefit from the record.
+
+Do NOT create a verification artifact for every trivial change.
+
+---
+
+# 32. Verification Artifact Structure
+
+A meaningful artifact should normally contain:
+
+```text
+# <Task ID> — <Task Name> Verification
+
+## Human Review Summary
+
+## Verification Target
+
+## Acceptance Criteria
+
+## Verification Performed
+
+## Results
+
+## Repairs Performed During Verify
+
+## Regression Checks
+
+## Git Diff Review
+
+## Limitations
+
+## Documentation Promotion
+
+## Final Status
+```
+
+Omit sections that add no value.
+
+Do not generate a giant report merely because a template exists.
+
+---
+
+# 33. Human Review Summary
+
+The top of a substantial Verify artifact should let Mike understand the result
+quickly.
+
+Use:
+
+## Verification Result
 
 One of:
 
-- PASS
-- PASS WITH LIMITATIONS
-- FAIL
-- BLOCKED
-
-Do not create a verification output file for every trivial change.
-
-Do not turn verification artifacts into permanent general project documentation.
-
-Do not invent decisions, learning requirements, blockers, failures, or limitations merely to fill a summary section. Use `None.` whenever a section has nothing meaningful to report.
+```text
+PASS
+PASS WITH LIMITATIONS
+FAIL
+BLOCKED
+```
 
 ---
 
-## 15. Verification Status Meaning
+## What Was Proven
 
-Use status labels carefully.
+Only concise evidence-backed claims.
 
-### PASS
+If none:
 
-All required acceptance criteria were sufficiently verified and no blocking issue remains.
-
-### PASS WITH LIMITATIONS
-
-Required behavior appears correct, but a meaningful part of verification could not be completed or confidence is reduced for a clearly stated reason.
-
-This status should not be used to hide a known requirement failure.
-
-### FAIL
-
-One or more required acceptance criteria did not pass.
-
-### BLOCKED
-
-Verification cannot proceed because required environment, access, data, dependency, or implementation is unavailable.
-
-Always explain the evidence behind the status.
+```text
+None.
+```
 
 ---
 
-## 16. Documentation Promotion
+## What Was Not Proven
 
-Verification is the gate before new implementation is described as established project reality.
+Meaningful evidence gaps only.
 
-After meaningful functionality receives sufficient verification, update durable documentation as appropriate.
+If none:
 
-### `docs/IMPLEMENTATION.md`
-
-Update when verified behavior changes what School Dashboard currently does.
-
-Document:
-
-- current behavior,
-- major implementation flow,
-- important file or module locations,
-- implementation constraints,
-- known limitations,
-- and references to relevant durable decisions.
-
-Describe the current state rather than a chronological history.
-
-### `docs/ARCHITECTURE.md`
-
-Update when verified work materially changes system design or technical structure.
-
-### `docs/V1_SPEC.md`
-
-Update only when accepted product requirements themselves change.
-
-Do not rewrite requirements merely to match an incorrect implementation.
-
-### `docs/DECISIONS.md`
-
-Update when the task establishes an accepted durable technical or product decision.
-
-### `docs/TASKS.md`
-
-Update when verification changes the state of tracked work.
-
-Do not promote failed or unverified behavior into `IMPLEMENTATION.md` as if it is complete.
+```text
+None.
+```
 
 ---
 
-## 17. Implementation Documentation Quality
+## Automatic Repairs
 
-When updating `docs/IMPLEMENTATION.md`, preserve its role as a concise current-state guide.
+List small defects Verify fixed automatically.
 
-Do not fill it with:
+If none:
 
-- raw test output,
-- temporary debugging notes,
-- chronological commit history,
-- detailed planning discussion,
-- or every internal implementation detail.
-
-Future agents should be able to use it to answer:
-
-> What meaningful functionality exists right now?
-
-> How do its major pieces fit together?
-
-> Where should I inspect the actual implementation?
-
-If the implementation later changes, update the existing description rather than preserving obsolete behavior as active documentation.
-
-Git already preserves historical versions.
+```text
+None.
+```
 
 ---
 
-## 18. Verification Discoveries
+## Mike's Review Focus
 
-Verification may reveal information beyond a simple pass or fail.
+Only identify something when Mike's review would materially help.
 
-Classify discoveries before promoting them.
+Examples:
 
-### Implementation defect
+- meaningful visual design choice,
+- significant dependency,
+- unresolved limitation,
+- unusual architecture.
 
-Return to Build.
+For an ordinary successful task:
 
-### Planning or requirement defect
+```text
+None required for technical completion.
+```
 
-Return to Plan.
-
-### Durable architectural insight
-
-Record in `ARCHITECTURE.md` or `DECISIONS.md` once accepted.
-
-### Current implementation detail
-
-Record in `IMPLEMENTATION.md` after sufficient verification.
-
-### Future improvement
-
-Record in `TASKS.md` if it is valuable and within project direction.
-
-### Temporary observation
-
-Keep it only in the verification artifact when appropriate.
-
-Do not promote every observation into permanent project context.
+Mike may still inspect the feature if he wants.
 
 ---
 
-## 19. Verify Quality Check
+## Learning Takeaway
 
-Before declaring verification complete, confirm:
+Give the highest-value engineering idea exposed by verification.
 
-- relevant acceptance criteria were evaluated,
-- appropriate happy-path behavior was checked,
-- meaningful failure or edge cases were considered,
-- relevant regressions were checked,
-- important technical checks were run,
-- security-sensitive behavior was examined when applicable,
-- the Git diff was reviewed,
-- results are supported by evidence,
-- limitations are explicit,
-- and durable documentation was updated only when justified.
+Keep it short.
 
-If confidence depends primarily on assumption rather than evidence, verification is not complete.
+If none:
+
+```text
+None.
+```
 
 ---
 
-## 20. Final Handoff
+## Next Action
 
-At the end of meaningful verification, provide Mike with a concise handoff containing:
+Use one of:
 
-### Status
+```text
+Finalize task automatically
 
-PASS, PASS WITH LIMITATIONS, FAIL, or BLOCKED.
+Return to Build
 
-### What Was Verified
+Return to Plan
 
-The behavior and acceptance criteria that were evaluated.
+Remain blocked
 
-### Evidence
+Human review recommended before finalization
+```
 
-The most important tests, checks, or observations supporting the conclusion.
+---
 
-### What Failed or Remains Uncertain
+# 34. Autonomous Documentation Promotion
 
-Any issue, limitation, or blocked area.
+After a PASS, Verify may update durable documentation when the verified
+implementation changes project reality.
 
-### Regression Status
+Do not require a separate manual documentation round for routine accurate
+promotion.
 
-Whether relevant existing behavior was checked and whether regressions were found.
+---
 
-### Documentation Updates
+## `docs/IMPLEMENTATION.md`
 
-Any durable project documentation that should now be updated or was updated because the behavior is verified.
+Update when verified functionality changes what the application currently does.
 
-### What Mike Should Understand
+Record:
 
-The most important engineering lesson, system behavior, or verification concept from the task.
+- actual current behavior,
+- meaningful implementation structure,
+- actual commands,
+- important constraints,
+- known verified limitations.
 
-Do not claim completion more strongly than the evidence supports.
+Keep it concise.
 
-When no verification artifact is justified, the final Verify handoff should still apply the same human-review principles where practical: state the result, distinguish what was and was not proven, direct Mike to the most important evidence, separate learning from evidence, route failures correctly, state the next action, and provide an acceptance checklist when applicable.
+Do not paste raw test output.
+
+---
+
+## `docs/TASKS.md`
+
+Update the verified task status when appropriate.
+
+Typical lifecycle:
+
+```text
+Not started
+↓
+In progress
+↓
+Ready for verification
+↓
+Done
+```
+
+After a full PASS, the task may normally become:
+
+```text
+Done
+```
+
+---
+
+## `docs/ARCHITECTURE.md`
+
+Update only when verified implementation establishes a meaningful technical
+structure not already described accurately.
+
+Do not record every file placement as architecture.
+
+---
+
+## `docs/DECISIONS.md`
+
+Do NOT automatically promote task-local implementation choices.
+
+Add only accepted durable decisions.
+
+If Verify discovers a new durable decision candidate that was never approved,
+surface it instead.
+
+---
+
+## `docs/V1_SPEC.md`
+
+Update only when accepted product requirements changed.
+
+Do not rewrite requirements to match implementation.
+
+---
+
+## `docs/UI_SPEC.md`
+
+Update only when accepted UI responsibilities or presentation requirements
+changed.
+
+---
+
+## `docs/MOCK_DATA_SPEC.md`
+
+Update only when accepted fixture semantics or relationships changed.
+
+Do not change the contract merely because implementation accidentally differs.
+
+---
+
+# 35. Implementation Documentation Quality
+
+`docs/IMPLEMENTATION.md` should answer:
+
+```text
+What meaningful functionality exists right now?
+
+How do the important pieces fit together?
+
+Where should an agent inspect the implementation?
+
+How can the application currently be run or checked?
+
+What important limitations remain?
+```
+
+It should NOT become:
+
+- commit history,
+- raw test logs,
+- debugging notes,
+- planning discussion,
+- duplicated product specifications.
+
+Git already preserves history.
+
+---
+
+# 36. Automatic Task Finalization
+
+When verification reaches PASS and no material decision remains, Verify may
+automatically finalize routine project state.
+
+A normal completion sequence is:
+
+```text
+1. complete independent verification
+
+2. perform allowed small repairs if needed
+
+3. rerun affected checks
+
+4. confirm PASS
+
+5. update IMPLEMENTATION.md when current reality changed
+
+6. update TASKS.md to Done
+
+7. inspect final Git status and diff
+
+8. create one task-scoped commit
+
+9. push the current branch normally
+```
+
+Do not ask Mike for a redundant approval checkpoint between these steps when
+the repository instructions authorize autonomous finalization.
+
+---
+
+# 37. Git Authorization
+
+Mike authorizes School Dashboard agents to perform normal task-completion Git
+operations after successful verification.
+
+After a task reaches PASS, Verify MAY:
+
+- stage files belonging to the verified task,
+- create a task-scoped commit,
+- push the current branch to its configured remote.
+
+This authorization applies only to normal, non-destructive Git completion.
+
+---
+
+# 38. Git Operations Allowed After PASS
+
+Verify may use ordinary operations such as:
+
+```text
+git status
+
+git diff
+
+git diff --staged
+
+git add <task files>
+
+git commit
+
+git push
+```
+
+`git fetch` may be used for safe remote inspection when needed.
+
+Do not stage unrelated changes merely because they are present in the working
+tree.
+
+---
+
+# 39. Git Operations That Remain Prohibited Without Explicit Approval
+
+Do NOT automatically:
+
+```text
+force push
+
+git reset --hard
+
+rebase
+
+rewrite commit history
+
+delete branches
+
+delete tags
+
+merge unrelated branches
+
+discard uncommitted user work
+
+resolve destructive conflicts by choosing a side
+
+push secrets or private Course materials
+```
+
+These require explicit approval when materially risky.
+
+High automation does not mean destructive Git autonomy.
+
+---
+
+# 40. Commit Preconditions
+
+Before creating the automatic task commit, Verify MUST confirm:
+
+```text
+[ ] Final verification status is PASS.
+
+[ ] The task's acceptance criteria are satisfied.
+
+[ ] Required repairs were re-verified.
+
+[ ] The final diff matches the accepted scope.
+
+[ ] No unrelated user changes will be staged.
+
+[ ] No secret or credential is included.
+
+[ ] No private/raw Course material was accidentally included.
+
+[ ] Required current-state documentation is updated.
+
+[ ] TASKS.md accurately reflects completion.
+
+[ ] No unresolved blocking limitation remains.
+```
+
+If these conditions are not met:
+
+do not auto-commit.
+
+---
+
+# 41. Commit Scope
+
+Prefer one coherent commit for one verified task.
+
+The commit should contain:
+
+- the accepted implementation,
+- task-required tests,
+- verification-driven small repairs,
+- justified durable documentation updates,
+- task-status update.
+
+Do not absorb unrelated changes.
+
+If unrelated modifications already exist and cannot be safely separated:
+
+stop automatic Git finalization and report the issue.
+
+Do not discard them.
+
+---
+
+# 42. Commit Message
+
+Use a concise task-scoped commit message.
+
+Preferred shape:
+
+```text
+<type>(<task-id>): <short description>
+```
+
+Examples:
+
+```text
+chore(sd-001): initialize Next.js application
+
+feat(sd-002): add dashboard shell and navigation
+
+feat(sd-005): add weekly plan view
+
+fix(sd-006): preserve authored Today task order
+```
+
+Reasonable types include:
+
+```text
+chore
+feat
+fix
+refactor
+docs
+test
+```
+
+Do not over-optimize commit-message taxonomy.
+
+The task ID and change should be recognizable.
+
+---
+
+# 43. Push Preconditions
+
+After creating the verified commit:
+
+1. confirm the commit exists,
+2. confirm the intended current branch,
+3. perform a normal push.
+
+If the push succeeds:
+
+report it.
+
+If push fails because of:
+
+- authentication,
+- remote divergence,
+- branch protection,
+- network failure,
+- remote policy,
+
+do NOT automatically perform destructive reconciliation.
+
+Safe inspection such as:
+
+```text
+git status
+
+git log
+
+git fetch
+```
+
+may be used.
+
+Do not automatically:
+
+- force push,
+- rebase,
+- reset,
+- overwrite remote work.
+
+Report the blocker instead.
+
+---
+
+# 44. PASS WITH LIMITATIONS and Git
+
+Do not automatically commit and push on:
+
+```text
+PASS WITH LIMITATIONS
+```
+
+unless an accepted task Plan explicitly defines the limitation as compatible
+with automatic finalization.
+
+Default behavior:
+
+```text
+PASS
+→ may finalize + commit + push
+
+PASS WITH LIMITATIONS
+→ stop before automatic Git finalization and surface the limitation
+
+FAIL
+→ no task completion commit
+
+BLOCKED
+→ no task completion commit
+```
+
+This keeps the final automatic push threshold strict.
+
+---
+
+# 45. Small Verify Repair and Git History
+
+If Verify performs allowed small repairs before PASS:
+
+include those repairs in the same task commit.
+
+Do not create unnecessary intermediate commits such as:
+
+```text
+attempt fix
+
+fix fix
+
+verification tweak
+```
+
+Prefer one clean verified task commit.
+
+The working history can remain simple for this side project.
+
+---
+
+# 46. Verification Failures Are Useful
+
+Do not hide or weaken a failed requirement merely to reach automatic commit and
+push.
+
+A FAIL is better than a false PASS.
+
+When a requirement fails:
+
+- identify it,
+- record evidence,
+- repair only if it qualifies for the Small Repair Lane,
+- otherwise route correctly.
+
+The automatic completion workflow exists to reduce ceremony.
+
+It does NOT lower the correctness standard.
+
+---
+
+# 47. Retrospective Candidates
+
+Meaningful Verify work may surface:
+
+## Decision Candidates
+
+Potential durable product or technical choices that deserve later acceptance.
+
+## ICM Improvement Candidates
+
+Potential improvements to:
+
+- Plan,
+- Build,
+- Verify,
+- global instructions,
+- context routing.
+
+Do not automatically modify durable process files because one task suggested an
+improvement.
+
+Surface useful candidates.
+
+If none:
+
+```text
+None.
+```
+
+Do not invent retrospective items merely to populate a section.
+
+---
+
+# 48. Verify Quality Check
+
+Before finalizing meaningful work, confirm:
+
+```text
+[ ] Relevant acceptance criteria were individually evaluated.
+
+[ ] Important happy-path behavior was checked.
+
+[ ] Meaningful edge/failure behavior was considered.
+
+[ ] Relevant V1 invariants were preserved.
+
+[ ] Regressions were considered.
+
+[ ] Appropriate technical checks ran.
+
+[ ] UI behavior was inspected when relevant.
+
+[ ] Security/privacy concerns were considered when relevant.
+
+[ ] Git diff was reviewed.
+
+[ ] Evidence supports the selected status.
+
+[ ] Any limitation is stated accurately.
+
+[ ] Documentation promotion matches verified reality.
+
+[ ] Automatic Git finalization is safe if PASS.
+```
+
+If the conclusion relies mainly on assumption:
+
+verification is not complete.
+
+---
+
+# 49. Final Verify Handoff
+
+At the end of meaningful verification provide:
+
+## Status
+
+One of:
+
+```text
+PASS
+PASS WITH LIMITATIONS
+FAIL
+BLOCKED
+```
+
+---
+
+## What Was Verified
+
+Concise list of the meaningful requirements evaluated.
+
+---
+
+## Evidence
+
+Most important:
+
+- commands,
+- tests,
+- browser observations,
+- runtime behavior,
+- data checks.
+
+Do not dump unnecessary raw output.
+
+---
+
+## Automatic Repairs
+
+Describe any small fixes performed during Verify.
+
+If none:
+
+```text
+None.
+```
+
+---
+
+## Regression Status
+
+State:
+
+- what nearby behavior was checked,
+- whether a regression was found.
+
+---
+
+## Remaining Limitations
+
+Only meaningful unresolved limitations.
+
+If none:
+
+```text
+None.
+```
+
+---
+
+## Documentation Updates
+
+State which durable current-state documents were updated after verification.
+
+If none:
+
+```text
+None.
+```
+
+---
+
+## Git Finalization
+
+Report:
+
+```text
+Commit:
+<hash and message>
+
+Push:
+<succeeded / not attempted / failed>
+```
+
+when applicable.
+
+If no automatic Git finalization occurred, explain why briefly.
+
+---
+
+## What Mike Should Understand
+
+Give the highest-value engineering or product lesson from the task.
+
+Keep it concise.
+
+---
+
+## Next Project Step
+
+Identify the next task from the accepted roadmap when appropriate.
+
+Do not automatically start that next task merely because the previous one
+finished unless the active instruction authorizes continuing through multiple
+tasks.
+
+---
+
+# 50. Fast Side-Project Philosophy
+
+School Dashboard should move quickly.
+
+Prefer:
+
+```text
+clear Plan
+↓
+autonomous Build
+↓
+independent Verify
+↓
+small repairs automatically
+↓
+PASS
+↓
+document
+↓
+commit
+↓
+push
+↓
+next task
+```
+
+over:
+
+```text
+approval
+↓
+tiny edit
+↓
+approval
+↓
+another edit
+↓
+approval
+↓
+verification
+↓
+approval
+↓
+commit
+```
+
+The purpose of the ICM is to make automation safer.
+
+It should not turn development into bureaucracy.
+
+---
+
+# 51. Current Milestone Reminder
+
+Milestone 1 remains:
+
+```text
+read-only School Dashboard UI
++
+static/hardcoded academic data
++
+five primary student views
+```
+
+It does NOT include:
+
+```text
+AI planning
+
+Course ingestion
+
+database persistence
+
+authentication
+
+Google integrations
+
+automatic scheduling
+
+editable Study Plans
+```
+
+Verify against the product that is currently approved.
+
+Do not fail a task because deferred future functionality is absent.
+
+Do not pass a task because future documentation describes something that is not
+implemented.
+
+---
+
+# 52. SD-001 Verification Boundary
+
+For:
+
+`SD-001 — Initialize Next.js Application`
+
+Verify should focus on the application foundation.
+
+Expected verification may include:
+
+- planned Next.js application exists,
+- React/TypeScript/Tailwind setup is valid,
+- existing documentation and ICM remain intact,
+- package metadata exists,
+- dependencies install correctly,
+- expected development command starts successfully,
+- expected production build succeeds,
+- lint/type checks succeed where configured,
+- no product feature leaked into SD-001,
+- no unrelated files or secrets were added,
+- actual run/check commands are documented accurately.
+
+SD-001 should NOT be failed merely because it does not yet contain:
+
+- Dashboard functionality,
+- Courses,
+- Course Page,
+- Weekly Plan,
+- Today,
+- Physics academic fixtures,
+- AI,
+- database persistence.
+
+Those belong to later tasks.
+
+After full PASS:
+
+- update current implementation documentation,
+- mark SD-001 Done,
+- commit the verified foundation,
+- push the current branch normally.

@@ -343,7 +343,7 @@ Do not infer different behavior because:
 
 # 8. Do Not Invent Product Behavior During Build
 
-If Build requires a product decision that the accepted plan and durable
+If Build requires a product decision that the accepted Plan and durable
 documents do not answer:
 
 STOP.
@@ -409,7 +409,7 @@ Before making meaningful code changes:
 1. inspect the current repository,
 2. inspect relevant existing files,
 3. inspect Git status,
-4. read the accepted task plan when one exists,
+4. read the accepted task Plan when one exists,
 5. read only the durable context relevant to the task,
 6. understand existing conventions before introducing new ones.
 
@@ -432,13 +432,21 @@ Meaningful work follows:
 ```text
 Plan
  ↓
-Human approval when required
+Human approval only when materially required
  ↓
 Build
  ↓
 Verify
  ↓
-Commit only when explicitly authorized
+small unambiguous repair if needed
+ ↓
+PASS
+ ↓
+update verified project state
+ ↓
+task-scoped commit
+ ↓
+normal push
 ```
 
 Stage instructions live at:
@@ -463,8 +471,10 @@ Use Plan to determine:
 - verification strategy,
 - unresolved decisions.
 
-A plan is not ready if Build must still guess about a major piece of product
+A Plan is not ready if Build must still guess about a major piece of product
 behavior.
+
+Ordinary reversible implementation details may be resolved autonomously.
 
 ---
 
@@ -474,15 +484,20 @@ Build implements an understood and accepted requirement.
 
 Build should:
 
-- follow the accepted plan,
+- follow the accepted Plan,
 - inspect before editing,
 - stay inside scope,
 - make reviewable changes,
 - preserve product invariants,
-- report deviations honestly.
+- report meaningful deviations honestly.
+
+Build may resolve ordinary low-risk implementation details without requiring
+Mike's approval.
 
 Build must not reinterpret the task merely because another implementation seems
 easier.
+
+Build does NOT normally commit or push.
 
 ---
 
@@ -502,6 +517,12 @@ Repository reality
 vs.
 Observed evidence
 ```
+
+Verify may repair small, low-risk, unambiguous implementation defects according
+to its stage instructions.
+
+After a full PASS, Verify may finalize project state, create one coherent
+task-scoped commit, and push the current branch normally.
 
 ---
 
@@ -549,6 +570,9 @@ Do not hide important architecture or product decisions behind generated code.
 
 Do not create unnecessary teaching overhead for trivial syntax.
 
+Automation may perform routine development work without requiring Mike to
+manually execute every command.
+
 ---
 
 # 14. Human Review
@@ -559,10 +583,13 @@ When several reasonable choices materially affect:
 
 - product behavior,
 - architecture,
-- dependencies,
+- significant dependencies,
 - data relationships,
 - security,
+- privacy,
+- external services,
 - long-term maintainability,
+- task scope,
 
 surface the decision instead of silently choosing a major direction.
 
@@ -588,6 +615,9 @@ when reasonable.
 
 Do not install a library merely to avoid writing a small amount of ordinary
 code.
+
+Conventional dependencies that are part of an already accepted framework setup
+may be handled without redundant approval.
 
 ---
 
@@ -625,7 +655,7 @@ Course materials may include:
 - lecture slides,
 - student notes.
 
-Do not automatically copy or commit raw course materials into the repository.
+Do not automatically copy or commit raw Course materials into the repository.
 
 Use fictional or sanitized academic fixture data when appropriate.
 
@@ -656,31 +686,62 @@ convenient for testing.
 
 # 19. Git Discipline
 
-Always inspect Git state before meaningful work.
+Agents may inspect Git state throughout Plan, Build, and Verify.
 
 Pay attention to:
 
 - modified files,
 - staged files,
 - untracked files,
-- unexpected changes.
+- unexpected changes,
+- unrelated existing user work.
 
-Do NOT:
+Build should NOT normally commit or push.
 
-- commit,
-- push,
-- merge,
-- reset,
+Mike authorizes Verify to automatically finalize an ordinary School Dashboard
+task after a full PASS.
+
+After successful verification, Verify may:
+
+- stage only files belonging to the verified task,
+- create one coherent task-scoped commit,
+- and push the current branch to its configured remote.
+
+Before automatic finalization, Verify must confirm:
+
+- the final verification status is PASS,
+- the task's acceptance criteria are satisfied,
+- verification-driven repairs were rechecked,
+- the final diff matches the accepted task scope,
+- unrelated user changes will not be staged,
+- no secrets or credentials are present,
+- no private/raw Course materials were accidentally added,
+- required current-state documentation is updated,
+- task status accurately reflects completion,
+- and no blocking limitation remains.
+
+Do NOT automatically:
+
+- force push,
+- reset hard,
 - rebase,
 - rewrite history,
 - delete branches,
-- discard uncommitted work
+- delete tags,
+- discard uncommitted user work,
+- overwrite remote work,
+- resolve destructive conflicts by choosing a side,
+- or include unrelated changes in a task commit.
 
-unless Mike explicitly authorizes that Git action.
+If normal commit or push would mix with, overwrite, or otherwise endanger
+existing work:
 
-Do not assume that task completion includes a commit.
+STOP and surface the issue.
 
-Commit only after the relevant work has been reviewed and verified.
+A failed push is not permission to perform destructive reconciliation.
+
+Automatic Git finalization applies only after a full PASS unless an accepted
+task Plan explicitly defines another safe completion rule.
 
 ---
 
@@ -705,6 +766,9 @@ Update `IMPLEMENTATION.md` when:
 Update `TASKS.md` when:
 
 - task status or accepted sequencing changes.
+
+Routine current-state documentation promotion may be completed by Verify after
+a PASS.
 
 Do not edit documentation simply to make the diff look comprehensive.
 
@@ -766,6 +830,8 @@ Report:
 - what could not be verified,
 - what evidence supports completion.
 
+A full PASS is required for ordinary automatic task finalization.
+
 ---
 
 # 23. Scope Failure Rule
@@ -793,7 +859,7 @@ The long-term product may eventually include:
 - authentication,
 - Google Calendar,
 - Google Drive,
-- course-material ingestion,
+- Course-material ingestion,
 - AI,
 - external research,
 - planning engines,
@@ -821,6 +887,18 @@ A task is complete only when:
 - unresolved blockers are surfaced,
 - durable documentation is accurate when updates are required.
 
+After a full PASS and safe Git review, Verify may complete the routine:
+
+```text
+documentation promotion
+↓
+task status update
+↓
+task-scoped commit
+↓
+normal push
+```
+
 Do not mark incomplete work as complete.
 
 ---
@@ -845,6 +923,10 @@ Plan
 Build
 ↓
 Verify
+↓
+PASS
+↓
+Finalize
 ```
 
 according to the repository ICM.

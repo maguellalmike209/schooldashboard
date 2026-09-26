@@ -2,7 +2,7 @@
 
 No School Dashboard product implementation exists yet.
 
-The repository contains the root project/agent documentation, six durable documents under `docs/`, and Plan, Build, and Verify instructions under `icm/`. See [CONTEXT.md](../CONTEXT.md) for their responsibilities.
+The repository contains the root project/agent documentation, eight durable documents under `docs/`, and Plan, Build, and Verify instructions under `icm/`. See [CONTEXT.md](../CONTEXT.md) for their responsibilities.
 
 There is no initialized Next.js application, application source code, mock data, package manifest, installed project dependencies, database, authentication, integration, or AI functionality. No application tests, build scripts, or runtime commands are available.
 
