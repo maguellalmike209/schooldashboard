@@ -4,8 +4,28 @@ A personal academic planning application centered on one question:
 
 > What should I do today to stay on track in my classes?
 
-The first UI milestone is read-only and uses mock/hardcoded data across five primary views: **Dashboard, Courses, Course Page, Weekly Plan, and Today**. It presents an authored academic plan; the longer-term vision connects course understanding to manageable study actions. The planned stack is Next.js, React, TypeScript, and Tailwind CSS.
+The first UI milestone is read-only and will use mock/hardcoded data across five primary views: **Dashboard, Courses, Course Page, Weekly Plan, and Today**. The application foundation uses Next.js, React, TypeScript, and Tailwind CSS. Product views and academic data have not been implemented yet.
 
-This repository currently contains the project documentation and Plan → Build → Verify instructions. No application has been initialized, and there are no install or run commands yet. The first implementation task is **SD-001: Initialize Next.js application**.
+## Run locally
+
+Use Node.js 20.9 or later and npm. From the repository root:
+
+```powershell
+npm ci
+npm run dev
+```
+
+Open `http://localhost:3000` to see the minimal foundation page.
+
+## Checks
+
+```powershell
+npm run lint
+npm run typecheck
+npm run build
+npm run start
+```
+
+Run `npm run start` after `npm run build`. The only application page is the root route in `src/app/page.tsx`; it does not contain Dashboard functionality.
 
 Start with the [documentation router](CONTEXT.md), [V1 scope](docs/V1_SPEC.md), or [task roadmap](docs/TASKS.md). See the [product vision](docs/PRODUCT_VISION.md) for longer-term possibilities and [agent instructions](AGENTS.md) for the development workflow.

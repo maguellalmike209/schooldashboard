@@ -2,9 +2,9 @@
 
 ## Current state
 
-The repository contains documentation and ICM instructions only. No application structure, routes, components, data fixtures, schemas, or runtime configuration exist. [IMPLEMENTATION.md](IMPLEMENTATION.md) records current implementation reality.
+The repository contains the documentation and ICM instructions plus a minimal Next.js App Router application under `src/app/`. Its only application page is `/`; no academic data fixtures, product views, schemas, or service layers exist. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified setup and commands.
 
-## Planned initial technical direction
+## Initial technical stack
 
 | Technology | Intended role |
 | --- | --- |
@@ -13,7 +13,7 @@ The repository contains documentation and ICM instructions only. No application 
 | TypeScript | Types for UI code and mock academic data |
 | Tailwind CSS | UI styling |
 
-These are planned choices, not installed dependencies. Exact versions, package manager, initialization options, and directory conventions will be resolved during SD-001 planning against the repository state at that time.
+SD-001 installed this stack with npm, TypeScript, and Tailwind CSS in the existing repository. Application code uses the App Router under `src/app/`; product route and component choices remain for their later tasks.
 
 ## Initial UI boundaries
 
