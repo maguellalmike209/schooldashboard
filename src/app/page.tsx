@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { CourseCard } from "@/components/course-card";
-import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getWeeklyProgress } from "@/lib/academic-context";
+import { TodayTaskList } from "@/components/today-task-list";
+import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getNextAction, getTodayStudyTasks, getWeeklyProgress } from "@/lib/academic-context";
 
 export default function DashboardPage() {
   const scheduledCourse = getCourse(academicContext.referenceDayLecture.courseId);
   if (!scheduledCourse) {
     throw new Error("Reference-day lecture has no matching course.");
   }
+  const todayTasks = getTodayStudyTasks();
+  const nextAction = getNextAction();
+  const nextActionCourse = nextAction ? getCourse(nextAction.courseId) : null;
 
   return (
     <div className="space-y-8">
@@ -34,6 +38,27 @@ export default function DashboardPage() {
           <p className="mt-2 text-lg font-semibold text-slate-950">{formatCurrentWeek()}</p>
         </div>
       </section>
+
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+        <section aria-labelledby="next-action" className="rounded-2xl border border-sky-200 bg-sky-50 p-5 shadow-sm sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-700">Next up</p>
+          <h2 id="next-action" className="mt-2 text-xl font-semibold text-slate-950">Next Action</h2>
+          {nextAction && nextActionCourse ? (
+            <div data-task-id={nextAction.id} className="mt-4">
+              <p className="text-sm font-semibold text-sky-900">{nextActionCourse.code} · {nextActionCourse.name}</p>
+              <p className="mt-2 text-lg font-semibold text-slate-950">{nextAction.title}</p>
+              {nextAction.estimatedMinutes !== null && <p className="mt-1 text-sm text-slate-700">{nextAction.estimatedMinutes} min planned</p>}
+            </div>
+          ) : <p className="mt-4 text-sm text-slate-700">No study tasks remain on today&apos;s plan.</p>}
+          <Link href="/today" className="mt-4 inline-block text-sm font-semibold text-sky-800 underline underline-offset-4 hover:text-sky-950 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700">View Today</Link>
+        </section>
+
+        <section aria-labelledby="dashboard-today" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <h2 id="dashboard-today" className="text-xl font-semibold text-slate-950">Today&apos;s study plan</h2>
+          <p className="mt-2 text-sm text-slate-600">Incomplete Study Tasks planned for the reference day.</p>
+          <div className="mt-4"><TodayTaskList tasks={todayTasks} /></div>
+        </section>
+      </div>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">

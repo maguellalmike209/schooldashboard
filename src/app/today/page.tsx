@@ -1,6 +1,8 @@
-import { academicContext, formatReferenceDate } from "@/lib/academic-context";
+import { TodayTaskList } from "@/components/today-task-list";
+import { academicContext, formatReferenceDate, getTodayStudyTasks } from "@/lib/academic-context";
 
 export default function TodayPage() {
+  const tasks = getTodayStudyTasks();
   return (
     <div className="max-w-3xl space-y-8">
       <header>
@@ -11,11 +13,10 @@ export default function TodayPage() {
         </p>
       </header>
 
-      <section className="rounded-2xl border border-dashed border-slate-300 bg-white p-5 sm:p-6">
-        <h2 className="text-lg font-semibold text-slate-950">Today&apos;s study plan is being prepared</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
-          Planned study actions will appear here when the daily plan is added.
-        </p>
+      <section aria-labelledby="today-study-plan">
+        <h2 id="today-study-plan" className="text-xl font-semibold text-slate-950">Today&apos;s study plan</h2>
+        <p className="mt-2 text-sm text-slate-600">Incomplete actions planned for the reference day, in your plan&apos;s authored order.</p>
+        <div className="mt-4"><TodayTaskList tasks={tasks} /></div>
       </section>
     </div>
   );

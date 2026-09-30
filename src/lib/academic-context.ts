@@ -121,6 +121,20 @@ export function getWeeklyStudyTasks(courseId?: string) {
     .sort((first, second) => first.authoredOrder - second.authoredOrder);
 }
 
+export function selectTodayStudyTasks(tasks: readonly StudyTask[], referenceDate: string) {
+  return tasks
+    .filter((task) => task.plannedDate === referenceDate && !task.isComplete)
+    .sort((first, second) => first.authoredOrder - second.authoredOrder);
+}
+
+export function getTodayStudyTasks() {
+  return selectTodayStudyTasks(academicContext.studyTasks, academicContext.referenceDate);
+}
+
+export function getNextAction() {
+  return getTodayStudyTasks()[0] ?? null;
+}
+
 export function getWeeklyAssignments(courseId: string) {
   const linkedIds = new Set(getWeeklyStudyTasks(courseId).map((task) => task.assignmentId));
   return academicContext.assignments.filter((assignment) => assignment.courseId === courseId
