@@ -23,7 +23,23 @@ export const academicContext = {
     courseId: "phy-009d",
     number: "02",
     date: "2026-09-25",
+    topics: ["Relativity principle", "Spacetime events", "Time measurement"],
   },
+  courseWeekContexts: [
+    {
+      courseId: "phy-009d",
+      summary: "Course beginning: sound review and introduction to special relativity.",
+      source: "Current lecture schedule",
+    },
+  ],
+  courseMaterials: [
+    {
+      id: "phy9d-textbook",
+      courseId: "phy-009d",
+      kind: "Assigned textbook",
+      title: "UCD Physics 9D — Modern Physics",
+    },
+  ],
 } as const;
 
 export type Course = (typeof academicContext.courses)[number];

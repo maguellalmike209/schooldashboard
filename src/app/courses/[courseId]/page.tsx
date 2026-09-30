@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCourse } from "@/lib/academic-context";
+import { academicContext, formatCurrentWeek, formatReferenceDate, getCourse } from "@/lib/academic-context";
 
 export default async function CoursePage({
   params,
@@ -13,6 +13,11 @@ export default async function CoursePage({
   if (!course) {
     notFound();
   }
+  const weekContext = academicContext.courseWeekContexts.find((context) => context.courseId === courseId);
+  const lecture = academicContext.referenceDayLecture.courseId === courseId
+    ? academicContext.referenceDayLecture
+    : null;
+  const materials = academicContext.courseMaterials.filter((material) => material.courseId === courseId);
 
   return (
     <div className="max-w-3xl space-y-8">
@@ -26,11 +31,42 @@ export default async function CoursePage({
         </h1>
       </header>
 
-      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <h2 className="text-lg font-semibold text-slate-950">Course details are being prepared</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-          The detailed course view will bring together its learning context and planned work. For now, this page establishes the selected course.
-        </p>
+      <section aria-labelledby="course-week" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-700">{formatCurrentWeek()}</p>
+        <h2 id="course-week" className="mt-2 text-xl font-semibold text-slate-950">Current week</h2>
+        {weekContext ? (
+          <div className="mt-4 space-y-4">
+            <p className="text-base text-slate-800">{weekContext.summary}</p>
+            {lecture && (
+              <div className="rounded-xl bg-sky-50 p-4">
+                <h3 className="font-semibold text-slate-950">Scheduled Lecture #{lecture.number}</h3>
+                <p className="mt-1 text-sm text-slate-600"><time dateTime={lecture.date}>{formatReferenceDate()}</time> · Scheduled topics</p>
+                <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-700">
+                  {lecture.topics.map((topic) => <li key={topic}>{topic}</li>)}
+                </ul>
+              </div>
+            )}
+            <p className="text-xs text-slate-500">Source: {weekContext.source}. Scheduled topics are course context, not study tasks.</p>
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-slate-600">No current-week topic has been supplied for this course.</p>
+        )}
+      </section>
+
+      <section aria-labelledby="course-materials" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <h2 id="course-materials" className="text-xl font-semibold text-slate-950">Course materials</h2>
+        {materials.length > 0 ? (
+          <ul className="mt-4 list-none space-y-3">
+            {materials.map((material) => (
+              <li key={material.id} className="rounded-xl border border-slate-200 p-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-slate-500">{material.kind}</p>
+                <p className="mt-1 font-medium text-slate-950">{material.title}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-4 text-sm text-slate-600">No course materials have been supplied for this course.</p>
+        )}
       </section>
     </div>
   );
