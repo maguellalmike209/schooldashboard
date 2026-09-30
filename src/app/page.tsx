@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { CourseCard } from "@/components/course-card";
-import { academicContext, formatCurrentWeek, formatReferenceDate, getCourse } from "@/lib/academic-context";
+import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getWeeklyProgress } from "@/lib/academic-context";
 
 export default function DashboardPage() {
   const scheduledCourse = getCourse(academicContext.referenceDayLecture.courseId);
@@ -47,12 +48,12 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-dashed border-slate-300 bg-slate-100/70 p-5 sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-600">Study plan</p>
-          <h2 className="mt-2 text-xl font-semibold text-slate-950">Your daily plan, in one place</h2>
-          <p className="mt-3 text-sm leading-6 text-slate-700">
-            A study plan summary is not available in this preview yet. This space will show planned work as the academic plan is added.
-          </p>
+        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-700">Study plan</p>
+          <h2 className="mt-2 text-xl font-semibold text-slate-950">This week&apos;s study progress</h2>
+          <p className="mt-4 text-2xl font-semibold text-slate-950">{formatWeeklyProgress(getWeeklyProgress())}</p>
+          <p className="mt-2 text-sm text-slate-600">Completed Study Tasks across your current courses.</p>
+          <Link href="/weekly-plan" className="mt-4 inline-block text-sm font-semibold text-sky-800 underline underline-offset-4 hover:text-sky-950 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-700">Open Weekly Plan</Link>
         </section>
       </div>
 

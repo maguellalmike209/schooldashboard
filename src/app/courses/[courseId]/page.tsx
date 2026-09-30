@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { academicContext, formatCurrentWeek, formatReferenceDate, getCourse } from "@/lib/academic-context";
+import { StudyTaskList } from "@/components/study-task-list";
+import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getWeeklyObjectives, getWeeklyProgress, getWeeklyStudyTasks } from "@/lib/academic-context";
 
 export default async function CoursePage({
   params,
@@ -18,6 +19,8 @@ export default async function CoursePage({
     ? academicContext.referenceDayLecture
     : null;
   const materials = academicContext.courseMaterials.filter((material) => material.courseId === courseId);
+  const objectives = getWeeklyObjectives(courseId);
+  const tasks = getWeeklyStudyTasks(courseId);
 
   return (
     <div className="max-w-3xl space-y-8">
@@ -51,6 +54,23 @@ export default async function CoursePage({
         ) : (
           <p className="mt-4 text-sm text-slate-600">No current-week topic has been supplied for this course.</p>
         )}
+      </section>
+
+      <section aria-labelledby="course-plan" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <h2 id="course-plan" className="text-xl font-semibold text-slate-950">This week&apos;s plan</h2>
+        <p className="mt-2 text-sm font-medium text-slate-700">Study Task progress: {formatWeeklyProgress(getWeeklyProgress(courseId))}</p>
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold text-slate-950">Learning objectives</h3>
+          {objectives.length > 0 ? (
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700">
+              {objectives.map((objective) => <li key={objective.id}>{objective.title}</li>)}
+            </ul>
+          ) : <p className="mt-3 text-sm text-slate-600">No learning objectives supplied for this week.</p>}
+        </div>
+        <div className="mt-6 border-t border-slate-200 pt-6">
+          <h3 className="text-lg font-semibold text-slate-950">Study tasks</h3>
+          <div className="mt-3"><StudyTaskList tasks={tasks} /></div>
+        </div>
       </section>
 
       <section aria-labelledby="course-materials" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
