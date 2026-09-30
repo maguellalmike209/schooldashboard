@@ -261,30 +261,27 @@ Do not automatically load:
 
 Example:
 
-For:
-
-`SD-001 — Initialize Next.js Application`
-
-Verify likely needs:
+For a typical feature task, Verify likely needs:
 
 ```text
 AGENTS.md
 CONTEXT.md
-accepted SD-001 Plan
-Build handoff
-ARCHITECTURE.md
-IMPLEMENTATION.md
-TASKS.md
-relevant repository files
+accepted task Plan
+Build handoff when useful
+relevant durable specifications
+relevant current implementation
+TASKS.md when status changes
+actual Git state
 ```
 
-It probably does NOT need:
+It does NOT automatically need:
 
 ```text
-full Physics textbook
-detailed Course fixture
-all UI specifications
-future AI planning context
+full Course textbooks
+all raw Course materials
+every historical task artifact
+future milestone specifications
+unrelated project documentation
 ```
 
 Use the smallest sufficient context set.
@@ -1240,7 +1237,7 @@ Git already preserves history.
 
 # 36. Automatic Task Finalization
 
-When verification reaches PASS and no material decision remains, Verify may
+When verification reaches PASS and no material decision remains, Verify should
 automatically finalize routine project state.
 
 A normal completion sequence is:
@@ -1260,28 +1257,47 @@ A normal completion sequence is:
 
 7. inspect final Git status and diff
 
-8. create one task-scoped commit
+8. confirm branch and upstream safety
 
-9. push the current branch normally
+9. stage only files belonging to the verified task
+
+10. create one task-scoped commit
+
+11. confirm the resulting commit and branch state
+
+12. push the current branch normally
+
+13. confirm local/upstream alignment
 ```
 
 Do not ask Mike for a redundant approval checkpoint between these steps when
 the repository instructions authorize autonomous finalization.
 
+A successful PASS should normally result in a completed task, not a task waiting
+for a separate manual Git round.
+
 ---
 
 # 37. Git Authorization
 
-Mike authorizes School Dashboard agents to perform normal task-completion Git
-operations after successful verification.
+Mike authorizes School Dashboard agents to perform normal, non-destructive Git
+operations required for verified task completion.
 
-After a task reaches PASS, Verify MAY:
+After a task reaches PASS, Verify MAY automatically:
 
+- inspect repository and upstream state,
 - stage files belonging to the verified task,
-- create a task-scoped commit,
-- push the current branch to its configured remote.
+- create one task-scoped commit,
+- push the current branch to its configured upstream,
+- confirm synchronization afterward.
 
-This authorization applies only to normal, non-destructive Git completion.
+No separate approval is required for these normal operations when the safety
+conditions in this document are satisfied.
+
+This authorization applies only to non-destructive Git completion.
+
+It does NOT authorize destructive reconciliation, history rewriting, or
+overwriting genuinely divergent remote work.
 
 ---
 
@@ -1296,6 +1312,10 @@ git diff
 
 git diff --staged
 
+git log
+
+git fetch
+
 git add <task files>
 
 git commit
@@ -1303,14 +1323,23 @@ git commit
 git push
 ```
 
-`git fetch` may be used for safe remote inspection when needed.
+Verify may also inspect:
+
+- the current branch,
+- its configured upstream,
+- whether local is ahead,
+- whether upstream is ahead,
+- whether branches have diverged,
+- and whether unrelated working-tree changes exist.
 
 Do not stage unrelated changes merely because they are present in the working
 tree.
 
+Do not treat a safe local-ahead state as a blocker.
+
 ---
 
-# 39. Git Operations That Remain Prohibited Without Explicit Approval
+# 39. Git Operations That Require Explicit Approval
 
 Do NOT automatically:
 
@@ -1327,18 +1356,28 @@ delete branches
 
 delete tags
 
-merge unrelated branches
-
 discard uncommitted user work
 
 resolve destructive conflicts by choosing a side
 
-push secrets or private Course materials
+overwrite genuinely divergent remote work
+
+stage unrelated user changes
+
+commit or push secrets or credentials
+
+commit or push private/raw Course materials
 ```
 
-These require explicit approval when materially risky.
+Do not use a failed normal push as permission to perform one of these actions.
 
-High automation does not mean destructive Git autonomy.
+If safe completion requires a destructive or history-changing operation:
+
+STOP and surface the issue.
+
+High automation means ordinary Git work should happen automatically.
+
+It does NOT mean destructive Git autonomy.
 
 ---
 
@@ -1437,27 +1476,92 @@ The task ID and change should be recognizable.
 
 # 43. Push Preconditions
 
-After creating the verified commit:
+Before a normal automatic push, Verify should establish that the repository can
+be synchronized safely.
 
-1. confirm the commit exists,
-2. confirm the intended current branch,
-3. perform a normal push.
+Confirm:
 
-If the push succeeds:
+```text
+[ ] The intended current branch is active.
 
-report it.
+[ ] The branch has the expected configured upstream.
 
-If push fails because of:
+[ ] The verified task commit exists locally.
+
+[ ] The push will not include unrelated unsafe work.
+
+[ ] No secret or credential will be pushed.
+
+[ ] No private/raw Course material will be pushed.
+
+[ ] No unresolved conflict exists.
+
+[ ] No destructive reconciliation is required.
+```
+
+Inspect local/upstream relationship when necessary.
+
+A normal safe state may look like:
+
+```text
+local branch aligned with upstream
+↓
+verified task commit created
+↓
+local branch now ahead
+↓
+normal push
+```
+
+or:
+
+```text
+local branch already ahead only because of an earlier verified commit
+↓
+no remote divergence
+↓
+normal push
+```
+
+A branch being simply ahead of its configured upstream is NOT a blocker.
+
+When local contains the intended verified commit and upstream has no independent
+commits that create divergence:
+
+```text
+normal push is authorized automatically
+```
+
+No extra confirmation from Mike is required.
+
+---
+
+## 43.1 Push Success
+
+If the normal push succeeds:
+
+- confirm the result,
+- inspect synchronization when useful,
+- report the pushed commit.
+
+The task is then finalized.
+
+---
+
+## 43.2 Push Failure
+
+If a normal push fails because of:
 
 - authentication,
-- remote divergence,
-- branch protection,
 - network failure,
+- branch protection,
 - remote policy,
+- newly discovered remote commits,
+- conflict,
+- divergence,
+- or another unexpected remote condition,
 
-do NOT automatically perform destructive reconciliation.
-
-Safe inspection such as:
+Verify may safely inspect using operations such as:
 
 ```text
 git status
@@ -1467,16 +1571,27 @@ git log
 git fetch
 ```
 
-may be used.
+Do NOT automatically:
 
-Do not automatically:
+```text
+force push
 
-- force push,
-- rebase,
-- reset,
-- overwrite remote work.
+rebase
 
-Report the blocker instead.
+reset
+
+rewrite history
+
+discard user work
+
+overwrite divergent remote work
+```
+
+A failed normal push is not authorization for destructive reconciliation.
+
+If safe non-destructive completion is no longer possible:
+
+report the blocker.
 
 ---
 
@@ -1737,8 +1852,13 @@ Keep it concise.
 Identify the next task from the accepted roadmap when appropriate.
 
 Do not automatically start that next task merely because the previous one
-finished unless the active instruction authorizes continuing through multiple
-tasks.
+finished unless the active instruction explicitly authorizes continuing through
+multiple tasks.
+
+A prompt that authorizes one full task lifecycle authorizes completion of that
+task through Plan, Build, Verify, documentation promotion, commit, and push.
+
+It does NOT automatically authorize beginning the following roadmap task.
 
 ---
 
@@ -1761,11 +1881,13 @@ PASS
 ↓
 document
 ↓
-commit
+mark Done
 ↓
-push
+task-scoped commit
 ↓
-next task
+normal push
+↓
+finished
 ```
 
 over:
@@ -1786,6 +1908,10 @@ verification
 approval
 ↓
 commit
+↓
+approval
+↓
+push
 ```
 
 The purpose of the ICM is to make automation safer.
@@ -1833,44 +1959,86 @@ implemented.
 
 ---
 
-# 52. SD-001 Verification Boundary
+# 52. Full-Task Automation Boundary
 
-For:
+School Dashboard may use a single active instruction to authorize one complete
+task lifecycle.
 
-`SD-001 — Initialize Next.js Application`
+That lifecycle may be:
 
-Verify should focus on the application foundation.
+```text
+Plan
+↓
+Build
+↓
+Verify
+↓
+PASS
+↓
+promote verified documentation
+↓
+mark task Done
+↓
+task-scoped commit
+↓
+normal push
+```
 
-Expected verification may include:
+The agent must still preserve stage separation.
 
-- planned Next.js application exists,
-- React/TypeScript/Tailwind setup is valid,
-- existing documentation and ICM remain intact,
-- package metadata exists,
-- dependencies install correctly,
-- expected development command starts successfully,
-- expected production build succeeds,
-- lint/type checks succeed where configured,
-- no product feature leaked into SD-001,
-- no unrelated files or secrets were added,
-- actual run/check commands are documented accurately.
+## Plan
 
-SD-001 should NOT be failed merely because it does not yet contain:
+Plan must:
 
-- Dashboard functionality,
-- Courses,
-- Course Page,
-- Weekly Plan,
-- Today,
-- Physics academic fixtures,
-- AI,
-- database persistence.
+- inspect the relevant repository state,
+- load Plan-stage instructions,
+- establish requirements and scope,
+- identify acceptance criteria,
+- resolve ordinary planning questions autonomously,
+- stop for material unresolved decisions when necessary.
 
-Those belong to later tasks.
+## Build
 
-After full PASS:
+Build must:
 
-- update current implementation documentation,
-- mark SD-001 Done,
-- commit the verified foundation,
-- push the current branch normally.
+- load Build-stage instructions,
+- implement the accepted Plan,
+- run useful Build checks,
+- inspect the resulting diff,
+- avoid committing unfinished current-task implementation,
+- hand the completed implementation into Verify.
+
+## Verify
+
+Verify must:
+
+- load Verify-stage instructions,
+- independently evaluate the accepted requirements,
+- use evidence rather than Build claims,
+- perform allowed Small Repair Lane fixes when appropriate,
+- require a full PASS before ordinary automatic finalization,
+- promote verified current-state documentation,
+- mark the task Done,
+- create one task-scoped commit,
+- perform a normal safe push.
+
+One prompt does NOT collapse Plan, Build, and Verify into one undifferentiated
+activity.
+
+It authorizes the agent to move through those stages sequentially without
+requiring Mike to issue three separate prompts.
+
+A full-task automation prompt authorizes completion of the named task only.
+
+It does NOT authorize automatically beginning the next roadmap task unless Mike
+explicitly grants multi-task continuation.
+
+The automation must still stop when:
+
+- a material product decision is unresolved,
+- a material architecture decision is unresolved,
+- requirements are materially ambiguous,
+- accepted scope would need to expand,
+- a security or privacy concern requires judgment,
+- a destructive Git operation would be required,
+- local and remote work genuinely diverge and safe reconciliation is unclear.

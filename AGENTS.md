@@ -7,7 +7,7 @@ Dashboard repository.
 
 It does NOT contain the full product specification.
 
-Start with:
+After loading this file, read:
 
 `CONTEXT.md`
 
@@ -444,6 +444,8 @@ PASS
  ↓
 update verified project state
  ↓
+mark task Done
+ ↓
 task-scoped commit
  ↓
 normal push
@@ -455,7 +457,8 @@ Stage instructions live at:
 - `icm/02_build/CONTEXT.md`
 - `icm/03_verify/CONTEXT.md`
 
-Read the active stage instructions instead of duplicating them here.
+Read the active stage instructions instead of duplicating their detailed
+procedures here.
 
 ---
 
@@ -497,7 +500,26 @@ Mike's approval.
 Build must not reinterpret the task merely because another implementation seems
 easier.
 
-Build does NOT normally commit or push.
+Build does NOT normally commit or push unfinished current-task implementation.
+
+However, Build MAY perform a normal push for an already-verified and
+already-committed predecessor task when repository inspection establishes that:
+
+- the predecessor task is already verified,
+- its task-scoped commit already exists locally,
+- the current branch has a configured upstream,
+- the local branch is simply ahead of that upstream,
+- there is no local/remote divergence,
+- there is no conflict,
+- the push would not include unrelated unsafe work,
+- no secret, credential, or private/raw Course material would be pushed,
+- and no destructive reconciliation is required.
+
+That predecessor-task push is routine synchronization, not current-task
+finalization.
+
+Do not stop Build merely because the local branch is ahead of its upstream under
+those conditions.
 
 ---
 
@@ -521,8 +543,93 @@ Observed evidence
 Verify may repair small, low-risk, unambiguous implementation defects according
 to its stage instructions.
 
-After a full PASS, Verify may finalize project state, create one coherent
-task-scoped commit, and push the current branch normally.
+After a full PASS, Verify may:
+
+- promote justified verified current-state documentation,
+- mark the task Done,
+- stage only task-related files,
+- create one coherent task-scoped commit,
+- and push the current branch normally.
+
+No additional push approval is required for this normal, non-destructive
+completion sequence.
+
+---
+
+## Full-Task Automation
+
+Mike may explicitly authorize one named task to move through the complete ICM
+lifecycle with a single instruction.
+
+When that authorization is given, the agent may proceed sequentially through:
+
+```text
+Plan
+↓
+Build
+↓
+Verify
+↓
+PASS
+↓
+promote verified documentation
+↓
+mark task Done
+↓
+task-scoped commit
+↓
+normal safe push
+```
+
+without requiring Mike to issue a separate prompt between Plan, Build, and
+Verify.
+
+One-prompt automation does NOT collapse the stages.
+
+Each stage must still:
+
+- load and obey its own `CONTEXT.md`,
+- perform its own responsibilities,
+- preserve its own boundaries,
+- and produce the handoff or evidence required by the next stage.
+
+Plan may continue into Build when:
+
+- requirements are clear,
+- no material human decision remains,
+- no blocker exists,
+- scope is understood,
+- and the active instruction authorizes the full task lifecycle.
+
+Build may continue into Verify when:
+
+- accepted implementation exists,
+- proportionate Build checks have run,
+- no blocking defect remains,
+- no material Plan conflict remains,
+- and the implementation is ready for independent verification.
+
+Verify may complete routine finalization only after a full PASS and safe Git
+review.
+
+The automation must stop when:
+
+- a material product decision is unresolved,
+- a material architecture decision is unresolved,
+- academic semantics are materially ambiguous,
+- accepted scope must expand,
+- a significant dependency requires approval,
+- an external service requires approval,
+- security or privacy requires human judgment,
+- a destructive operation would be required,
+- local and remote Git history genuinely diverge and safe reconciliation is
+  unclear,
+- unrelated user work cannot be safely isolated,
+- or another concrete blocker prevents trustworthy continuation.
+
+A full-task instruction authorizes the named task only.
+
+It does NOT automatically authorize the next roadmap task.
 
 ---
 
@@ -597,6 +704,14 @@ Do not invent approval questions when one option is already clearly required by
 the accepted specification.
 
 Human review is for real choices, not ceremony.
+
+Normal, non-destructive Git synchronization and authorized task finalization are
+not human-review decisions when the safety conditions in this repository are
+satisfied.
+
+Automatic transition between ICM stages is also not a human-review decision
+when the active instruction authorizes the full task lifecycle and no material
+decision or blocker remains.
 
 ---
 
@@ -686,26 +801,103 @@ convenient for testing.
 
 # 19. Git Discipline
 
-Agents may inspect Git state throughout Plan, Build, and Verify.
+Agents have high autonomy for normal, non-destructive Git workflow.
 
-Pay attention to:
+Git safety should protect real work without creating unnecessary human
+checkpoints for routine synchronization or verified task completion.
 
-- modified files,
-- staged files,
-- untracked files,
-- unexpected changes,
-- unrelated existing user work.
+Agents may use ordinary inspection and synchronization operations when relevant,
+including:
 
-Build should NOT normally commit or push.
+```text
+git status
+
+git diff
+
+git diff --staged
+
+git log
+
+git fetch
+```
+
+After a full PASS, Verify may additionally use normal task-finalization
+operations including:
+
+```text
+git add <task-scoped files>
+
+git commit
+
+git push
+```
+
+Build should NOT normally commit or push unfinished current-task implementation.
+
+The normal current-task ownership remains:
+
+```text
+Build
+→ implement
+→ test
+→ hand off
+
+Verify
+→ independently verify
+→ repair only within the allowed repair lane
+→ PASS
+→ promote verified documentation
+→ mark task Done
+→ task-scoped commit
+→ normal push
+```
+
+## Already-Verified Predecessor Synchronization
+
+A verified predecessor task must not create an unnecessary blocker merely
+because its local commit has not yet reached the configured upstream.
+
+If repository inspection establishes that:
+
+- the predecessor task has already received the required verification,
+- the predecessor task is already committed locally,
+- the current branch has a configured upstream,
+- the local branch is ahead of the upstream,
+- the upstream is not independently ahead,
+- there is no divergence,
+- there is no conflict,
+- the push would not include unrelated unsafe work,
+- no secret, credential, or private/raw Course material would be pushed,
+- and no destructive reconciliation is required,
+
+then a normal push of that already-verified commit is authorized automatically.
+
+Build, Verify, or another active agent may safely perform that push when needed
+to restore ordinary local/upstream alignment.
+
+Do not block merely because:
+
+```text
+local main is ahead of origin/main
+```
+
+when the state is otherwise safe and non-divergent.
+
+A normal push under those conditions does not require another approval from
+Mike.
+
+## Current-Task Finalization
 
 Mike authorizes Verify to automatically finalize an ordinary School Dashboard
 task after a full PASS.
 
 After successful verification, Verify may:
 
+- update justified verified current-state documentation,
+- mark the verified task Done,
 - stage only files belonging to the verified task,
 - create one coherent task-scoped commit,
-- and push the current branch to its configured remote.
+- and push the current branch to its configured upstream normally.
 
 Before automatic finalization, Verify must confirm:
 
@@ -718,20 +910,42 @@ Before automatic finalization, Verify must confirm:
 - no private/raw Course materials were accidentally added,
 - required current-state documentation is updated,
 - task status accurately reflects completion,
+- the intended branch/upstream relationship is understood,
+- the push will not overwrite divergent remote work,
 - and no blocking limitation remains.
+
+No additional human confirmation is required between:
+
+```text
+PASS
+↓
+documentation promotion
+↓
+task status Done
+↓
+task-scoped commit
+↓
+normal push
+```
+
+when these safety conditions are satisfied.
+
+## Operations That Still Require Explicit Approval
 
 Do NOT automatically:
 
 - force push,
-- reset hard,
+- use `git reset --hard`,
 - rebase,
 - rewrite history,
 - delete branches,
 - delete tags,
 - discard uncommitted user work,
-- overwrite remote work,
+- overwrite genuinely divergent remote work,
 - resolve destructive conflicts by choosing a side,
-- or include unrelated changes in a task commit.
+- stage unrelated user changes,
+- commit or push secrets or credentials,
+- commit or push private/raw Course materials.
 
 If normal commit or push would mix with, overwrite, or otherwise endanger
 existing work:
@@ -740,8 +954,12 @@ STOP and surface the issue.
 
 A failed push is not permission to perform destructive reconciliation.
 
-Automatic Git finalization applies only after a full PASS unless an accepted
-task Plan explicitly defines another safe completion rule.
+Safe inspection and `git fetch` may be used to understand the state before
+stopping.
+
+High Git autonomy applies to ordinary, non-destructive workflow.
+
+It does not authorize destructive history manipulation.
 
 ---
 
@@ -773,6 +991,19 @@ a PASS.
 Do not edit documentation simply to make the diff look comprehensive.
 
 Do not record planned behavior as implemented behavior.
+
+Process documents such as:
+
+- `AGENTS.md`,
+- root `CONTEXT.md`,
+- stage `CONTEXT.md` files
+
+should remain durable and reusable.
+
+Do not update them after every completed product task merely to record which
+task is currently next.
+
+Use `docs/TASKS.md` and `docs/IMPLEMENTATION.md` for evolving project state.
 
 ---
 
@@ -830,7 +1061,7 @@ Report:
 - what could not be verified,
 - what evidence supports completion.
 
-A full PASS is required for ordinary automatic task finalization.
+A full PASS is required for ordinary automatic current-task finalization.
 
 ---
 
@@ -899,23 +1130,42 @@ task-scoped commit
 normal push
 ```
 
+Do not insert an additional human approval checkpoint into that routine merely
+because a normal commit or push is about to occur.
+
 Do not mark incomplete work as complete.
 
 ---
 
-# 26. Current Project State
+# 26. Current Project State Routing
 
-The repository currently begins from a documentation and ICM foundation.
+Do not hardcode the current active task, next roadmap task, or latest
+implementation commit into this global process file.
 
-The first actual implementation task is:
+Those values change frequently and belong in the durable project-state sources.
 
-`SD-001 — Initialize Next.js Application`
+For current roadmap position, task status, and sequencing, read:
 
-Do not begin SD-001 merely because it appears in `TASKS.md`.
+`docs/TASKS.md`
 
-Task roadmap entries are not authorization.
+For verified implementation reality, read:
 
-When SD-001 is explicitly started, follow:
+`docs/IMPLEMENTATION.md`
+
+For actual repository state, inspect:
+
+- the working tree,
+- current branch,
+- recent Git history,
+- configured upstream,
+- relevant source files.
+
+A roadmap entry in `docs/TASKS.md` is not authorization to execute it.
+
+Execution authorization comes from Mike's active instruction.
+
+When Mike explicitly authorizes one named task through the complete ICM
+lifecycle, follow:
 
 ```text
 Plan
@@ -926,7 +1176,20 @@ Verify
 ↓
 PASS
 ↓
-Finalize
+documentation promotion
+↓
+mark task Done
+↓
+task-scoped commit
+↓
+normal safe push
+↓
+finished
 ```
 
-according to the repository ICM.
+Do not automatically begin the following roadmap task unless Mike explicitly
+authorizes continuing through multiple tasks.
+
+The purpose of this file is to define durable agent behavior.
+
+Use the project-state documents for facts that change as the project advances.

@@ -37,7 +37,8 @@ has not already been loaded.
 - verification expectations,
 - product-invariant handling,
 - documentation discipline,
-- and Plan → Build → Verify behavior.
+- Plan → Build → Verify behavior,
+- and full-task automation boundaries.
 
 Do not duplicate those instructions here.
 
@@ -206,7 +207,8 @@ Examples:
 - source authority principles,
 - student-control rules,
 - accepted stack choices,
-- workflow conventions.
+- workflow conventions,
+- Git automation boundaries.
 
 Do not reopen an accepted durable decision during Build merely because another
 approach is possible.
@@ -256,11 +258,16 @@ A task appearing in `TASKS.md` is roadmap context.
 
 It is not permission to begin that task automatically.
 
+An explicit user instruction may authorize one named task to proceed through
+its complete ICM lifecycle.
+
+That authorization does not automatically extend to the next roadmap task.
+
 ---
 
 # 11. ICM Stage Routing
 
-Meaningful project work uses:
+Meaningful project work uses three logical stages:
 
 ```text
 Plan
@@ -270,7 +277,17 @@ Build
 Verify
 ```
 
-Read the active stage instructions.
+Read and obey the instructions for each active stage.
+
+A single user instruction may authorize one complete task to move through all
+three stages without requiring a separate prompt between them.
+
+Stage separation still matters.
+
+One-prompt automation does NOT mean Plan, Build, and Verify become one
+undifferentiated activity.
+
+---
 
 ## Planning
 
@@ -288,6 +305,13 @@ Task-specific Plan artifacts, when justified, live under:
 
 `icm/01_plan/output/`
 
+When the active instruction authorizes the complete task lifecycle and Plan
+reaches:
+
+`READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
+
+the agent may proceed directly into Build.
+
 ---
 
 ## Building
@@ -298,12 +322,23 @@ Use when:
 
 - an accepted requirement or Plan is ready for implementation.
 
-Build should use the accepted Plan as its task-specific baseline and inspect
-repository reality before editing.
+Build should:
+
+- use the accepted Plan as its task-specific baseline,
+- inspect repository reality before editing,
+- implement inside the accepted scope,
+- run proportionate Build checks,
+- inspect the resulting diff,
+- and hand the implementation into Verify.
+
+Build does not normally commit unfinished current-task implementation.
 
 Task-specific Build artifacts, when justified, live under:
 
 `icm/02_build/output/`
+
+When the active instruction authorizes the complete task lifecycle and Build
+completes successfully, the agent may proceed directly into Verify.
 
 ---
 
@@ -315,22 +350,89 @@ Use when:
 
 - meaningful implementation needs independent evaluation against requirements.
 
+Verify must independently evaluate the implementation rather than treating Build
+claims as proof.
+
+After a full PASS, Verify may perform authorized routine finalization:
+
+```text
+promote verified current-state documentation
+↓
+mark task Done
+↓
+stage only task-related files
+↓
+create one task-scoped commit
+↓
+perform a normal safe push
+```
+
 Task-specific Verify artifacts, when justified, live under:
 
 `icm/03_verify/output/`
 
 ---
 
-# 12. Task-Specific Context
+# 12. Full-Task Automation Routing
+
+When Mike explicitly authorizes one named task to run through the complete ICM
+workflow, use:
+
+```text
+Plan
+↓
+Build
+↓
+Verify
+↓
+PASS
+↓
+documentation promotion
+↓
+task status Done
+↓
+task-scoped commit
+↓
+normal safe push
+```
+
+The agent should continue automatically between stages when:
+
+- requirements are clear,
+- no material human decision remains,
+- no blocker exists,
+- scope remains accepted,
+- security/privacy boundaries remain intact,
+- and no destructive Git operation is required.
+
+Stop when:
+
+- a material product decision is unresolved,
+- a material architecture decision is unresolved,
+- requirements are materially ambiguous,
+- accepted scope must expand,
+- a significant dependency or external service needs approval,
+- security or privacy requires human judgment,
+- destructive Git work would be required,
+- local and remote history genuinely diverge and safe resolution is unclear,
+- unrelated user work cannot be safely isolated,
+- or another concrete blocker prevents trustworthy continuation.
+
+A full-task instruction authorizes the named task only.
+
+Do not automatically begin the next roadmap task after completion unless Mike
+explicitly authorizes multi-task continuation.
+
+---
+
+# 13. Task-Specific Context
 
 When a task has an accepted Plan artifact, load that artifact when entering
 Build or Verify.
 
 Example:
 
-```text
-icm/01_plan/output/SD-004-course-page-plan.md
-```
+`icm/01_plan/output/SD-004-course-page-plan.md`
 
 That artifact provides the task-specific implementation contract.
 
@@ -340,6 +442,8 @@ Think of context as:
 
 ```text
 Global agent rules
+        ↓
+Context router
         ↓
 Relevant durable project truth
         ↓
@@ -355,13 +459,13 @@ task.
 
 ---
 
-# 13. Recommended Context Sets
+# 14. Recommended Context Sets
 
 These are routing examples, not mandatory fixed bundles.
 
 ---
 
-## Example — SD-001 Initialize Next.js
+## Example — Application Foundation
 
 Likely context:
 
@@ -372,7 +476,7 @@ docs/ARCHITECTURE.md
 docs/TASKS.md
 docs/IMPLEMENTATION.md
 docs/DECISIONS.md
-icm/01_plan/CONTEXT.md
+active ICM stage
 ```
 
 Probably unnecessary:
@@ -380,11 +484,32 @@ Probably unnecessary:
 ```text
 docs/UI_SPEC.md
 docs/MOCK_DATA_SPEC.md
-the Physics textbook
+raw Course materials
 future Product Vision details
 ```
 
-unless SD-001 planning reveals a concrete reason to inspect them.
+unless planning reveals a concrete reason to inspect them.
+
+---
+
+## Example — Courses View and Course Cards
+
+Likely context:
+
+```text
+AGENTS.md
+CONTEXT.md
+docs/V1_SPEC.md
+docs/UI_SPEC.md
+docs/MOCK_DATA_SPEC.md
+docs/ARCHITECTURE.md
+docs/IMPLEMENTATION.md
+docs/DECISIONS.md
+docs/TASKS.md
+active ICM stage
+accepted SD-003 Plan after Plan completes
+relevant existing application files
+```
 
 ---
 
@@ -446,7 +571,7 @@ because it is documented.
 
 ---
 
-# 14. Context Minimization Rules
+# 15. Context Minimization Rules
 
 Do not automatically load:
 
@@ -471,7 +596,7 @@ Load information when it materially helps answer:
 
 ---
 
-# 15. Course Materials Are Not Default Agent Context
+# 16. Course Materials Are Not Default Agent Context
 
 Raw academic materials such as:
 
@@ -493,7 +618,7 @@ Future ingestion tasks may intentionally require those materials.
 
 ---
 
-# 16. Conflict Handling
+# 17. Conflict Handling
 
 If durable sources disagree materially:
 
@@ -539,7 +664,7 @@ Accepted durable decision:
 
 ---
 
-# 17. Repository Reality Wins for Implementation State
+# 18. Repository Reality Wins for Implementation State
 
 Documentation may become stale.
 
@@ -565,17 +690,19 @@ But claims about what CURRENTLY exists must be grounded in repository evidence.
 
 ---
 
-# 18. Progressive Disclosure Principle
+# 19. Progressive Disclosure Principle
 
 The preferred context-loading sequence is:
 
 ```text
-1. CONTEXT.md
-2. AGENTS.md if not already loaded
+1. AGENTS.md
+2. CONTEXT.md
 3. active ICM stage
-4. accepted task Plan when applicable
-5. only relevant durable sources
-6. relevant implementation files
+4. docs/TASKS.md when task identity or sequencing matters
+5. docs/IMPLEMENTATION.md when existing implementation matters
+6. only other relevant durable sources
+7. accepted task Plan when entering Build or Verify
+8. relevant repository files
 ```
 
 The exact order may vary when repository inspection needs to happen earlier.
@@ -591,15 +718,11 @@ Optimize for relevant context.
 
 ---
 
-# 19. Current Entry Point
+# 20. Current Project Entry Point
 
-The current first implementation task is:
+Read `docs/TASKS.md` for current task status and sequencing, and
+`docs/IMPLEMENTATION.md` for verified implementation reality.
 
-`SD-001 — Initialize Next.js Application`
-
-Before implementation:
-
-use the Plan stage.
-
-Do not begin later School Dashboard features merely because their requirements
-already exist in documentation.
+A roadmap entry does not authorize execution. Mike's active instruction defines
+the task scope. A one-task instruction may authorize that named task through the
+complete ICM lifecycle, but does not authorize beginning the next task.

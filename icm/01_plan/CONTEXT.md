@@ -72,22 +72,78 @@ it and explain the choice briefly.
 
 ---
 
-# 3. Automation vs Human Review
+# 3. Full-Task Automation
 
-The default School Dashboard workflow is:
+A single instruction from Mike may authorize one named task to proceed through
+the complete School Dashboard workflow:
 
 ```text
 Plan
-↓
-agent resolves ordinary implementation details
-↓
-surface only material decisions if any
 ↓
 Build
 ↓
 Verify
 ↓
-human review at meaningful milestone
+PASS
+↓
+promote verified documentation
+↓
+mark task Done
+↓
+task-scoped commit
+↓
+normal safe push
+```
+
+Plan, Build, and Verify remain separate logical stages.
+
+A one-prompt workflow does NOT mean the stages should be collapsed into one
+undifferentiated activity.
+
+Each stage must:
+
+- load its own instructions,
+- perform its own responsibilities,
+- respect its own boundaries,
+- and produce the evidence or handoff needed by the next stage.
+
+When the active instruction authorizes the complete task lifecycle, Plan should
+continue automatically into Build if:
+
+- requirements are sufficiently clear,
+- no material human decision remains,
+- the accepted scope is understood,
+- no blocker exists,
+- and the task is safe to continue.
+
+Do not create a manual approval checkpoint merely because planning completed.
+
+Plan should stop only when human judgment is materially required.
+
+A full-task instruction authorizes the named task only.
+
+It does NOT automatically authorize starting the next roadmap task.
+
+---
+
+# 4. Automation vs Human Review
+
+The normal School Dashboard workflow is:
+
+```text
+Plan
+↓
+resolve ordinary planning and implementation choices autonomously
+↓
+surface only material decisions when necessary
+↓
+Build
+↓
+Verify
+↓
+PASS
+↓
+automatic routine task finalization
 ```
 
 A task does NOT require a separate human approval round merely because a Plan
@@ -99,23 +155,28 @@ If:
 - no material product or architecture decision remains,
 - no blocker exists,
 - the proposed change is reversible,
-- and Mike has authorized autonomous continuation,
+- scope is understood,
+- and the current instruction authorizes continuation,
 
-the Plan may conclude:
+the Plan should conclude:
 
 ```text
 READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
 ```
 
-Build may then proceed without another decision checkpoint.
+and proceed directly into Build.
 
-If Mike's current instruction asks only for planning, do not begin Build.
+If Mike explicitly requests planning only, stop after Plan.
 
-Stage autonomy does not override the user's explicit requested scope.
+Stage autonomy does not override the user's explicitly limited requested scope.
+
+Human review is for meaningful choices.
+
+It is not a routine stage transition.
 
 ---
 
-# 4. When to Use Plan
+# 5. When to Use Plan
 
 Use the Plan stage when work requires meaningful reasoning before
 implementation.
@@ -153,7 +214,7 @@ Use process in proportion to risk.
 
 ---
 
-# 5. Current V1 Planning Boundary
+# 6. Current V1 Planning Boundary
 
 For the initial School Dashboard UI milestone, plan around:
 
@@ -195,36 +256,44 @@ Future capabilities described elsewhere are context, not current authorization.
 
 ---
 
-# 6. Required Context
+# 7. Required Context
 
 Before meaningful planning:
 
-1. Read the root `AGENTS.md`.
-2. Read the root `CONTEXT.md`.
+1. Read root `AGENTS.md`.
+2. Read root `CONTEXT.md`.
 3. Read this Plan-stage context.
-4. Use the root context router to identify only the durable sources relevant to
+4. Identify the active task from the explicit instruction and `docs/TASKS.md`
+   when sequencing matters.
+5. Use the root context router to identify only the durable sources relevant to
    the task.
-5. Inspect relevant repository reality when implementation already exists.
+6. Inspect relevant repository reality when implementation already exists.
+7. Inspect Git state when existing local work may affect planning or safe
+   continuation.
 
 Do not automatically load every project document.
 
+Do not assume roadmap position from stale historical artifacts.
+
+Use current task state and repository reality.
+
 ---
 
-## 6.1 Common Durable Sources
+# 8. Common Durable Sources
 
 Depending on the task, relevant context may include:
 
-### `docs/PRODUCT_VISION.md`
+## `docs/PRODUCT_VISION.md`
 
 Use when:
 
 - long-term product intent matters,
-- future capabilities affect the interpretation of current work,
+- future capabilities affect interpretation of current work,
 - source grounding or human-control principles matter.
 
 ---
 
-### `docs/V1_SPEC.md`
+## `docs/V1_SPEC.md`
 
 Use when:
 
@@ -239,7 +308,7 @@ This is the main product source for current V1 behavior.
 
 ---
 
-### `docs/UI_SPEC.md`
+## `docs/UI_SPEC.md`
 
 Use when:
 
@@ -253,7 +322,7 @@ Use when:
 
 ---
 
-### `docs/MOCK_DATA_SPEC.md`
+## `docs/MOCK_DATA_SPEC.md`
 
 Use when:
 
@@ -269,7 +338,7 @@ Use when:
 
 ---
 
-### `docs/ARCHITECTURE.md`
+## `docs/ARCHITECTURE.md`
 
 Use when:
 
@@ -283,7 +352,7 @@ Use when:
 
 ---
 
-### `docs/IMPLEMENTATION.md`
+## `docs/IMPLEMENTATION.md`
 
 Use when:
 
@@ -293,7 +362,7 @@ Use when:
 
 ---
 
-### `docs/DECISIONS.md`
+## `docs/DECISIONS.md`
 
 Use when:
 
@@ -304,7 +373,7 @@ possible.
 
 ---
 
-### `docs/TASKS.md`
+## `docs/TASKS.md`
 
 Use when:
 
@@ -314,9 +383,11 @@ Use when:
 - milestone boundaries,
 - or task status matter.
 
+A task being next in the roadmap does not authorize execution by itself.
+
 ---
 
-# 7. Do Not Plan From Documentation Alone When Code Exists
+# 9. Do Not Plan From Documentation Alone When Code Exists
 
 When implementation already exists:
 
@@ -328,7 +399,7 @@ Determine:
 - what actually works,
 - what is already shared,
 - what patterns exist,
-- what tests exist,
+- what tests or verification mechanisms exist,
 - what routes exist,
 - what dependencies exist,
 - and whether documentation matches repository reality.
@@ -339,7 +410,7 @@ Do not assume documentation proves implementation.
 
 ---
 
-# 8. Planning Workflow
+# 10. Planning Workflow
 
 For meaningful tasks, work through the following reasoning sequence.
 
@@ -364,9 +435,9 @@ Weak:
 
 Better:
 
-> Build the read-only Dashboard shell that exposes the current reference day,
-> navigation, Next Action area, and approved summary regions using the shared
-> static academic plan.
+> Build the Courses primary view and reusable Course Card behavior using the
+> shared static academic fixture while preserving the current read-only V1
+> boundary.
 
 ---
 
@@ -383,7 +454,8 @@ Determine:
 - existing patterns,
 - verified behavior,
 - missing behavior,
-- and known limitations.
+- known limitations,
+- and relevant Git state.
 
 If implementation does not exist yet, say so directly.
 
@@ -451,7 +523,8 @@ Examples:
 - relevant mock-data contract,
 - security rules,
 - dependency restrictions,
-- previously accepted decisions.
+- previously accepted decisions,
+- predecessor implementation that must remain working.
 
 Do not design around hypothetical future constraints.
 
@@ -491,7 +564,7 @@ It means:
 
 ---
 
-# 9. Local Decisions the Agent May Make Automatically
+# 11. Local Decisions the Agent May Make Automatically
 
 Plan may resolve task-local choices autonomously when they are:
 
@@ -519,7 +592,7 @@ Do not ask Mike to approve them individually.
 
 ---
 
-# 10. Decisions That Require Mike
+# 12. Decisions That Require Mike
 
 Surface a decision when it materially changes:
 
@@ -561,9 +634,9 @@ Mike should approve if the dependency is materially significant.
 
 Example:
 
-SD-004 appears to require editing Courses even though V1 is read-only.
+A task appears to require editing behavior even though V1 is read-only.
 
-That changes task/product scope.
+That changes task or product scope.
 
 Mike should decide.
 
@@ -594,13 +667,13 @@ That requires separate planning and approval.
 
 Example:
 
-Deleting or migrating persisted user data.
+A Git or data operation would destroy or rewrite existing work.
 
 Stop and obtain approval.
 
 ---
 
-# 11. Do Not Invent Decisions
+# 13. Do Not Invent Decisions
 
 Not every choice is a "Decision for Mike."
 
@@ -620,7 +693,7 @@ Human review should focus on decisions worth human attention.
 
 ---
 
-# 12. Impact Map
+# 14. Impact Map
 
 Identify the expected impact of the task.
 
@@ -636,24 +709,25 @@ Files needed to understand the change.
 
 ### Should remain untouched
 
-Areas that are specifically outside scope.
-
-This prevents Build from wandering into adjacent work.
+Areas specifically outside scope.
 
 Example:
 
 ```text
 Expected to change:
-- app/courses/page.tsx
-- components/course-card.tsx
+- Courses route
+- reusable Course Card component
+- shared static academic data when required by the accepted task
 
 May need inspection:
-- mock academic fixture
-- current navigation
+- existing navigation
+- Dashboard shell
+- mock academic specification
 
 Should remain untouched:
 - persistence
 - AI
+- authentication
 - Google integrations
 ```
 
@@ -661,7 +735,7 @@ The exact format may vary.
 
 ---
 
-# 13. Acceptance Criteria
+# 15. Acceptance Criteria
 
 Every meaningful Plan should define observable acceptance criteria.
 
@@ -675,16 +749,17 @@ Weak:
 
 Better:
 
-> The Courses primary view shows every current static Course, each Course Card
-> displays current-week Study Task progress, and selecting a Course opens the
-> correct Course Page.
+> The Courses primary view shows every approved static Course, each Course Card
+> exposes the information required by the UI specification, and selecting a
+> Course uses the existing Course Page route without inventing unsupported
+> academic information.
 
 Acceptance criteria should be specific enough that Verify can independently
-determine whether the implementation succeeded.
+determine whether implementation succeeded.
 
 ---
 
-# 14. Acceptance Criteria Should Cover Relevant Edges
+# 16. Acceptance Criteria Should Cover Relevant Edges
 
 When meaningful, consider:
 
@@ -705,7 +780,7 @@ Focus on cases that could realistically reveal incorrect behavior.
 
 ---
 
-# 15. Verification Must Be Planned Before Build
+# 17. Verification Must Be Planned Before Build
 
 For each important acceptance criterion, determine how it can be verified.
 
@@ -727,9 +802,12 @@ Use the strongest practical evidence proportional to the task.
 Do not add a testing framework solely because verification needs to occur if
 simpler evidence is sufficient.
 
+Plan should leave Verify with clear targets rather than vague instructions to
+"check everything."
+
 ---
 
-# 16. UI Planning
+# 18. UI Planning
 
 When planning a student-facing UI task, distinguish:
 
@@ -752,7 +830,7 @@ durable specifications.
 
 ---
 
-# 17. Static Data Planning
+# 19. Static Data Planning
 
 When a task requires static academic data:
 
@@ -771,7 +849,7 @@ architecture decision.
 
 ---
 
-# 18. Source-Material Planning
+# 20. Source-Material Planning
 
 Raw academic materials are not normal context for UI implementation.
 
@@ -790,7 +868,7 @@ This keeps context focused and reduces unnecessary token usage.
 
 ---
 
-# 19. Dependency Planning
+# 21. Dependency Planning
 
 If implementation may require a new dependency:
 
@@ -809,7 +887,7 @@ resolved according to the task Plan when conventional and low risk.
 
 ---
 
-# 20. Risks and Unknowns
+# 22. Risks and Unknowns
 
 Record uncertainty that could affect the solution.
 
@@ -835,7 +913,7 @@ Do not label ordinary unknown implementation details as blockers.
 
 ---
 
-# 21. Planning for Fast Iteration
+# 23. Planning for Fast Iteration
 
 Because this is a side project, optimize for useful iteration.
 
@@ -846,7 +924,7 @@ small useful feature
 ↓
 verify
 ↓
-continue
+finish
 ```
 
 over:
@@ -868,34 +946,31 @@ Plans should favor changes that are:
 
 ---
 
-# 22. Plan Output Artifact
+# 24. Plan Output Artifact
 
 For meaningful planned work, create a task-specific Plan artifact under:
 
-```text
-icm/01_plan/output/
-```
+`icm/01_plan/output/`
 
 Example:
 
-```text
-SD-004-course-page-plan.md
-```
+`SD-004-course-page-plan.md`
 
 Do not use generic names such as:
 
-```text
-plan.md
-notes.md
-```
+`plan.md`
 
-Create the output directory only when needed.
+or:
+
+`notes.md`
+
+Create an artifact only when the task benefits from a durable planning record.
 
 Do not create a Plan artifact for every trivial change.
 
 ---
 
-# 23. Plan Artifact Structure
+# 25. Plan Artifact Structure
 
 A substantial Plan artifact should normally use:
 
@@ -937,10 +1012,10 @@ Do not add empty ceremony.
 
 ---
 
-# 24. Human Review Summary
+# 26. Human Review Summary
 
 The Plan artifact should begin with a concise summary that allows Mike to review
-the important parts quickly without reading the whole technical Plan.
+the important parts quickly without reading the entire technical Plan.
 
 Use:
 
@@ -952,9 +1027,7 @@ Maximum five.
 
 If none:
 
-```text
-None.
-```
+`None.`
 
 ---
 
@@ -970,9 +1043,7 @@ For each:
 
 If none:
 
-```text
-None.
-```
+`None.`
 
 Do not list ordinary task-local implementation decisions here.
 
@@ -989,7 +1060,7 @@ meaningfully review risk.
 
 ### Can Learn During Build
 
-Useful concepts that will be easier to learn while inspecting the actual code.
+Useful concepts that will be easier to learn while inspecting actual code.
 
 ### Not Needed Yet
 
@@ -1007,9 +1078,7 @@ Include only conditions that actually prevent Build.
 
 If none:
 
-```text
-None.
-```
+`None.`
 
 Risks are not automatically blockers.
 
@@ -1031,13 +1100,21 @@ READY FOR BUILD AFTER LISTED APPROVAL
 BLOCKED
 ```
 
-This allows Mike to review the Plan at a glance.
+When the complete task lifecycle is authorized and the status is:
+
+```text
+READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
+```
+
+continue directly into Build.
+
+Do not wait for another prompt.
 
 ---
 
-# 25. Learn Before Build Should Not Become Friction
+# 27. Learn Before Build Should Not Become Friction
 
-Teaching remains important, but School Dashboard should move faster.
+Teaching remains important, but School Dashboard should move quickly.
 
 Do not require Mike to study every framework concept before implementation.
 
@@ -1064,7 +1141,7 @@ Learning should support progress, not block it unnecessarily.
 
 ---
 
-# 26. Proposed Approach
+# 28. Proposed Approach
 
 The Proposed Approach should explain:
 
@@ -1081,7 +1158,7 @@ Let Build handle local implementation detail.
 
 ---
 
-# 27. Implementation Steps
+# 29. Implementation Steps
 
 Provide an ordered sequence that Build can follow.
 
@@ -1099,20 +1176,22 @@ Avoid vague instructions such as:
 Prefer:
 
 ```text
-1. Inspect the current navigation and shared layout.
-2. Add the dedicated Weekly Plan route using existing layout conventions.
-3. Derive current-week Course data from the shared static fixture.
-4. Render Objectives, Assignments, and Study Tasks as separate concepts.
-5. Preserve task dates and completion state.
-6. Add empty states required by the accepted specification.
-7. Run targeted checks and inspect the diff.
+1. Inspect the existing route and shared shell.
+2. Extend the shared static Course data only as required by this task.
+3. Build the reusable Course Card using existing project conventions.
+4. Render the Courses primary view from shared data.
+5. Preserve the existing Course Page route relationship.
+6. Add required responsive and accessibility behavior.
+7. Run targeted Build checks.
+8. Inspect the final task diff.
+9. Hand the implementation into Verify.
 ```
 
 Build should not need to redesign the feature from scratch.
 
 ---
 
-# 28. Build Autonomy
+# 30. Build Autonomy
 
 Once the Plan establishes:
 
@@ -1141,11 +1220,13 @@ Return to Plan only when a discovery materially affects:
 - acceptance criteria,
 - durable decisions,
 - security,
-- or major dependencies.
+- privacy,
+- major dependencies,
+- or external services.
 
 ---
 
-# 29. Plan Deviation Threshold
+# 31. Plan Deviation Threshold
 
 Build may deviate from a local implementation detail in the Plan when repository
 reality makes another low-risk approach clearly better.
@@ -1154,25 +1235,25 @@ Example:
 
 Plan expected:
 
-```text
-components/course-card.tsx
-```
+`components/course-card.tsx`
 
-but repository conventions place feature-local components beside the route.
+but repository conventions place feature-local components somewhere more
+appropriate.
 
 Build may follow the existing convention if:
 
 - product behavior does not change,
 - architecture does not materially change,
-- acceptance criteria remain valid.
+- acceptance criteria remain valid,
+- scope remains unchanged.
 
-Document the minor deviation in the Build handoff.
+Document the meaningful local deviation in the Build handoff.
 
-Do not force obsolete local Plan detail merely for procedural purity.
+Do not force obsolete Plan detail merely for procedural purity.
 
 ---
 
-# 30. Durable Decision Handling
+# 32. Durable Decision Handling
 
 If planning establishes a meaningful project-wide choice, classify it as a
 potential durable decision.
@@ -1197,7 +1278,7 @@ do not create a duplicate decision merely to restate it.
 
 ---
 
-# 31. Documentation Changes During Plan
+# 33. Documentation Changes During Plan
 
 Plan may identify required documentation changes.
 
@@ -1207,14 +1288,20 @@ Do not update:
 
 to describe functionality that has not yet been built and verified.
 
+Do not mark the active task Done during Plan.
+
+Do not promote planned behavior into verified current-state documentation.
+
 Product requirements may be updated during Plan only when Mike has actually
 accepted a requirements change.
 
 Do not rewrite requirements to match a preferred implementation.
 
+Routine implementation-state documentation belongs after successful Verify.
+
 ---
 
-# 32. Plan Quality Check
+# 34. Plan Quality Check
 
 Before declaring a meaningful Plan ready, confirm it answers:
 
@@ -1256,7 +1343,7 @@ ready.
 
 ---
 
-# 33. Build Readiness
+# 35. Build Readiness
 
 A task is ready for Build when:
 
@@ -1285,9 +1372,26 @@ READY FOR BUILD AFTER LISTED APPROVAL
 
 as appropriate.
 
+When the active instruction authorizes the complete task lifecycle and the
+result is:
+
+```text
+READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
+```
+
+the next action is:
+
+```text
+load Build stage instructions
+↓
+proceed into Build
+```
+
+Do not create a redundant human checkpoint.
+
 ---
 
-# 34. Final Plan Handoff
+# 36. Final Plan Handoff
 
 At the end of meaningful Plan work, provide a concise handoff.
 
@@ -1307,7 +1411,7 @@ BLOCKED
 
 ## What Will Be Built
 
-Short description of the approved task.
+Short description of the accepted task.
 
 ---
 
@@ -1331,9 +1435,7 @@ Only material unresolved choices.
 
 If none:
 
-```text
-None.
-```
+`None.`
 
 ---
 
@@ -1349,38 +1451,125 @@ Only the highest-value concept or decision from the Plan.
 
 If nothing important needs explanation:
 
-```text
-None.
-```
+`None.`
 
 ---
 
-# 35. Current School Dashboard Entry Point
+## Next Stage
 
-The first implementation task is:
+If:
 
 ```text
-SD-001 — Initialize Next.js Application
+READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
 ```
 
-Planning for SD-001 should focus on:
+and the active user instruction authorizes the complete task lifecycle:
 
-- initializing the approved framework stack,
-- preserving the existing documentation/ICM repository,
-- selecting only setup options actually needed now,
-- documenting the resulting project structure and commands,
-- and proving that the scaffold can run/build successfully.
+```text
+Proceed directly to Build.
+```
 
-SD-001 must NOT begin implementing:
+If:
 
-- Dashboard features,
-- Course UI,
-- static Physics fixture data,
-- AI,
-- persistence,
-- authentication,
-- integrations.
+```text
+READY FOR BUILD AFTER LISTED APPROVAL
+```
 
-The product specifications already exist.
+stop for the required approval.
 
-SD-001 establishes only the application foundation needed for later tasks.
+If:
+
+```text
+BLOCKED
+```
+
+state the concrete blocker and the smallest next action required.
+
+---
+
+# 37. Stage Transition Safety
+
+Automatic transition from Plan into Build is allowed only when it preserves the
+accepted task boundary.
+
+Do not continue automatically if planning reveals:
+
+- unresolved product behavior,
+- unresolved academic semantics,
+- a material architecture choice,
+- significant dependency uncertainty requiring approval,
+- security or privacy concerns,
+- required external-service adoption,
+- destructive work,
+- scope expansion,
+- or another genuine blocker.
+
+Ordinary implementation uncertainty does not require a stop.
+
+Build may investigate ordinary technical details safely.
+
+The purpose of Plan is to remove material uncertainty.
+
+It is not to eliminate every unknown before implementation.
+
+---
+
+# 38. One-Prompt Task Boundary
+
+When Mike provides a full-task instruction such as:
+
+> Complete SD-003 using the repository ICM workflow.
+
+interpret that as authorization to complete SD-003 through:
+
+```text
+Plan
+↓
+Build
+↓
+Verify
+↓
+PASS
+↓
+documentation promotion
+↓
+mark SD-003 Done
+↓
+task-scoped commit
+↓
+normal safe push
+```
+
+subject to all repository safety and human-review boundaries.
+
+Do NOT interpret it as authorization to begin:
+
+`SD-004`
+
+after SD-003 completes.
+
+One task prompt means:
+
+> finish this task completely.
+
+It does not mean:
+
+> continue indefinitely through the roadmap.
+
+---
+
+# 39. Current Roadmap Awareness
+
+Use:
+
+`docs/TASKS.md`
+
+for current task sequencing and status.
+
+Do not hardcode a historical task such as SD-001 into the global Plan stage
+instructions.
+
+The Plan stage must remain reusable as School Dashboard advances.
+
+Mike's explicit instruction remains the execution authorization. A task's
+roadmap position does not independently authorize execution.
