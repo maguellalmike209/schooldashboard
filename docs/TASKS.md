@@ -1,6 +1,6 @@
 # School Dashboard — Tasks
 
-The documentation/ICM foundation is in place. SD-001 is **Done**; later application tasks below remain **Not started**. A listed task is roadmap context, not authorization to execute it.
+The documentation/ICM foundation is in place. SD-001 and SD-002 are **Done**; later application tasks below remain **Not started**. A listed task is roadmap context, not authorization to execute it.
 
 Use the `SD-XXX` prefix for project tasks. Move tasks through Not started → In progress → Ready for verification → Done; use Blocked only with a concrete blocker and next step. Mark Done only after sufficient verification, recording relevant evidence and updating [IMPLEMENTATION.md](IMPLEMENTATION.md) when actual behavior changes.
 
@@ -11,14 +11,14 @@ All work follows the conceptual model, five primary views, and read-only behavio
 | ID | Task | Status | Depends on | Completion target |
 | --- | --- | --- | --- | --- |
 | SD-001 | Initialize Next.js application | Done | — | Initialize the planned Next.js, React, TypeScript, and Tailwind CSS stack in the existing repository while preserving the documentation; verify the scaffold and document actual setup/run/check commands. |
-| SD-002 | Dashboard shell and navigation | Not started | SD-001 | Establish the Dashboard and navigation supporting Dashboard, Courses, Course Page, Weekly Plan, and Today, with shared mock term/reference-day/week context and today's authored classes. Connect course, progress, next-action, study, and deadline summaries as SD-003–SD-007 land. |
+| SD-002 | Dashboard shell and navigation | Done | SD-001 | Establish the Dashboard and navigation supporting Dashboard, Courses, Course Page, Weekly Plan, and Today, with shared mock term/reference-day/week context and source-supported date-only lecture schedule context. Connect course, progress, next-action, study, and deadline summaries as SD-003–SD-007 land. |
 | SD-003 | Courses view and course cards | Not started | SD-002 | Build the Courses primary view and reusable Dashboard course cards from shared mock courses; detail navigation is completed with SD-004 and weekly task progress with SD-005. |
 | SD-004 | Course Page | Not started | SD-003 | Open the correct mock course with current-week/topic and static material context; handle unknown courses and connect scoped objectives, tasks, progress, and deadlines as SD-005–SD-007 land. |
 | SD-005 | Weekly Plan | Not started | SD-004 | Build Weekly Plan as a primary view with objectives, deliverables, and dated study tasks distinguished, including tasks without objectives. Use mock completion states for consistent weekly progress across Dashboard, Courses, Course Page, and Weekly Plan; connect deadline context with SD-007. |
 | SD-006 | Today | Not started | SD-005 | Build Today as a primary view showing incomplete tasks planned for the reference day in authored order, with supplied duration estimates and course/objective/assignment context. Connect the Dashboard's daily summary and next study action; preserve the read-only boundary. |
 | SD-007 | Upcoming assignments | Not started | SD-006 | Integrate upcoming assignments and deadline context into Dashboard, Course Page, Weekly Plan, and linked Today tasks as specified; no sixth primary screen is required. Verify all five views against the shared canonical academic fixture defined in [MOCK_DATA_SPEC.md](MOCK_DATA_SPEC.md), including the PHY 009D reference context and the V1 relationship, date, and progress scenarios. |
 
-Each task should define proportionate acceptance and verification detail through the ICM workflow before implementation. SD-001 established the application foundation; SD-002 is next and has not begun.
+Each task should define proportionate acceptance and verification detail through the ICM workflow before implementation. SD-001 established the application foundation; SD-002 established the shared shell and route structure. SD-003 is next.
 
 ## Future capability roadmap — direction only
 
