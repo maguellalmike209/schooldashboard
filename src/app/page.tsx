@@ -1,6 +1,12 @@
-import { academicContext, formatCurrentWeek, formatReferenceDate } from "@/lib/academic-context";
+import { CourseCard } from "@/components/course-card";
+import { academicContext, formatCurrentWeek, formatReferenceDate, getCourse } from "@/lib/academic-context";
 
 export default function DashboardPage() {
+  const scheduledCourse = getCourse(academicContext.referenceDayLecture.courseId);
+  if (!scheduledCourse) {
+    throw new Error("Reference-day lecture has no matching course.");
+  }
+
   return (
     <div className="space-y-8">
       <header>
@@ -33,7 +39,7 @@ export default function DashboardPage() {
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-sky-700">Course context</p>
           <h2 className="mt-2 text-xl font-semibold text-slate-950">On today&apos;s course schedule</h2>
           <div className="mt-5 border-l-2 border-sky-500 pl-4">
-            <p className="text-sm font-semibold text-slate-950">{academicContext.course.code} · {academicContext.course.name}</p>
+            <p className="text-sm font-semibold text-slate-950">{scheduledCourse.code} · {scheduledCourse.name}</p>
             <p className="mt-1 text-base text-slate-800">Lecture #{academicContext.referenceDayLecture.number}</p>
             <p className="mt-2 text-sm text-slate-600">
               Scheduled for <time dateTime={academicContext.referenceDayLecture.date}>{formatReferenceDate()}</time>. The course schedule does not provide a meeting time or room.
@@ -49,6 +55,15 @@ export default function DashboardPage() {
           </p>
         </section>
       </div>
+
+      <section aria-labelledby="dashboard-courses">
+        <h2 id="dashboard-courses" className="text-xl font-semibold text-slate-950">Current courses</h2>
+        <ul className="mt-4 grid list-none gap-4 md:grid-cols-2">
+          {academicContext.courses.map((course) => (
+            <li key={course.id}><CourseCard course={course} compact /></li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

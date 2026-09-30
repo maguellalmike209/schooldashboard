@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { academicContext } from "@/lib/academic-context";
+import { getCourse } from "@/lib/academic-context";
 
 export default async function CoursePage({
   params,
@@ -9,7 +9,8 @@ export default async function CoursePage({
 }) {
   const { courseId } = await params;
 
-  if (courseId !== academicContext.course.id) {
+  const course = getCourse(courseId);
+  if (!course) {
     notFound();
   }
 
@@ -21,7 +22,7 @@ export default async function CoursePage({
         </Link>
         <p className="mt-7 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Course page</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
-          {academicContext.course.code} <span className="text-slate-500">·</span> {academicContext.course.name}
+          {course.code} <span className="text-slate-500">·</span> {course.name}
         </h1>
       </header>
 

@@ -1,4 +1,4 @@
-// The shared V1 snapshot needed by the SD-002 shell.
+// Shared static academic context for the read-only V1 prototype.
 // Lecture schedule information is a Course Fact, not a timed Class Meeting.
 export const academicContext = {
   term: "Fall Quarter 2026",
@@ -7,17 +7,30 @@ export const academicContext = {
     startsOn: "2026-09-21",
     endsOn: "2026-09-27",
   },
-  course: {
-    id: "phy-009d",
-    code: "PHY 009D",
-    name: "Modern Physics",
-  },
+  courses: [
+    {
+      id: "phy-009d",
+      code: "PHY 009D",
+      name: "Modern Physics",
+    },
+    {
+      id: "wrt-101",
+      code: "WRT 101",
+      name: "Academic Writing",
+    },
+  ],
   referenceDayLecture: {
     courseId: "phy-009d",
     number: "02",
     date: "2026-09-25",
   },
 } as const;
+
+export type Course = (typeof academicContext.courses)[number];
+
+export function getCourse(courseId: string) {
+  return academicContext.courses.find((course) => course.id === courseId);
+}
 
 function utcDate(isoDate: string) {
   return new Date(`${isoDate}T00:00:00Z`);
