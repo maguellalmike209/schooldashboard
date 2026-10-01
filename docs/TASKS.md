@@ -174,7 +174,7 @@ The goal is:
 
 | ID | Task | Status | Depends on | Completion target |
 | --- | --- | --- | --- | --- |
-| SD-008 | Secure ICM v2 and security policy foundation | In progress | SD-007 | Establish the durable four-stage Plan → Build → Verify → Release operating model; risk tiers; progressive context routing; security requirements; privacy requirements; threat model; adversarial security-testing playbook; durable decisions; and roadmap sequencing. Perform a consistency review before completion. |
+| SD-008 | Secure ICM v2 and security policy foundation | Done | SD-007 | Establish the durable four-stage Plan → Build → Verify → Release operating model; risk tiers; progressive context routing; security requirements; privacy requirements; threat model; adversarial security-testing playbook; durable decisions; and roadmap sequencing. Perform a consistency review before completion. |
 | SD-009 | Automated testing foundation | Not started | SD-008 | Establish the minimum useful automated testing architecture for the current application and upcoming secure development. Select appropriate test tooling during Plan rather than preselecting it here. Provide repeatable unit/invariant, integration, and browser/E2E capability proportional to actual needs. Preserve the ability to add authorization/security regression tests as multi-user features arrive. |
 | SD-010 | Continuous integration baseline | Not started | SD-009 | Add CI that runs the project's required repeatable checks on repository changes. Initial baseline should include locked dependency installation, lint, typecheck, automated tests, and production build. CI must fail meaningfully when required checks fail rather than becoming ceremonial. |
 | SD-011 | Security and supply-chain automation | Not started | SD-010 | Introduce appropriate automated repository security controls such as secret detection, dependency/security scanning, and code/security analysis where supported and useful. Avoid redundant tooling and evaluate actual findings rather than suppressing them for green status. |
@@ -187,7 +187,7 @@ The goal is:
 
 ## Status
 
-`In progress`
+`Done`
 
 ## Objective
 
@@ -831,10 +831,11 @@ Those responsibilities belong to their owning documents.
 
 The current active foundation task is:
 
-`SD-008 — Secure ICM v2 and security policy foundation`
+`SD-009 — Automated testing foundation`
 
-Do not begin SD-009 until SD-008 receives sufficient Verify PASS and
-finalization, unless Mike explicitly changes the execution order.
+SD-008 received full Verify PASS. Do not begin SD-010 until SD-009 receives
+full Verify PASS and finalization, unless Mike explicitly changes the
+execution order.
 
 ---
 

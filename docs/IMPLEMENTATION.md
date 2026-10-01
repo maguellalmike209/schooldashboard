@@ -58,8 +58,8 @@ Milestone 1 is intentionally based on static mock/hardcoded academic data.
 
 `In progress`
 
-SD-008 is currently establishing the project's security-first autonomous
-engineering foundation.
+SD-008 established and verified the project's security-first autonomous
+engineering documentation foundation.
 
 This work concerns:
 
