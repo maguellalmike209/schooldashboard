@@ -1,54 +1,51 @@
-# School Dashboard — Initial UI Specification
+# School Dashboard — UI Specification
 
 ## 1. Purpose
 
-This document defines the information hierarchy, interaction expectations, and
-visual responsibilities of the School Dashboard initial UI milestone.
+This document defines the durable:
 
-It does not define:
+- information hierarchy,
+- interaction expectations,
+- presentation responsibilities,
+- reusable UI concepts
+
+for School Dashboard.
+
+It primarily preserves the completed Milestone 1 interface contract while
+providing UI principles that later product milestones should build on.
+
+This document does NOT define:
 
 - pixel-perfect styling,
-- a design system,
 - exact colors,
 - exact typography,
 - final component APIs,
 - database structure,
-- AI behavior,
-- persistence,
-- or future integrations.
+- authentication architecture,
+- persistence architecture,
+- AI implementation,
+- external integrations.
 
-`docs/V1_SPEC.md` remains the source of truth for current product behavior,
-academic concepts, calculations, date rules, and V1 exclusions.
+Use:
 
-This document answers a narrower question:
+- `docs/V1_SPEC.md` for the frozen Milestone 1 product contract,
+- `docs/PRODUCT_VISION.md` for long-term product direction,
+- `docs/ARCHITECTURE.md` for technical boundaries,
+- `docs/IMPLEMENTATION.md` for verified current implementation,
+- `docs/TASKS.md` for execution sequencing.
 
-> How should the approved V1 information be organized so that the student can
+This document answers:
+
+> How should School Dashboard organize academic information so the student can
 > quickly understand what matters and what to do next?
-
-The UI should optimize for clarity, academic context, and action rather than
-maximizing the amount of information visible at once.
 
 ---
 
-## 2. Core Experience
+# 2. Current UI Status
 
-The interface should make it easy for the student to move between three levels
-of academic planning:
+Milestone 1 is complete.
 
-### Today
-
-What should I do now?
-
-### This Week
-
-What am I trying to accomplish this week?
-
-### Course Context
-
-Why am I doing this, what am I learning, and what deadlines or materials are
-connected to it?
-
-The five primary V1 views are:
+The current verified UI contains five primary views:
 
 1. Dashboard
 2. Courses
@@ -56,639 +53,768 @@ The five primary V1 views are:
 4. Weekly Plan
 5. Today
 
-Dashboard, Courses, Weekly Plan, and Today must be directly accessible through
-primary navigation.
+Current runtime behavior remains:
 
-Course Page is reached by selecting a course.
+- static,
+- read-only,
+- fixture-driven,
+- non-authenticated,
+- non-persistent,
+- non-AI.
 
-Upcoming Assignments is reusable content within these views and is not a sixth
-primary view.
-
----
-
-## 3. Global UI Principles
-
-### 3.1 Action first
-
-The application should prioritize useful actions over passive academic
-information.
-
-The user should not need to inspect several sections simply to determine what
-they should work on next.
-
-Where appropriate, emphasize:
-
-1. what the student should do next,
-2. what remains planned for today,
-3. what deadlines require awareness,
-4. what the student is trying to accomplish this week,
-5. and the deeper course context behind those actions.
+Future editable and intelligent behavior should extend this interface through
+later accepted product specifications rather than silently changing historical
+V1 behavior.
 
 ---
 
-### 3.2 Preserve academic meaning
+# 3. Core Experience
 
-The interface must visually preserve the distinction between:
+The interface should make it easy to move among three levels of academic
+planning.
 
-- Learning Objective
-- Assignment
-- Study Task
-- Course Material
-- Class Meeting
+## Today
 
-Do not display all of these as interchangeable generic tasks.
+> What should I do now?
 
-Example:
+## This Week
 
-Learning Objective:
-Understand standing waves
+> What am I trying to accomplish this week?
 
-Assignment:
-HW 4 — Due Friday
+## Course Context
 
-Study Task:
-Solve HW 4 questions 1–3 — 35 min
+> Why am I doing this, what am I learning, and what deadlines or materials are
+> connected to it?
 
-Material:
-Lecture 7 slides
+The student should be able to move conceptually through:
 
-Class Meeting:
-PHY 9B Lecture — 10:00 AM
+```text
+Today
+↓
+Weekly Plan
+↓
+Course
+↓
+deeper Course context
+```
 
-These may be related, but they represent different things.
-
----
-
-### 3.3 One academic item, multiple views
-
-A study task may appear on:
-
-- Dashboard
-- Today
-- Weekly Plan
-- Course Page
-
-These appearances represent the same underlying task.
-
-The UI must not imply that repeated appearances are separate academic work.
-
-Progress and completion state must therefore remain consistent between views.
+without needing to understand the application's internal data model.
 
 ---
 
-### 3.4 Progressive disclosure
+# 4. Primary Views
 
-Do not show every available academic detail on every screen.
+The five established primary views are:
 
-Use the views for different levels of detail:
+```text
+Dashboard
+Courses
+Course Page
+Weekly Plan
+Today
+```
 
-Dashboard:
-summary and immediate attention
-
-Today:
-daily execution
-
-Weekly Plan:
-weekly structure
-
-Courses:
-course overview
-
-Course Page:
-deep course-specific context
-
-A student should be able to move deeper when needed without being overloaded on
-the overview screens.
-
----
-
-### 3.5 Deadlines are context, not automatically today's work
-
-An assignment due today or soon should be visible as deadline context.
-
-It should not automatically appear as a Study Task unless a Study Task was
-actually planned for the reference day.
-
-The UI must not visually collapse:
-
-Assignment due date
-
-and
-
-Study Task planned date
-
-into the same concept.
-
----
-
-### 3.6 Progress should remain modest in meaning
-
-Progress represents completion of planned Study Tasks for the current academic
-week.
-
-It must not visually imply:
-
-- course mastery,
-- assignment submission,
-- grade performance,
-- percent of the entire course completed,
-- or percent of material understood.
-
-Prefer labels such as:
-
-"This week's study tasks"
-
-"3 of 5 complete"
-
-Avoid labels such as:
-
-"Course completion: 60%"
-
-unless a future accepted requirement explicitly defines that meaning.
-
----
-
-### 3.7 Use the reference date consistently
-
-The V1 prototype uses the fixed mock reference date defined by the academic
-plan.
-
-The UI should visibly establish the relevant day/week context.
-
-Do not silently use the user's actual machine date.
-
----
-
-## 4. Primary Navigation
-
-The initial UI should provide direct navigation to:
+Direct primary navigation includes:
 
 - Dashboard
 - Courses
 - Weekly Plan
 - Today
 
-Course Page is reached from course-related UI.
+Course Page is reached through Course-related navigation.
 
-The navigation should make the four directly accessible sections recognizable
-without requiring the student to understand internal product terminology.
+Upcoming Assignments is reusable deadline context.
 
-The exact navigation implementation is deferred to SD-002.
+It is not a sixth primary view.
 
-Possible forms include:
+Later milestones may add new workflows such as:
 
-- sidebar,
-- top navigation,
-- compact desktop navigation,
-- mobile navigation adaptation.
+- Course Setup,
+- Course Materials,
+- review of extracted information,
+- account/settings flows.
 
-The exact form is not established here.
+Those additions require accepted later product scope.
+
+They do not retroactively alter the five-view Milestone 1 contract.
 
 ---
 
-# 5. Dashboard
+# 5. Global UI Principle — Action First
 
-## 5.1 Purpose
+School Dashboard should prioritize useful action over passive information.
 
-The Dashboard is the cross-course command center.
+The student should not need to inspect several screens simply to determine what
+they should work on next.
+
+Where appropriate, emphasize:
+
+1. what should I do next?
+2. what remains planned today?
+3. what deadlines need awareness?
+4. what am I trying to accomplish this week?
+5. why am I doing this?
+6. what Course context supports it?
+
+The product should reduce planning friction rather than create another
+information-management burden.
+
+---
+
+# 6. Preserve Academic Meaning
+
+The UI must preserve distinctions among:
+
+- Learning Objective
+- Assignment
+- Study Task
+- Course Material
+- Class Meeting / schedule context
+- Course Fact
+- planning suggestion
+
+These concepts may be visually related.
+
+They must not become interchangeable.
+
+Example:
+
+Learning Objective:
+
+> Understand standing waves.
+
+Assignment:
+
+> HW 4 — Due Friday.
+
+Study Task:
+
+> Solve HW 4 problems 1–3 — 35 min.
+
+Course Material:
+
+> Lecture 7 slides.
+
+Class Meeting:
+
+> PHY lecture — Friday.
+
+These describe different parts of the student's academic situation.
+
+---
+
+# 7. One Item Across Multiple Views
+
+A single Study Task may appear on:
+
+- Dashboard,
+- Today,
+- Weekly Plan,
+- Course Page.
+
+These appearances represent one conceptual Study Task.
+
+The UI must not suggest repeated appearances are duplicate work.
+
+Relevant information should remain consistent across views:
+
+- identity,
+- title,
+- Course,
+- planned date,
+- completion state,
+- relationships.
+
+Presentation detail may differ by context.
+
+---
+
+# 8. Progressive Disclosure
+
+Do not show every available detail on every screen.
+
+Use each view for a different level of information.
+
+Dashboard:
+
+> summary and immediate attention
+
+Today:
+
+> daily execution
+
+Weekly Plan:
+
+> weekly structure and purpose
+
+Courses:
+
+> Course-level overview
+
+Course Page:
+
+> deeper Course-specific context
+
+The student should be able to move deeper when needed without being overloaded
+at the top level.
+
+---
+
+# 9. Information Density
+
+School Dashboard should favor:
+
+- clear grouping,
+- readable hierarchy,
+- concise context,
+- scannable actions.
+
+Avoid creating screens where every piece of information receives equal visual
+weight.
+
+Important context should be available without requiring the student to process
+large walls of text.
+
+---
+
+# 10. Deadlines Are Context
+
+An Assignment due today or soon should be visible as deadline context.
+
+It should not automatically become a Study Task.
+
+The interface must distinguish:
+
+```text
+Assignment due date
+```
+
+from:
+
+```text
+Study Task planned date
+```
+
+Example:
+
+Assignment:
+
+> Problem Set 1 — Due Monday.
+
+Study Task:
+
+> Begin Problem Set 1 — Planned Friday.
+
+The UI should help the student understand both without implying they are the same
+date or concept.
+
+---
+
+# 11. Progress Meaning
+
+Progress represents completion of planned Study Tasks within the accepted scope.
+
+It must not visually imply:
+
+- Course mastery,
+- Assignment submission,
+- grade performance,
+- percent of the entire Course completed,
+- percent of academic material understood.
+
+Prefer clear wording such as:
+
+> This week's study tasks
+
+and:
+
+> 3 of 5 complete
+
+Avoid:
+
+> Course completion: 60%
+
+unless a future accepted product requirement gives that metric an explicit new
+meaning.
+
+---
+
+# 12. Missing Information
+
+Missing information is a valid UI state.
+
+Do not fabricate:
+
+- instructor,
+- topic,
+- deadline,
+- Course Material,
+- duration,
+- room,
+- meeting time,
+- Learning Objective
+
+merely to fill a card or section.
+
+Use a deliberate empty or unavailable state where useful.
+
+---
+
+# 13. Empty States
+
+Empty states should describe what is known without overclaiming.
+
+Good example:
+
+> No study tasks remain on today's plan.
+
+Avoid:
+
+> You're completely done!
+
+because the student may still have:
+
+- Assignments,
+- Course obligations,
+- future work,
+- Classes,
+- study outside the accepted plan.
+
+Empty states should remain semantically accurate.
+
+---
+
+# 14. Primary Navigation
+
+Primary navigation should make the core product areas recognizable.
+
+Established entries:
+
+- Dashboard
+- Courses
+- Weekly Plan
+- Today
+
+Course Page is reached through Course selection.
+
+Navigation should support:
+
+- desktop,
+- narrow/mobile layouts,
+- keyboard operation,
+- visible active state.
+
+The exact visual form may evolve.
+
+The information architecture should remain understandable.
+
+---
+
+# 15. Dashboard
+
+## 15.1 Purpose
+
+Dashboard is the cross-Course command center.
 
 Its primary question is:
 
 > What needs my attention right now?
 
 The student should be able to understand their immediate academic situation
-within a few seconds.
+quickly.
 
 ---
 
-## 5.2 Information priority
+## 15.2 Dashboard Information Priority
 
-The Dashboard should visually prioritize approximately:
+Dashboard should prioritize approximately:
 
 1. Next Action
 2. Today's Study Plan
-3. Today's Classes
+3. Today's schedule / Classes when available
 4. Assignments Due Soon
 5. Weekly Progress
-6. Current Courses / course summaries
+6. Current Courses
 7. Weekly learning context
 
-This order describes information importance, not a mandatory vertical component
-order.
+This is an information-priority guide.
 
-Responsive layout may place some sections beside each other.
+It does not require one exact vertical layout.
 
-The UI should not give every section identical visual emphasis.
+Responsive layouts may arrange sections differently.
 
 ---
 
-## 5.3 Next Action
+## 15.3 Next Action
 
-The Dashboard should strongly emphasize the next remaining Study Task from
-Today's authored task order.
+Dashboard should strongly emphasize the next remaining Study Task from Today's
+accepted order.
+
+For frozen V1 behavior:
+
+```text
+Next Action =
+first incomplete Study Task
+planned for the reference date
+in authored order
+```
 
 Example:
 
+```text
 NEXT UP
 
-PHY 9B
+PHY 009D
 
-Read Chapter 16.1–16.2
+Review Lecture 02 notes
 
 25 min
 
 Supports:
-Standing Waves
+Relativity principle
+```
 
-[ View Today ]
+If no Today Study Task remains:
 
-The Next Action is not calculated using an urgency score.
+> No study tasks remain on today's plan.
 
-For V1:
+Do not invent replacement work.
 
-Next Action =
-the first incomplete Study Task planned for the reference day in authored order.
-
-If no incomplete Study Task exists for Today, show a meaningful empty state
-rather than inventing work.
-
-Example:
-
-No study tasks remain on today's plan.
-
-The UI may still show assignments, classes, or weekly context below.
+Later planning engines may define new prioritization behavior only through
+accepted future requirements.
 
 ---
 
-## 5.4 Today's Study Plan
+## 15.4 Today's Study Plan
 
-Show a compact summary of incomplete Study Tasks planned for the reference day.
+Dashboard should show a compact summary of Today's Study Tasks.
 
-A task summary should expose enough information to understand:
+Useful context may include:
 
-- course,
+- Course,
 - action,
 - duration when available,
-- objective context when useful,
-- assignment/deadline context when useful.
+- Learning Objective,
+- Assignment/deadline context.
 
-Example:
+Dashboard does not need every relationship shown on the full Today screen.
 
-PHY 9B
-
-Read Chapter 16.1–16.2
-25 min
-Standing Waves
-
-PHY 9B
-
-HW 4 questions 1–3
-35 min
-HW 4 due Friday
-
-The Dashboard does not need to expose every relationship available on the full
-Today screen.
-
-Provide a clear path to the Today view.
+Provide a clear route to Today.
 
 ---
 
-## 5.5 Today's Classes
+## 15.5 Today's Schedule Context
 
-Show Class Meetings occurring on the reference day.
+When Course schedule or Class Meeting context exists for the current day, it may
+appear on Dashboard.
 
-Each item should expose:
+Show only supplied information.
 
-- course,
-- meeting type/name when available,
-- authored start time.
+Possible fields:
 
-Example:
+- Course,
+- meeting/lecture identity,
+- time when supplied.
 
-10:00 AM
-PHY 9B
-Lecture
+Do not invent missing time or room data.
 
-1:10 PM
-EEC 100
-Lecture
-
-Class Meetings are informational.
-
-Do not:
-
-- count attendance toward Study Task progress,
-- transform meetings into Study Tasks,
-- infer recurring meetings,
-- or build timetable/calendar behavior in V1.
+Schedule information remains separate from Study Task progress.
 
 ---
 
-## 5.6 Assignments Due Soon
+## 15.6 Assignments Due Soon
 
 Show upcoming Assignment deadlines.
 
-Each item should expose:
+Each item should communicate:
 
-- assignment name,
-- course,
+- Assignment title,
+- Course,
 - due date.
 
 Example:
 
-PHY 9B
-HW 4
-Due Friday
-
-EEC 100
-Lab 2
+```text
+PHY 009D
+Problem #1
 Due Monday
+```
 
 This section is deadline context.
 
-Do not show an Assignment as completed simply because associated Study Tasks are
-complete.
+Do not imply:
 
-Do not duplicate Study Tasks inside this section.
+- submission,
+- Study Task completion,
+- priority score
 
-No arbitrary urgency score is required.
+unless a later product requirement explicitly introduces those concepts.
 
 ---
 
-## 5.7 Weekly Progress
+## 15.7 Weekly Progress
 
-Show current-week Study Task completion.
+Dashboard should display understandable current-week Study Task progress.
 
-Provide:
+Useful presentation:
 
-- overall weekly count,
-- useful per-course summaries.
-
-Example:
-
+```text
 This week's study tasks
 
-8 of 13 complete
+3 of 7 complete
+```
 
-PHY 9B
-4 of 6
+Course summaries may show their own counts.
 
-MAT 21D
-3 of 4
-
-EEC 100
-1 of 3
-
-Do not average percentages between courses.
-
-Use the calculation defined in `V1_SPEC.md`.
+Do not average Course percentages to create overall progress.
 
 ---
 
-## 5.8 Current Courses
+## 15.8 Current Courses
 
-The Dashboard may reuse the Course Card component from the Courses view.
+Dashboard may reuse the Course Card presentation from Courses.
 
 Dashboard Course Cards should remain compact.
 
-They should provide enough information to:
+They should allow the student to:
 
-- identify the course,
+- recognize the Course,
 - understand current-week Study Task progress,
 - open the Course Page.
 
-Do not attempt to place the entire Course Page inside the Dashboard card.
+Do not reproduce the entire Course Page inside a Dashboard card.
 
 ---
 
-# 6. Courses
+# 16. Courses
 
-## 6.1 Purpose
+## 16.1 Purpose
 
-The Courses view answers:
+Courses answers:
 
-> What classes am I currently managing?
+> What Courses am I currently managing?
 
-It provides the student's course-level overview.
+It provides a Course-level overview.
 
 ---
 
-## 6.2 Course Card contract
+## 16.2 Course Card
 
-Each course should be represented by a reusable Course Card.
+Each Course should have a reusable Course Card.
 
-At minimum, expose:
+At minimum it should expose:
 
-- course code or recognizable identifier,
-- course name,
+- Course identifier/code,
+- Course name,
 - current-week Study Task progress.
 
-Optional mock context may include:
+Optional supplied context may include:
 
 - instructor,
 - current topic,
-- next class time,
+- schedule context.
 
-only when that information improves clarity and is supplied by mock data.
+Only display optional information when it exists and improves clarity.
 
-Do not fabricate missing information.
-
----
-
-## 6.3 Example
-
-PHY 9B
-
-Physics
-
-Current topic:
-Standing Waves
-
-This week's study tasks:
-4 of 6 complete
-
-[ Open Course ]
+Do not fabricate it.
 
 ---
 
-## 6.4 Behavior
+## 16.3 Course Card Reuse
 
-Selecting the course opens its Course Page.
+Course Cards may appear in:
 
-Course Cards appearing elsewhere should represent the same course.
+- Courses,
+- Dashboard,
+- future Course-selection workflows.
 
-Do not create separate Dashboard-course and Courses-page course concepts.
+A Course Card represents the same Course everywhere.
+
+Do not create separate conceptual Course records for different views.
 
 ---
 
-# 7. Course Page
+## 16.4 Course Selection
 
-## 7.1 Purpose
+Selecting a Course Card should open that Course's Course Page.
 
-The Course Page answers:
+The interaction should be:
 
-> What is happening in this course, what am I trying to learn, what work is
+- recognizable,
+- keyboard accessible,
+- visually focusable.
+
+---
+
+# 17. Course Page
+
+## 17.1 Purpose
+
+Course Page answers:
+
+> What is happening in this Course, what am I trying to learn, what work is
 > connected to it, and what should I be doing?
 
-It is the deepest course-specific view in the initial milestone.
+It is the deepest Course-specific view in Milestone 1.
 
 ---
 
-## 7.2 Information hierarchy
+## 17.2 Course Page Hierarchy
 
-The Course Page should make these areas easy to distinguish:
+Course Page should make these areas distinguishable:
 
 1. Course identity
-2. Current week/topic
-3. Current learning objectives
-4. Planned Study Tasks
-5. Upcoming Assignments
-6. Current-week progress
-7. Static Course Materials/context
+2. current week/topic context
+3. Learning Objectives
+4. Study Tasks
+5. upcoming Assignments
+6. progress
+7. Course Materials/reference context
 
-Exact visual ordering may vary if the hierarchy remains clear.
+Exact visual placement may evolve.
+
+The semantic hierarchy should remain clear.
 
 ---
 
-## 7.3 Course identity
+## 17.3 Course Identity
 
 Show:
 
-- course code/name,
+- Course code/name,
 - useful supplied metadata.
 
 Example:
 
-PHY 9B
-Physics
+```text
+PHY 009D
+Modern Physics
+```
 
-Current Week
-Standing Waves
-
-Do not invent semester-wide roadmap data.
+Do not invent full-term Course structure when only current-week information is
+known.
 
 ---
 
-## 7.4 Learning Objectives
+## 17.4 Learning Objectives
 
-Clearly label Learning Objectives separately from Study Tasks.
+Label Learning Objectives separately from Study Tasks.
 
 Example:
 
+```text
 Learning Objectives
 
-- Explain standing waves
-- Identify nodes and antinodes
-- Calculate harmonic frequencies
+- Explain the relativity principle
+- Distinguish coordinate time from proper time
+```
 
-Do not imply objective mastery based solely on task completion.
+Do not imply mastery from Study Task completion alone.
 
 ---
 
-## 7.5 Study Tasks
+## 17.5 Study Tasks
 
-Display the course's Study Tasks for the current week.
+Display relevant Study Tasks with useful context such as:
 
-Show:
-
-- task action,
-- planned day/date,
+- action,
+- planned date,
 - completion state,
 - duration when available,
-- associated objective when relevant,
-- associated assignment/deadline when relevant.
+- related Learning Objective,
+- related Assignment/deadline.
 
 Example:
 
-Tuesday
+```text
+Friday
 
-Read Chapter 16.1–16.2
-25 min
-
-Supports:
-Standing Waves
-
-Wednesday
-
-HW 4 questions 4–6
-40 min
+Begin Problem #1
+30 min
 
 Supports:
-Harmonic Frequencies
-HW 4 — Due Friday
+Relativity principle
+
+Problem #1 — Due Monday
+```
 
 ---
 
-## 7.6 Upcoming Assignments
+## 17.6 Assignments
 
-Show Assignment obligations separately from Study Tasks.
+Assignments should be visually distinct from Study Tasks.
 
 Example:
 
+```text
 Assignments
 
-HW 4
-Due Friday
+Problem #1
+Due Monday
+```
 
-Exam 1
-October 23
-
-Do not imply submission state.
-
-V1 does not track submissions.
+Do not imply submission state unless a future accepted feature explicitly tracks
+submission.
 
 ---
 
-## 7.7 Materials
+## 17.7 Course Materials
 
-Course Materials are static reference/context items during V1.
+In the completed V1 interface, Course Materials are static references/context.
 
 Example:
 
+```text
 Materials
 
-- Lecture 7 slides
-- Textbook Chapter 16
-- Practice worksheet
+- Assigned textbook
+- Lecture notes
+```
 
-V1 does not require:
+V1 does not provide:
 
 - uploads,
-- previews,
-- file parsing,
+- file preview,
+- parsing,
+- extraction,
 - document search,
 - AI analysis,
-- or Google Drive.
+- Drive synchronization.
 
-Opening/link behavior should only be implemented if the relevant task later
-defines supplied mock links.
-
----
-
-## 7.8 Progress
-
-Course Page progress represents only current-week Study Tasks for this course.
-
-Use the same calculation as Dashboard, Courses, and Weekly Plan.
+Later Course Material UI should be specified separately when that milestone is
+authorized.
 
 ---
 
-## 7.9 Unknown course
+## 17.8 Progress
 
-If the user navigates to a course identifier that does not exist in mock data,
+Course Page progress uses the same Study Task progress semantics as:
+
+- Dashboard,
+- Courses,
+- Weekly Plan.
+
+Progress presentation must not imply Course mastery.
+
+---
+
+## 17.9 Unknown Course
+
+If a Course identifier is not recognized:
+
 show a clear not-found state.
 
 Do not:
 
-- silently redirect to another course,
-- display the first course,
-- or crash.
+- silently display the first Course,
+- redirect to unrelated Course data,
+- crash.
 
 ---
 
-# 8. Weekly Plan
+# 18. Weekly Plan
 
-## 8.1 Purpose
+## 18.1 Purpose
 
 Weekly Plan answers:
 
@@ -696,13 +822,13 @@ Weekly Plan answers:
 
 It is a dedicated primary view.
 
-It must not be implemented only as a Dashboard section.
+It must not exist only as a Dashboard section.
 
 ---
 
-## 8.2 Information model
+## 18.2 Conceptual Structure
 
-Weekly Plan should visually distinguish:
+Weekly Plan should distinguish:
 
 ### Learn
 
@@ -716,164 +842,789 @@ Assignments / deadlines.
 
 Study Tasks.
 
-Review and practice are types of Study Task descriptions, not separate domain
-entities.
+The UI does not have to literally use:
 
-The UI does not have to literally use the labels Learn, Deliver, and Do if
-another design preserves the same distinction.
+- Learn,
+- Deliver,
+- Do
+
+if another presentation preserves these distinctions clearly.
 
 ---
 
-## 8.3 Course grouping
+## 18.3 Course Grouping
 
-The Weekly Plan should organize information in a way that preserves course
-context.
+Weekly information should preserve Course context.
 
-A reasonable structure is:
+Conceptually:
 
-Week 4
-September 28 – October 4
+```text
+Current Week
 
-PHY 9B
+PHY 009D
 
 Learning Objectives
-- Understand standing waves
-- Identify nodes and antinodes
+- Understand relativity concepts
 
 Assignments
-- HW 4 — Due Friday
+- Problem #1 — Due Monday
 
-Monday
-- Review Lecture 7 — 20 min
-
-Tuesday
-- Read Chapter 16.1–16.2 — 25 min
-- HW 4 questions 1–3 — 35 min
-
-Wednesday
-- Practice nodes/antinodes — 30 min
+Friday
+- Review Lecture 02 notes
+- Begin Problem #1
+```
 
 ---
 
-## 8.4 Tasks without objectives
+## 18.4 Tasks Without Objectives
 
-A Study Task without an associated Learning Objective must remain visible.
+A Study Task without an Objective relationship must remain visible.
 
 Example:
 
-Review Monday lecture notes
+> Organize class notes.
 
-It should not disappear simply because it lacks an objective relationship.
-
----
-
-## 8.5 Deadlines
-
-Assignments due during the week should appear as deadline context.
-
-They must remain distinguishable from Study Tasks.
+It should not disappear merely because no Objective is linked.
 
 ---
 
-## 8.6 Completion state
+## 18.5 Deadlines
 
-Weekly Plan includes both:
+Assignments relevant to the week should appear as deadline context.
+
+They remain visually distinguishable from Study Tasks.
+
+---
+
+## 18.6 Completion State
+
+Weekly Plan includes:
 
 - complete Study Tasks,
 - incomplete Study Tasks.
 
-Unlike Today, it should preserve completed actions so the student can understand
-weekly progress.
+Completed work remains visible so the student can understand the week's plan and
+progress.
 
 ---
 
-## 8.7 Earlier unfinished tasks
+## 18.7 Earlier Unfinished Work
 
-An unfinished Study Task from an earlier day remains displayed on its original
-planned day.
+Under frozen V1 behavior, an unfinished earlier Study Task remains displayed on
+its original planned date.
 
-Do not automatically move it into Today.
+It does not automatically move to Today.
+
+Later adaptive planning may intentionally change this behavior through a new
+accepted specification.
 
 ---
 
-# 9. Today
+# 19. Today
 
-## 9.1 Purpose
+## 19.1 Purpose
 
-Today is the most execution-focused screen.
+Today is the most execution-focused view.
 
 It answers:
 
 > What should I do today?
 
-The student should be able to open Today and begin working without needing to
-interpret the entire weekly plan.
+The student should be able to open Today and begin working without interpreting
+the entire Weekly Plan.
 
 ---
 
-## 9.2 Task inclusion rule
+## 19.2 V1 Inclusion Rule
 
-Today contains:
+Frozen V1 Today contains Study Tasks where:
 
-Study Tasks where:
+```text
+plannedDate == referenceDate
+AND
+isComplete == false
+```
 
-- planned date equals the mock reference date,
-- and completion state is incomplete.
+It does not automatically contain:
 
-It does NOT automatically contain:
-
-- every unfinished task,
-- every assignment due today,
-- tasks from earlier dates,
-- tasks generated because a deadline is close.
+- every unfinished Study Task,
+- every Assignment due today,
+- earlier unfinished Study Tasks,
+- generated work,
+- work created because a deadline is approaching.
 
 ---
 
-## 9.3 Ordering
+## 19.3 Ordering
 
 Use authored order.
 
 Do not invent:
 
-- priority scores,
-- urgency formulas,
+- urgency ranking,
 - AI ranking,
-- deadline-based automatic reordering.
+- deadline-based automatic reordering,
+- priority formulas.
 
-The first remaining task is the Dashboard Next Action.
+The first remaining Study Task is Dashboard Next Action.
 
 ---
 
-## 9.4 Task presentation
+## 19.4 Task Presentation
 
-A Today Study Task should expose:
+A Today Study Task should expose useful context such as:
 
-- course,
+- Course,
 - concrete action,
-- estimated duration when supplied,
-- Learning Objective context when relevant,
-- Assignment context when relevant,
-- Assignment due date when useful.
+- duration when supplied,
+- Learning Objective when relevant,
+- Assignment when relevant,
+- Assignment deadline when useful.
 
 Example:
 
-PHY 9B
+```text
+PHY 009D
 
-Read Chapter 16.1–16.2
+Begin Problem #1
 
-25 min
+30 min
 
 Supports:
-Standing Waves
+Relativity principle
+
+Problem #1 — Due Monday
+```
 
 ---
 
-PHY 9B
+## 19.5 Missing Duration
 
-HW 4 questions 1–3
+If duration is unavailable:
 
-35 min
+omit it.
 
-Supports:
-Standing Waves
-HW 4 — Due Friday
+Do not invent an estimate simply because the UI normally has a duration field.
+
+---
+
+## 19.6 Today Empty State
+
+If no Today Study Tasks remain:
+
+> No study tasks remain on today's plan.
+
+Do not imply the student has completed:
+
+- every Assignment,
+- the entire week,
+- all Course obligations.
+
+---
+
+# 20. Upcoming Assignments Presentation
+
+Upcoming Assignment context may appear in:
+
+- Dashboard,
+- Course Page,
+- Weekly Plan,
+- linked Today Study Tasks.
+
+At minimum show:
+
+- title,
+- Course where useful,
+- due date.
+
+Deadline presentation should not visually transform an Assignment into a Study
+Task.
+
+---
+
+# 21. Status and Completion Presentation
+
+Study Task completion should be understandable without implying stronger meaning
+than intended.
+
+A completed Study Task means:
+
+> the student recorded the planned action as complete
+
+not:
+
+> the Learning Objective is mastered
+
+and not:
+
+> the Assignment has been submitted.
+
+Later editable UI should preserve this distinction.
+
+---
+
+# 22. Responsive Behavior
+
+The product should remain usable across narrow/mobile and desktop layouts.
+
+Responsive behavior may:
+
+- stack sections,
+- collapse navigation,
+- reduce secondary metadata,
+- change grid layout.
+
+It should not:
+
+- hide critical actions,
+- create horizontal page overflow,
+- destroy information hierarchy.
+
+Exact breakpoints remain implementation choices unless a task specifically
+defines them.
+
+---
+
+# 23. Accessibility
+
+Accessibility is part of normal UI quality.
+
+Interactive elements should support, where applicable:
+
+- keyboard access,
+- visible focus state,
+- semantic controls,
+- understandable labels,
+- sufficient navigation clarity.
+
+Do not create a visually clickable element that cannot reasonably be operated
+without a pointer.
+
+---
+
+# 24. Loading States
+
+Future persistent/networked features may require loading states.
+
+When such behavior exists:
+
+- distinguish loading from empty,
+- avoid implying failure before a request finishes,
+- avoid exposing unrelated previous-user data,
+- preserve useful page structure where practical.
+
+The static V1 application does not require network loading behavior for its
+fixture.
+
+---
+
+# 25. Error States
+
+Errors should be useful and safe.
+
+User-visible errors should explain what the student can do next where possible.
+
+Do not expose:
+
+- stack traces,
+- raw database errors,
+- credentials,
+- internal implementation details.
+
+Detailed security requirements live in:
+
+`docs/SECURITY_REQUIREMENTS.md`
+
+---
+
+# 26. Authentication UI Boundary
+
+Authentication UI is not part of Milestone 1.
+
+When later introduced, login/account UI should:
+
+- clearly establish the active user,
+- provide understandable sign-in/sign-out behavior,
+- avoid making security policy depend on visual hiding.
+
+UI state is not authorization.
+
+Protected behavior must still be enforced by trusted application boundaries.
+
+---
+
+# 27. Editable UI Boundary
+
+Future persistent milestones may introduce controls for:
+
+- creating Courses,
+- editing Courses,
+- Assignments,
+- Study Tasks,
+- completion,
+- plan changes.
+
+Editable UI should clearly distinguish:
+
+- saved state,
+- unsaved state where relevant,
+- destructive actions,
+- generated suggestions,
+- accepted plan state.
+
+Do not add non-functional controls merely to preview future capability.
+
+---
+
+# 28. Destructive Actions
+
+When later UI supports actions such as:
+
+- deleting a Course,
+- deleting Course Materials,
+- deleting an account
+
+the interaction should make meaningful destructive consequences clear.
+
+The exact confirmation pattern should match actual risk.
+
+Do not add unnecessary confirmation dialogs to harmless actions.
+
+---
+
+# 29. Course Material UI Boundary
+
+Future Course Material workflows may eventually include:
+
+```text
+Add material
+↓
+upload / source selection
+↓
+processing
+↓
+extracted candidate information
+↓
+review
+↓
+accepted Course context
+```
+
+The UI should make meaningful processing state understandable.
+
+Potential states may include:
+
+- uploading,
+- processing,
+- ready,
+- needs review,
+- failed.
+
+Do not define exact controls until Course Material functionality is authorized.
+
+---
+
+# 30. Source and Provenance UI
+
+When Course ingestion/intelligence exists, important information should be able
+to communicate provenance when it matters.
+
+The student should be able to distinguish information that is:
+
+- source-backed,
+- student-entered,
+- supplemental,
+- inferred,
+- generated.
+
+Not every small UI element needs a source badge.
+
+Use provenance presentation where it materially affects trust or decision
+making.
+
+---
+
+# 31. Uncertainty UI
+
+The product should not disguise uncertainty.
+
+When future extraction or Course intelligence encounters ambiguity, useful UI
+patterns may include:
+
+- needs review,
+- uncertain source interpretation,
+- conflicting information.
+
+The UI should help the student correct important uncertainty rather than
+presenting guesses as facts.
+
+---
+
+# 32. AI Suggestion UI Boundary
+
+When AI planning exists, generated content must be distinguishable from accepted
+plan state.
+
+The product should support student control conceptually through actions such as:
+
+- Accept
+- Edit
+- Reject
+- Regenerate
+
+Exact interaction design belongs to the relevant future product specification.
+
+---
+
+# 33. Generated vs Accepted Plan
+
+Future UI should make a meaningful distinction between:
+
+```text
+AI-generated proposal
+```
+
+and:
+
+```text
+student-accepted plan
+```
+
+A suggestion should not visually appear permanent before the product has
+accepted it according to the approved workflow.
+
+---
+
+# 34. AI Explanation
+
+The product should provide enough context for generated planning that the
+student can understand why an action is being suggested.
+
+Useful context may include:
+
+- related Course,
+- related Assignment,
+- Learning Objective,
+- deadline,
+- source context.
+
+Avoid unexplained algorithmic-looking priority labels that create false
+authority.
+
+---
+
+# 35. Adaptive Replanning UI
+
+Future replanning may suggest changes when:
+
+- work is missed,
+- progress changes,
+- deadlines approach,
+- availability changes.
+
+The interface should present these as proposed plan changes until accepted.
+
+Do not silently rewrite the student's accepted plan unless a future explicit
+product decision changes this principle.
+
+---
+
+# 36. Integration UI
+
+Future external integrations should make clear:
+
+- what is being connected,
+- what information is being used,
+- whether the integration is active,
+- how the student can disconnect it.
+
+Do not make optional integrations feel mandatory for the core product.
+
+---
+
+# 37. Privacy in UI
+
+Avoid unnecessary exposure of private academic content.
+
+Examples:
+
+- do not place sensitive content in shareable/public URLs,
+- do not display another user's academic content,
+- avoid leaking private content into generic error states.
+
+Detailed privacy rules live in:
+
+`docs/DATA_PRIVACY.md`
+
+---
+
+# 38. Security in UI
+
+The UI should help users perform secure actions, but security cannot depend on
+presentation alone.
+
+Examples:
+
+Hiding a button:
+
+> not authorization.
+
+Disabling an input:
+
+> not authorization.
+
+Removing a navigation link:
+
+> not authorization.
+
+Trusted server-side controls remain authoritative.
+
+---
+
+# 39. Design-System Boundary
+
+A formal design system is not currently required.
+
+Shared components should still avoid unnecessary visual inconsistency.
+
+Potential reusable concepts include:
+
+- Course Card,
+- Assignment presentation,
+- Study Task presentation,
+- progress display,
+- empty-state pattern,
+- navigation.
+
+Do not create a large design-system abstraction until repeated UI complexity
+justifies it.
+
+---
+
+# 40. Component Reuse Principle
+
+Reuse UI when reuse preserves meaning.
+
+Do not force unrelated domain concepts into one component merely because their
+cards look similar.
+
+For example:
+
+Assignment and Study Task may share visual primitives.
+
+They should not necessarily become one generic academic-item model.
+
+Semantic clarity outranks superficial abstraction.
+
+---
+
+# 41. Visual Hierarchy
+
+Use visual emphasis to answer:
+
+> What matters first?
+
+Useful hierarchy may come from:
+
+- layout,
+- spacing,
+- typography,
+- grouping,
+- concise labels.
+
+Do not rely only on color to communicate important meaning.
+
+---
+
+# 42. Text and Labels
+
+Prefer student-understandable language.
+
+Avoid exposing implementation terminology unnecessarily.
+
+Good:
+
+> This week's study tasks
+
+Less useful:
+
+> Weekly task completion metric
+
+Labels should describe the student's academic context rather than the internal
+system representation.
+
+---
+
+# 43. Date Presentation
+
+Dates should be understandable in context.
+
+Where useful, present:
+
+- day name,
+- calendar date,
+- relative deadline wording
+
+without creating ambiguity.
+
+The underlying academic semantics remain defined by the product specification.
+
+V1 continues to use its fixed reference date.
+
+Later live-user behavior should receive a later specification.
+
+---
+
+# 44. Time Presentation
+
+Only display a time when a time is actually known.
+
+Do not infer:
+
+- class time,
+- deadline time,
+- duration
+
+from incomplete source context.
+
+Date-only information should remain date-only.
+
+---
+
+# 45. Current M1 UI Invariants
+
+Unless later deliberately superseded, preserve:
+
+1. five established primary views;
+2. Dashboard emphasizes immediate attention;
+3. Today is execution-focused;
+4. Weekly Plan is week-focused;
+5. Course Page is Course-focused;
+6. Learning Objective, Assignment, Study Task, Course Material, and Class Meeting remain distinct;
+7. Study Task identity remains consistent across views;
+8. Assignment due date remains distinct from Study Task planned date;
+9. progress describes Study Tasks, not mastery;
+10. missing information is not fabricated;
+11. Course Cards represent the same Course everywhere;
+12. empty states avoid overclaiming;
+13. responsive behavior preserves critical information;
+14. interactive elements remain keyboard-usable where applicable.
+
+---
+
+# 46. Future UI Specifications
+
+Major future capabilities should receive focused UI/product requirements when
+authorized.
+
+Likely examples:
+
+```text
+Persistent editing
+Course setup
+Authentication/account
+Course Material upload
+Ingestion review
+Course Roadmap
+AI planning approval
+Adaptive replanning
+Integrations
+Billing
+```
+
+Do not predesign every future screen inside this document.
+
+This document should stay durable.
+
+---
+
+# 47. Current Implementation Boundary
+
+The UI specification does not prove that a feature exists.
+
+Use:
+
+`docs/IMPLEMENTATION.md`
+
+for verified current behavior.
+
+If this document describes future interaction principles such as:
+
+- upload,
+- AI approval,
+- editing,
+
+that means:
+
+> preserve these principles if/when that feature is implemented,
+
+not:
+
+> the feature exists now.
+
+---
+
+# 48. Frozen V1 Boundary
+
+The completed V1 screen behavior remains governed by:
+
+`docs/V1_SPEC.md`
+
+Later features should extend the interface through new accepted requirements.
+
+Do not rewrite historical Milestone 1 acceptance merely because School
+Dashboard becomes a multi-user product.
+
+---
+
+# 49. Update Rule
+
+Update this document when a durable UI principle or major information hierarchy
+changes.
+
+Examples:
+
+- a new primary product workflow becomes accepted,
+- generated-vs-accepted plan interaction materially changes,
+- navigation architecture materially changes,
+- important reusable presentation semantics change.
+
+Do not update this document for:
+
+- minor spacing,
+- one-off styling,
+- local class changes,
+- temporary implementation details.
+
+---
+
+# 50. Final Principle
+
+School Dashboard UI should help the student move quickly from:
+
+> What is happening?
+
+to:
+
+> What matters?
+
+to:
+
+> What should I do next?
+
+The interface should make academic complexity easier to act on without erasing
+the meaning of the information underneath it.
+
+The durable UI principle is:
+
+```text
+clarity
++
+academic meaning
++
+progressive context
++
+student control
+=
+useful action
+```

@@ -1,41 +1,92 @@
 # School Dashboard — Initial UI V1 Specification
 
-## 1. Objective
+## 1. Document Status
+
+Milestone 1 is complete.
+
+This specification is the frozen product contract for the completed initial
+static/read-only School Dashboard UI.
+
+It remains useful for:
+
+- product semantics,
+- domain distinctions,
+- verified Milestone 1 invariants,
+- historical acceptance criteria,
+- regression expectations.
+
+It should NOT be expanded to absorb later product milestones.
+
+Future capabilities such as:
+
+- persistent users,
+- authentication,
+- authorization,
+- uploads,
+- Course ingestion,
+- AI,
+- adaptive planning,
+- integrations,
+- billing
+
+belong in later accepted specifications and tasks.
+
+The long-term direction lives in:
+
+`docs/PRODUCT_VISION.md`
+
+Execution sequencing lives in:
+
+`docs/TASKS.md`
+
+Verified current implementation lives in:
+
+`docs/IMPLEMENTATION.md`
+
+---
+
+# 2. Objective
 
 Help a student answer:
 
 > **What should I do today to stay on track in my classes?**
 
-The first UI milestone MUST use static/hardcoded academic data.
+The initial UI milestone uses static/hardcoded academic data.
 
-"Mock data" in V1 means that the application does not yet dynamically ingest,
-extract, persist, research, or generate academic information.
+"Mock data" in V1 means that the application does not dynamically:
 
-The static fixture may represent sanitized information derived manually from
-real course materials.
+- ingest,
+- extract,
+- persist,
+- research,
+- or generate
 
-The initial reference experience may therefore use realistic course information
-from a source packet such as:
+academic information.
+
+The static fixture may represent sanitized information manually derived from
+real Course materials.
+
+Possible source material includes:
 
 - syllabus,
 - instructor lecture schedule,
-- assignment/deadline information,
+- Assignment/deadline information,
 - assigned textbook,
 - lecture slides,
 - student lecture notes,
 - discussion materials,
-- and study resources.
+- study resources.
 
-The application receives the already-structured result.
+The V1 application receives the already-structured result.
 
-It does NOT perform the source interpretation itself during V1.
+It does not perform source interpretation itself.
 
 Conceptually:
 
 ```text
 Course Materials
       ↓
-Manual normalization for V1
+Manual normalization
       ↓
 Static Course Facts
       ↓
@@ -44,54 +95,53 @@ Static authored personal academic plan
 School Dashboard UI
 ```
 
-V1 is a read-only personal academic planning interface for one student and one
-current academic term.
+V1 is a read-only academic-planning interface representing:
 
-Navigation works.
+- one student,
+- one current Academic Term,
+- one shared static plan.
 
-Course facts, Learning Objectives, Study Tasks, planned dates, authored
-ordering, duration estimates, and completion states are supplied by the static
-fixture.
-
-The current milestone is intended to validate:
+The milestone validates:
 
 - the academic information model,
-- the five primary views,
+- five primary views,
 - cross-view consistency,
 - information hierarchy,
-- and whether the dashboard actually helps the student understand what to do
-  next.
-
-These definitions specify intended product behavior, not existing
-implementation.
+- the usefulness of the "what should I do next?" experience.
 
 ---
 
-## 2. Conceptual Academic Model
+# 3. Conceptual Academic Model
 
-These are product concepts and relationships.
+These are product concepts.
 
-They are NOT:
+They are NOT automatically:
 
 - database tables,
 - persistence schemas,
 - API contracts,
-- or permanent production architecture.
-
-### Academic Term
-
-The semester, quarter, or other named study period that provides the current
-planning context.
-
-It groups the student's Courses and Academic Weeks.
-
-V1 displays one static current term.
-
-Term management and switching are deferred.
+- ORM models,
+- permanent production architecture.
 
 ---
 
-### Course
+## 3.1 Academic Term
+
+The semester, quarter, or other named study period providing current planning
+context.
+
+It groups the student's:
+
+- Courses,
+- Academic Weeks.
+
+V1 displays one static current term.
+
+Term management and switching are outside V1.
+
+---
+
+## 3.2 Course
 
 One class the student is taking during the Academic Term.
 
@@ -101,37 +151,38 @@ A Course provides context for:
 - Assignments,
 - Study Tasks,
 - Course Materials,
-- Class Meetings,
-- and weekly progress.
+- Class Meetings / schedule context,
+- weekly progress.
 
-A Course Card is a visual representation of the same Course.
+A Course Card is a visual representation of the Course.
 
 It is not a separate academic entity.
 
 ---
 
-### Academic Week
+## 3.3 Academic Week
 
-A labeled seven-day planning interval within the Academic Term.
+A labeled seven-day planning interval inside the Academic Term.
 
 It groups:
 
 - weekly Learning Objectives,
 - Assignments relevant to the week,
-- and Study Tasks planned for dates inside the week.
+- Study Tasks planned within the week.
 
-The static fixture supplies explicit week boundaries and identifies one current
+The fixture supplies explicit week boundaries and identifies one current
 Academic Week.
 
-V1 does not provide week switching or a full academic-calendar management
-system.
+V1 does not provide:
+
+- week switching,
+- full academic-calendar management.
 
 ---
 
-### Learning Objective
+## 3.4 Learning Objective
 
-A statement describing what the student aims to understand or be able to do
-during an Academic Week.
+A statement describing what the student aims to understand or be able to do.
 
 Examples:
 
@@ -144,11 +195,11 @@ A Learning Objective may be supported by multiple Study Tasks.
 
 A Learning Objective does not require an Assignment.
 
-Completing associated Study Tasks does not automatically prove mastery.
+Completing related Study Tasks does not automatically prove mastery.
 
 ---
 
-### Assignment
+## 3.5 Assignment
 
 A Course obligation or deliverable with a deadline.
 
@@ -162,19 +213,19 @@ Examples:
 - midterm,
 - final exam.
 
-An Assignment describes:
+An Assignment answers:
 
 > What must be delivered or completed, and when?
 
-It does NOT describe every work session needed to prepare for it.
+It does not describe every work session required to prepare for it.
 
-An Assignment may motivate several Study Tasks across multiple days.
+One Assignment may motivate several Study Tasks across several days.
 
 ---
 
-### Study Task
+## 3.6 Study Task
 
-A small, concrete action the student plans to perform.
+A small concrete action the student plans to perform.
 
 Examples:
 
@@ -184,7 +235,10 @@ Examples:
 - Review mistakes from the previous problem set.
 - Practice spacetime-diagram problems.
 
-A Study Task belongs to one Course and one planned date.
+A Study Task belongs to:
+
+- one Course,
+- one planned date.
 
 It may support:
 
@@ -194,15 +248,16 @@ It may support:
 - zero Assignments,
 - or one Assignment in V1.
 
-It may have an authored estimated duration.
+A Study Task may have:
 
-It has one static complete/incomplete state in V1.
+- an authored estimated duration,
+- one static complete/incomplete state.
 
 ---
 
-### Course Material
+## 3.7 Course Material
 
-A resource used for learning or Course context.
+A resource supporting learning or Course context.
 
 Examples:
 
@@ -225,13 +280,13 @@ Study Task:
 
 > Read the assigned relativity section.
 
-Those are separate concepts.
+They are separate concepts.
 
 ---
 
-### Class Meeting
+## 3.8 Class Meeting / Schedule Context
 
-A scheduled instructional event for a Course.
+A Class Meeting is a scheduled instructional event.
 
 Examples:
 
@@ -240,28 +295,33 @@ Examples:
 - lab,
 - seminar.
 
-The static fixture provides authored dates and times.
+When meeting timing is supplied, the static fixture may represent:
 
-Class Meetings may appear in Today's Classes.
+- date,
+- start time,
+- related Course context.
 
-They do not:
+A source packet may instead provide only partial schedule information such as a
+lecture date/topic.
+
+Missing time or room information must not be invented.
+
+Class Meetings / schedule context do not:
 
 - count toward Study Task progress,
 - automatically become Study Tasks,
 - track attendance,
 - recur automatically,
-- or synchronize with an external calendar.
+- synchronize with an external calendar.
 
 ---
 
-### Progress
+## 3.9 Progress
 
-Progress represents completion of planned Study Tasks.
+For V1:
 
-For V1 it is specifically:
-
-> completed Study Tasks relative to planned Study Tasks for an explicitly
-> identified Academic Week and Course scope.
+> Progress describes completed Study Tasks relative to planned Study Tasks for
+> an explicitly identified Academic Week and Course scope.
 
 Progress is NOT:
 
@@ -269,13 +329,13 @@ Progress is NOT:
 - mastery,
 - Assignment submission state,
 - Course completion,
-- or predicted academic performance.
+- predicted academic performance.
 
 ---
 
-## 3. Relationships in Practice
+# 4. Relationships in Practice
 
-Learning Objectives, Assignments, and Study Tasks must remain distinct.
+Learning Objectives, Assignments, and Study Tasks remain distinct.
 
 Example:
 
@@ -295,74 +355,69 @@ Another Study Task:
 
 > Begin Problem #1 — 30 min.
 
-The second Study Task may support BOTH:
+The second Study Task may support both:
 
 - the Learning Objective,
-- and the Assignment.
+- the Assignment.
 
 It remains one Study Task.
 
-A Study Task can also exist without an Assignment or Objective.
+A Study Task may also exist without either relationship.
 
 Example:
 
 > Review Monday's lecture notes.
 
-A Course Material is similarly different from the Study Task that uses it.
+A Course Material remains different from the Study Task that uses it.
 
 Material:
 
 > Lecture 02 slides.
 
-Task:
+Study Task:
 
 > Review Lecture 02 slides.
 
-A Class Meeting is also separate:
-
-> PHY 009D Lecture — 10:00 AM.
-
-No Objective-to-Assignment mapping is required beyond the relationships carried
-through Study Tasks.
+No direct Objective-to-Assignment mapping is required beyond relationships
+expressed through Study Tasks.
 
 Completing all related Study Tasks does not automatically mean:
 
 - the Objective is mastered,
 - the Assignment is submitted,
-- or the Course obligation is complete.
+- the Course obligation is complete.
 
-V1 does not track mastery, grades, or submission state.
+V1 does not track:
 
----
-
-# 4. V1 Product Invariants
-
-The following rules are non-negotiable for the initial UI milestone.
-
-They exist so implementation agents do not reinterpret the product while
-building individual screens.
-
-If an implementation task conflicts with one of these invariants, stop and
-return to Plan rather than silently changing product behavior.
+- mastery,
+- grades,
+- submission state.
 
 ---
 
-## 4.1 One Shared Academic Plan
+# 5. V1 Product Invariants
+
+These rules define the completed initial UI milestone.
+
+They remain useful as regression constraints unless a later accepted product
+decision explicitly supersedes them.
+
+---
+
+## 5.1 One Shared Academic Plan
 
 ALWAYS:
 
 All five primary views derive from one shared academic plan.
 
-NEVER:
-
-Create separate canonical copies of:
+NEVER create separate canonical copies of:
 
 - Courses,
 - Assignments,
 - Learning Objectives,
 - Study Tasks,
 - Course Materials,
-- or Class Meetings
+- Class Meetings
 
 for different screens.
 
@@ -371,32 +426,29 @@ A Study Task shown on:
 - Dashboard,
 - Today,
 - Weekly Plan,
-- and Course Page
+- Course Page
 
 is the same underlying Study Task.
 
-Different components may present it differently.
+Presentation may differ.
 
-Its identity and academic meaning do not change.
+Identity and academic meaning do not.
 
 ---
 
-## 4.2 Course Facts and Personal Planning Are Different
+## 5.2 Course Facts and Personal Planning Are Different
 
-ALWAYS:
-
-Keep source-backed Course Facts distinguishable from personal planning choices.
+ALWAYS distinguish source-backed Course Facts from personal planning choices.
 
 Course Facts may include:
 
 - Course identity,
 - instructor information,
-- lecture schedule,
+- schedule,
 - lecture topics,
 - Assignment deadlines,
 - exam dates,
-- assigned materials,
-- class-meeting information.
+- assigned materials.
 
 Personal planning may include:
 
@@ -407,10 +459,8 @@ Personal planning may include:
 - estimated durations,
 - completion state.
 
-NEVER:
-
-Present an authored Study Task as though the instructor explicitly assigned
-that Study Task unless the source actually establishes it.
+NEVER present an authored personal Study Task as an instructor requirement
+unless the source actually establishes it.
 
 Example:
 
@@ -422,11 +472,11 @@ Personal plan:
 
 > Review the relativity principle in my own words — 25 min.
 
-Those are related but different pieces of information.
+Related does not mean identical.
 
 ---
 
-## 4.3 Academic Concepts Must Remain Distinct
+## 5.3 Academic Concepts Remain Distinct
 
 NEVER collapse:
 
@@ -438,7 +488,7 @@ NEVER collapse:
 
 into one generic "Task" concept.
 
-Their meanings are:
+Their meanings remain:
 
 Learning Objective:
 
@@ -462,12 +512,14 @@ Class Meeting:
 
 ---
 
-## 4.4 Assignment Deadline Is Not Study Task Date
+## 5.4 Assignment Deadline Is Not Study Task Date
 
-ALWAYS:
+ALWAYS treat:
 
-Treat an Assignment's due date and a Study Task's planned date as different
-values.
+- Assignment due date,
+- Study Task planned date
+
+as different values.
 
 Example:
 
@@ -481,16 +533,13 @@ Study Task:
 > Begin Problem #1  
 > Planned Friday
 
-NEVER:
+NEVER move the Study Task to Monday merely because the Assignment is due Monday.
 
-Move the Study Task to Monday merely because the Assignment is due Monday.
-
-The whole purpose of the product is eventually to encourage work BEFORE
-deadlines.
+The product is intended to support work before deadlines.
 
 ---
 
-## 4.5 Today Has One Exact Meaning
+## 5.5 Today Has One Exact V1 Meaning
 
 For V1:
 
@@ -500,60 +549,47 @@ incomplete Study Tasks
 whose plannedDate equals the shared referenceDate
 ```
 
-ALWAYS:
+ALWAYS use the fixed reference date in the static academic plan.
 
-Use the fixed reference date supplied by the static academic plan.
-
-NEVER:
-
-Use the machine's actual current date to determine V1 Today behavior.
+NEVER use the machine's live current date to alter the V1 scenario.
 
 NEVER automatically include:
 
 - every unfinished Study Task,
 - every Assignment due today,
-- unfinished Study Tasks from earlier days,
-- newly created work because a deadline is approaching.
+- unfinished earlier Study Tasks,
+- newly generated work.
 
 ---
 
-## 4.6 Earlier Unfinished Work Does Not Move Automatically
+## 5.6 Earlier Unfinished Work Does Not Move Automatically
 
-If a Study Task was planned for Thursday and remains incomplete on Friday:
+If a Study Task was planned Thursday and remains incomplete Friday:
 
-ALWAYS:
+ALWAYS keep it associated with Thursday in broader plan views.
 
-Keep it associated with Thursday in Weekly Plan and Course Page.
+NEVER automatically reschedule it into Friday's Today list.
 
-NEVER:
-
-Automatically reschedule it into Friday's Today list.
-
-Automatic carryover and adaptive replanning are future capabilities.
+Automatic carryover belongs to future adaptive planning.
 
 ---
 
-## 4.7 Completed Study Tasks
+## 5.7 Completed Study Tasks
 
 Today and Dashboard's actionable daily summary include only incomplete Study
 Tasks planned for the reference date.
 
-Weekly Plan and Course Page may still show completed Study Tasks so the student
-can understand:
-
-- what was planned,
-- what has been completed,
-- and overall weekly progress.
+Weekly Plan and Course Page may continue to show completed Study Tasks.
 
 A completed Study Task does NOT imply:
 
 - an Assignment was submitted,
 - a Learning Objective was mastered,
-- or the Course is complete.
+- the Course is complete.
 
 ---
 
-## 4.8 Next Action
+## 5.8 Next Action
 
 For V1:
 
@@ -563,15 +599,15 @@ first incomplete Study Task
 in Today's authored order
 ```
 
-NEVER calculate Next Action using:
+NEVER determine Next Action through:
 
 - Assignment urgency,
 - nearest deadline,
-- estimated duration,
+- duration,
 - grade weighting,
 - AI ranking,
 - priority scoring,
-- automatic scheduling logic.
+- automatic scheduling.
 
 If no Today Study Task remains:
 
@@ -583,25 +619,23 @@ Do not invent replacement work.
 
 ---
 
-## 4.9 Authored Ordering
+## 5.9 Authored Ordering
 
-Study Tasks use the ordering supplied by the static academic plan.
+Study Tasks use the order supplied by the static academic plan.
 
 NEVER silently reorder them based on:
 
 - deadline,
 - duration,
 - Course,
-- alphabetical order,
+- alphabetic order,
 - perceived difficulty,
 - AI judgment,
-- or an urgency formula.
-
-Automatic prioritization requires a future accepted milestone.
+- urgency formula.
 
 ---
 
-## 4.10 Weekly Progress
+## 5.10 Weekly Progress
 
 For any weekly scope:
 
@@ -614,7 +648,7 @@ all Study Tasks planned inside the current Academic Week
 
 Course progress uses the same calculation restricted to one Course.
 
-Overall progress counts all current-week Study Tasks across current Courses.
+Overall progress counts all current-week Study Tasks across Courses.
 
 NEVER include:
 
@@ -624,28 +658,16 @@ NEVER include:
 - Course Materials,
 - source artifacts
 
-in the progress denominator.
+in the denominator.
 
-NEVER average Course percentages to produce overall progress.
+NEVER average Course percentages for overall progress.
 
 Example:
 
-Physics:
-
 ```text
-2 of 3
-```
-
-Math:
-
-```text
-1 of 2
-```
-
-Overall:
-
-```text
-3 of 5
+Physics: 2 of 3
+Math:    1 of 2
+Overall: 3 of 5
 ```
 
 NOT:
@@ -654,20 +676,20 @@ NOT:
 average of 66.7% and 50%
 ```
 
-If there are zero planned Study Tasks, show conceptually:
+If there are zero planned Study Tasks:
 
 > No study tasks planned.
 
-Do not interpret zero Study Tasks as either:
+Do not interpret zero tasks as either:
 
 - 0%,
-- or 100%.
+- 100%.
 
 ---
 
-## 4.11 Duration Estimates
+## 5.11 Duration Estimates
 
-A Study Task may have an authored estimated duration.
+A Study Task may contain an authored estimate.
 
 Example:
 
@@ -679,19 +701,19 @@ If no estimate exists:
 
 NEVER fabricate one.
 
-Do not automatically calculate duration during V1.
+V1 does not automatically calculate duration.
 
 Duration does not affect progress.
 
 ---
 
-## 4.12 Course Materials
+## 5.12 Course Materials
 
-Course Materials are context/resources.
+Course Materials are resources/context.
 
 They are not Study Tasks.
 
-NEVER add completion state to a Course Material merely because the student may
+NEVER add completion state to a Course Material merely because a student may
 read it.
 
 Example:
@@ -704,50 +726,46 @@ Task:
 
 > Read the assigned relativity section.
 
-Only the Study Task has completion state.
+Only the Study Task has task completion state.
 
 ---
 
-## 4.13 Class Meetings
+## 5.13 Class Meetings
 
-Class Meetings are schedule information.
-
-They may appear under Today's Classes.
-
-They do NOT:
+Class Meetings / schedule context do not:
 
 - count toward Study Task progress,
-- become Study Tasks automatically,
+- automatically become Study Tasks,
 - track attendance,
 - recur automatically,
 - synchronize with Google Calendar,
-- or generate preparation tasks automatically.
+- generate preparation tasks automatically.
 
 ---
 
-## 4.14 Source Uncertainty
+## 5.14 Source Uncertainty
 
-If static fixture preparation reveals an obviously questionable or conflicting
-source fact:
+If fixture preparation encounters questionable or conflicting source
+information:
 
 NEVER silently invent a correction.
 
-Preserve the uncertainty according to `MOCK_DATA_SPEC.md`.
+Preserve uncertainty according to:
+
+`MOCK_DATA_SPEC.md`
 
 Example:
 
-If an instructor schedule contains an impossible calendar date, implementation
-must not silently decide which nearby date the instructor intended.
+If an instructor schedule contains an impossible date, implementation must not
+silently choose the date it assumes was intended.
 
-Source correction requires explicit review.
+Source correction requires review.
 
 ---
 
-## 4.15 Missing Information Is Valid
+## 5.15 Missing Information Is Valid
 
-Academic source packets are often incomplete.
-
-The absence of information is not an implementation failure.
+Incomplete Course information is valid.
 
 NEVER fabricate:
 
@@ -762,11 +780,11 @@ NEVER fabricate:
 
 merely to make a screen appear complete.
 
-The UI should handle incomplete academic context deliberately.
+The UI should handle missing context deliberately.
 
 ---
 
-## 4.16 Five Primary Views
+## 5.16 Five Primary Views
 
 V1 has exactly five required primary student views:
 
@@ -776,31 +794,30 @@ V1 has exactly five required primary student views:
 4. Weekly Plan
 5. Today
 
-Dashboard, Courses, Weekly Plan, and Today must be directly reachable through
+Dashboard, Courses, Weekly Plan, and Today are directly reachable through
 primary navigation.
 
 Course Page is reached through Course selection.
 
 Upcoming Assignments is reusable deadline context.
 
-It is NOT a required sixth primary view.
+It is not a sixth primary screen.
 
 ---
 
-## 4.17 Weekly Plan and Today Are Real Views
+## 5.17 Weekly Plan and Today Are Dedicated Views
 
-NEVER satisfy Weekly Plan only by adding a weekly section to Dashboard.
+Weekly Plan cannot be satisfied only by placing a weekly section on Dashboard.
 
-NEVER satisfy Today only by adding a daily section to Dashboard.
+Today cannot be satisfied only by placing a daily section on Dashboard.
 
-Both are dedicated primary views with responsibilities defined in this
-specification and `UI_SPEC.md`.
+Both remain dedicated primary views.
 
 ---
 
-## 4.18 V1 Is Read-Only
+## 5.18 V1 Is Read-Only
 
-The initial milestone displays an already-authored academic plan.
+V1 displays an already-authored academic plan.
 
 It does NOT provide functional controls for:
 
@@ -808,7 +825,7 @@ It does NOT provide functional controls for:
 - editing Courses,
 - uploading materials,
 - changing instructor deadlines,
-- completing Study Tasks,
+- completing Study Tasks interactively,
 - moving Study Tasks,
 - creating Study Tasks,
 - generating plans,
@@ -817,15 +834,13 @@ It does NOT provide functional controls for:
 - saving changes,
 - deleting academic information.
 
-Do not create controls that visually imply these behaviors already work.
-
-The V1 prototype should feel complete within its approved read-only scope.
+Do not create controls that imply unsupported functionality.
 
 ---
 
-## 4.19 No Intelligence Engine Exists in V1
+## 5.19 No Intelligence Engine Exists in V1
 
-If implementation requires:
+V1 does NOT require or implement:
 
 - AI,
 - external Course research,
@@ -837,38 +852,32 @@ If implementation requires:
 - automatic prioritization,
 - automatic scheduling,
 - automatic Course Roadmap generation,
-- adaptive replanning,
+- adaptive replanning.
 
-STOP.
-
-That work has exceeded the initial UI milestone.
-
-The V1 static fixture represents the type of structured information such future
-systems may eventually produce.
+The static fixture represents the type of structured data later systems may
+eventually produce.
 
 It does not implement those systems.
 
 ---
 
-## 4.20 No Persistence Exists in V1
+## 5.20 No Persistence Exists in V1
 
-NEVER introduce:
+V1 does not introduce:
 
-- database tables,
+- production database tables,
 - Supabase,
 - authentication,
 - local persistence,
 - save APIs,
 - synchronization infrastructure,
-- user accounts
+- user accounts.
 
-merely because the static fixture uses structured academic objects.
-
-The mock-data contract is NOT a production database schema.
+The mock-data contract is not a production database schema.
 
 ---
 
-## 4.21 Relationship Integrity
+## 5.21 Relationship Integrity
 
 A Study Task may support:
 
@@ -878,110 +887,84 @@ A Study Task may support:
 
 Every related item must belong to the same Course.
 
-Invalid example:
+Invalid:
 
 ```text
 PHY 009D Study Task
 → MAT 21D Learning Objective
 ```
 
-If the static fixture contains such a relationship, correct the fixture rather
-than rendering it silently.
+Invalid fixture relationships should be corrected rather than rendered silently.
 
 ---
 
-## 4.22 Stable Identity
-
-ALWAYS:
+## 5.22 Stable Identity
 
 A single academic item retains one identity everywhere it appears.
 
-NEVER create independent conceptual records such as:
+NEVER create separate conceptual records such as:
 
 ```text
 dashboardTask
-
 todayTask
-
 weeklyTask
-
 coursePageTask
 ```
 
-for the same Study Task.
+for one Study Task.
 
 ---
 
-## 4.23 Derived UI Information
+## 5.23 Derived UI Information
 
-Whenever possible, derive view information from canonical academic data.
+Whenever practical, derive view information from canonical academic data.
 
-Examples of derived information:
+Examples:
 
 - Today's Study Tasks,
-- Today's Classes,
+- Today's Classes/schedule context,
 - Upcoming Assignments,
 - Next Action,
 - weekly progress,
 - Course weekly progress.
 
-Do not independently hardcode those derived results into each screen's data.
+Do not independently hardcode derived results for each screen.
 
 ---
 
-## 4.24 Scope Conflict Rule
+## 5.24 Scope Conflict Rule
 
-IF implementation appears to require behavior outside these invariants:
+If implementation appears to require behavior outside the frozen V1 contract:
 
-THEN:
+do NOT expand V1 automatically.
 
-1. stop the affected implementation,
-2. identify the requirement causing the conflict,
-3. inspect:
-   - `V1_SPEC.md`,
-   - `UI_SPEC.md`,
-   - `MOCK_DATA_SPEC.md`,
-   - `ARCHITECTURE.md`,
-   - and relevant accepted decisions,
-4. return the issue to Plan if product behavior needs to change.
+Instead:
 
-Build must not resolve product ambiguity by inventing behavior.
+1. identify the requirement,
+2. determine whether it belongs to a later milestone,
+3. inspect current product/architecture/task documents,
+4. create or use a later accepted specification,
+5. return to Plan if a product decision is required.
+
+V1 should not become a dumping ground for future behavior.
 
 ---
 
-# 5. Five Required Primary Views and Observable Outcomes
-
-V1 has exactly five primary student views:
-
-- Dashboard
-- Courses
-- Course Page
-- Weekly Plan
-- Today
-
-Dashboard, Courses, Weekly Plan, and Today must be directly reachable through
-application navigation.
-
-Selecting a Course opens its Course Page.
-
-A Course does not need to be selected to reach the cross-Course views.
-
-Exact URL paths and layout structure are implementation decisions for later
-task plans.
+# 6. Five Required Views
 
 ---
 
-## 5.1 Dashboard
+## 6.1 Dashboard
 
 Primary question:
 
 > What needs my attention?
 
-Dashboard should provide a cross-Course summary containing:
+Dashboard provides a cross-Course summary that may include:
 
 - current Academic Term,
 - reference day/week,
-- today's Class Meetings,
+- today's schedule context,
 - today's Study Tasks,
 - Next Action,
 - Assignments due soon,
@@ -992,48 +975,43 @@ Dashboard should provide a cross-Course summary containing:
 
 Next Action uses the first remaining Today Study Task in authored order.
 
-Dashboard should provide access to Today for the complete daily plan.
+Dashboard links to Today for the complete daily plan.
 
-The Dashboard is an overview.
-
-It should not duplicate every detail available on Course Page or Weekly Plan.
-
-Presentation hierarchy is defined in `UI_SPEC.md`.
+Dashboard remains an overview rather than reproducing every Course/Weekly Plan
+detail.
 
 ---
 
-## 5.2 Courses
+## 6.2 Courses
 
 Primary question:
 
 > What Courses am I currently managing?
 
-Show all current static Courses as Course Cards.
+Show all static current Courses as Course Cards.
 
 Each Course Card should provide:
 
 - recognizable Course identity,
 - current-week Study Task progress.
 
-Additional supplied metadata may be shown when useful.
+Additional supplied metadata may appear when useful.
 
-Selecting a Course Card opens the corresponding Course Page.
-
-The same Course Card concept may be reused on Dashboard.
+Selecting a Course opens its Course Page.
 
 Course Cards represent existing Courses.
 
-They are not independent records.
+They are not independent academic records.
 
 ---
 
-## 5.3 Course Page
+## 6.3 Course Page
 
 Primary question:
 
 > What is happening in this Course?
 
-Show one selected Course's:
+Show the selected Course's relevant:
 
 - identity,
 - current Academic Week/topic context,
@@ -1045,29 +1023,27 @@ Show one selected Course's:
 - relevant Course Materials,
 - current-week progress.
 
-The Course Page may provide limited Course Roadmap context through the current
-week/topic supplied by static data.
+Course Page may show limited Course Roadmap context through supplied current
+week/topic data.
 
 V1 does NOT require:
 
-- a generated full-term Course Roadmap,
-- Course Roadmap editing,
+- generated full-term roadmap,
+- roadmap editing,
 - document ingestion,
 - source analysis.
 
 Only the selected Course's academic information should appear.
 
-An unknown Course identifier must produce a clear not-found state.
+Unknown Course identifier behavior:
 
-Do not:
-
-- silently display the first Course,
-- redirect to an unrelated Course,
-- or crash.
+- show clear not-found state,
+- do not silently display another Course,
+- do not crash.
 
 ---
 
-## 5.4 Weekly Plan
+## 6.4 Weekly Plan
 
 Primary question:
 
@@ -1080,13 +1056,13 @@ It should show:
 - current Academic Week label,
 - current week date range,
 - Learning Objectives grouped by Course,
-- Assignments relevant to the week,
+- relevant Assignments,
 - Study Tasks planned during the week,
 - planned Study Task dates,
-- Study Task completion states,
+- completion states,
 - Course progress.
 
-The UI must keep distinguishable:
+The UI must distinguish:
 
 Learning Objectives:
 
@@ -1100,69 +1076,69 @@ Study Tasks:
 
 > what the student plans to do
 
-Tasks without a Learning Objective must remain visible.
+Tasks without Learning Objectives remain visible.
 
 Completed Study Tasks remain visible.
 
-An earlier unfinished Study Task remains on its original planned date.
+Earlier unfinished Study Tasks remain on their original dates.
 
-Weekly Plan does not automatically reschedule work.
+Weekly Plan does not reschedule automatically.
 
 ---
 
-## 5.5 Today
+## 6.5 Today
 
 Primary question:
 
 > What should I do today?
 
-Today is a dedicated primary view.
+Today displays:
 
-It displays incomplete Study Tasks whose planned date equals the shared
-reference date.
+```text
+incomplete Study Tasks
+whose plannedDate equals referenceDate
+```
 
-Study Tasks are shown in authored order.
+Study Tasks remain in authored order.
 
-Where supplied, display useful context such as:
+Where supplied, show:
 
 - Course,
 - Study Task title,
 - estimated duration,
-- relevant Learning Objective,
-- relevant Assignment,
+- related Learning Objective,
+- related Assignment,
 - Assignment deadline.
 
 Today does NOT automatically include:
 
-- all unfinished Study Tasks,
-- all Assignments due today,
-- previous-day unfinished Study Tasks,
+- every unfinished Study Task,
+- every Assignment due today,
+- earlier unfinished Study Tasks,
 - generated work,
 - automatically prioritized work.
 
-Missing duration estimates are omitted rather than invented.
+Missing duration is omitted rather than invented.
 
-If no Study Tasks remain for Today, show a meaningful empty state.
-
-Example:
+If no Study Tasks remain:
 
 > No study tasks remain on today's plan.
 
-Do not imply that:
+Do not imply:
 
 - all Course obligations are finished,
-- the entire Academic Week is complete,
-- or learning has been mastered.
+- the week is complete,
+- learning is mastered.
 
 ---
 
-# 6. Upcoming Assignments
+# 7. Upcoming Assignments
 
 Upcoming Assignments is reusable deadline context.
 
-It is NOT a sixth primary view.
+It is not a sixth primary view.
 
-Upcoming Assignment information may appear in:
+It may appear in:
 
 - Dashboard,
 - Course Page,
@@ -1175,83 +1151,79 @@ An upcoming Assignment should display at least:
 - Course,
 - due date.
 
-Upcoming lists include Assignments with:
+Upcoming lists include:
 
 ```text
 dueDate >= referenceDate
 ```
 
-Assignments are ordered by:
+Order:
 
 1. nearest due date,
-2. authored order when due dates are equal.
+2. authored order for equal due dates.
 
-An Assignment due today remains visible even if no Study Task is planned today.
+An Assignment due today remains visible even without a Study Task planned today.
 
-A Study Task linked to an Assignment may display that Assignment deadline as
-context.
+A linked Study Task may show Assignment deadline context.
 
 Assignment deadlines do not automatically create Study Tasks.
 
 ---
 
-# 7. Today, Deadlines, and Planning Control
+# 8. Today, Deadlines, and Planning Control
 
-V1 uses a fixed, visibly understood reference date supplied by the static
-academic plan.
+V1 uses one fixed shared reference date.
 
 "Today" means that reference date.
 
-It does NOT mean the computer's live date.
+It does not mean the machine's live date.
 
-All five views use the same date context.
-
-Today's Class Meetings use authored Class Meeting dates and start times.
+All views use the same reference context.
 
 Study Task planned dates remain separate from Assignment due dates.
 
-Tasks may be planned before an Assignment deadline.
+Tasks may be planned before deadlines.
 
-Completed Study Tasks planned today are omitted from:
+Completed reference-date Study Tasks are omitted from:
 
-- Today actionable list,
-- Dashboard daily Study Task summary.
+- Today's actionable list,
+- Dashboard's daily actionable summary.
 
-They remain visible where appropriate in:
+They may remain visible in:
 
 - Weekly Plan,
 - Course Page.
 
-An unfinished earlier Study Task does not automatically move to Today.
+Earlier unfinished work does not automatically move to Today.
 
-Deadlines provide context but do not calculate task priority.
+Deadlines provide context.
 
-Today's Study Tasks retain authored order.
+They do not calculate priority.
 
 No Study Task is automatically:
 
 - created,
 - moved,
 - prioritized,
-- or rescheduled
+- rescheduled
 
 because a deadline approaches.
 
 ---
 
-# 8. Basic Weekly Progress
+# 9. Weekly Progress
 
 Count each distinct Study Task planned inside the current Academic Week exactly
 once.
 
-The numerator is:
+Numerator:
 
 ```text
 current-week Study Tasks
 where isComplete == true
 ```
 
-The denominator is:
+Denominator:
 
 ```text
 all Study Tasks planned inside the current Academic Week
@@ -1261,52 +1233,35 @@ This includes:
 
 - completed tasks,
 - incomplete tasks,
-- later-in-the-week tasks.
+- later-in-week tasks.
 
-A Study Task connected to both:
-
-- a Learning Objective,
-- and an Assignment
-
-still counts once.
+A Study Task associated with both an Objective and an Assignment still counts
+once.
 
 ---
 
-## 8.1 Overall Progress
+## 9.1 Overall Progress
 
-Dashboard overall weekly progress uses all current-week Study Tasks across all
-current Courses.
+Overall weekly progress uses all current-week Study Tasks across Courses.
 
 Example:
 
-Course A:
-
 ```text
-2 of 3
-```
+Course A: 2 of 3
+Course B: 1 of 2
 
-Course B:
-
-```text
-1 of 2
-```
-
-Overall:
-
-```text
-3 of 5
+Overall: 3 of 5
 ```
 
 Do not average Course percentages.
 
 ---
 
-## 8.2 Course Progress
+## 9.2 Course Progress
 
-Course Cards, Course Page, and per-Course Dashboard or Weekly Plan summaries use
-the same calculation restricted to that Course.
+Course summaries use the same calculation restricted to one Course.
 
-Use labels such as:
+Useful wording:
 
 > This week's study tasks
 
@@ -1314,32 +1269,28 @@ Example:
 
 > 3 of 5 complete
 
-An optional percentage may be:
+A percentage may supplement the count where useful.
 
-```text
-completed / total × 100
-```
-
-but the count should remain understandable.
+The count should remain understandable.
 
 ---
 
-## 8.3 Zero Tasks
+## 9.3 Zero Tasks
 
-If a Course has no Study Tasks planned for the current Academic Week, show:
+When a Course has no current-week Study Tasks:
 
 > No study tasks planned.
 
-Do not display:
+Do not show:
 
 - 0%,
-- 100%,
+- 100%.
 
-because neither accurately describes the state.
+Neither accurately represents the state.
 
 ---
 
-## 8.4 What Does Not Count
+## 9.4 What Does Not Count
 
 Do not include:
 
@@ -1351,23 +1302,22 @@ Do not include:
 
 in Study Task progress.
 
-There is no:
+There is no V1:
 
 - time weighting,
 - grade weighting,
-- Learning Objective mastery score,
+- mastery score,
 - Course completion percentage,
 - term completion score,
 - automatic Assignment completion.
 
 ---
 
-# 9. Course Source Context in V1
+# 10. Course Source Context
 
-The static academic fixture may be manually derived from real Course source
-materials.
+The static fixture may be manually derived from real Course sources.
 
-Examples include:
+Examples:
 
 - current syllabus,
 - current instructor schedule,
@@ -1376,24 +1326,28 @@ Examples include:
 - lecture notes,
 - lecture slides.
 
-These may support realistic Course facts.
+These may support realistic Course Facts.
 
-However, V1 itself does NOT:
+V1 itself does NOT:
 
 - upload these documents,
 - parse them,
-- extract their text,
+- extract text,
 - research the Course,
-- reconcile conflicting sources,
-- generate Study Tasks from them.
+- reconcile sources,
+- generate Study Tasks.
 
-`MOCK_DATA_SPEC.md` defines fixture provenance and source-handling expectations.
+Fixture/source handling expectations live in:
 
-`PRODUCT_VISION.md` defines the future source-grounding principles.
+`docs/MOCK_DATA_SPEC.md`
+
+Future source-grounding behavior lives in:
+
+`docs/PRODUCT_VISION.md`
 
 ---
 
-# 10. Incomplete Course Source Packets
+# 11. Incomplete Course Source Packets
 
 A Course may have incomplete supporting information.
 
@@ -1405,78 +1359,80 @@ Available:
 - lecture schedule,
 - textbook.
 
-Not yet available:
+Not available:
 
-- Lecture 02 student notes,
+- student notes,
 - instructor slides,
 - discussion worksheet.
 
-That is a valid V1 fixture state.
+This is a valid fixture state.
 
-Do not require the static data to have every possible Course Material before the
-Course can appear in the interface.
+Do not require every possible Course Material before a Course appears.
 
-Missing Course information should remain missing unless deliberately authored.
+Missing information remains missing unless deliberately authored.
 
 ---
 
-# 11. Explicit Exclusions
+# 12. Explicit V1 Exclusions
 
-Initial V1 does NOT include:
+Milestone 1 does NOT include:
 
-- AI or AI-assisted planning;
-- external Course research or enrichment;
-- source-reconciliation functionality;
-- syllabus parsing;
-- PDF analysis;
-- automatic Assignment extraction;
-- automatic lecture-topic extraction;
-- automatic Learning Objective generation;
-- automatic Study Task generation;
-- automatic duration estimation;
-- automatic task prioritization;
-- automatic scheduling;
-- automatic carryover;
-- adaptive replanning;
-- Course Roadmap generation;
-- Supabase;
-- any production database;
-- local persistence;
-- authentication;
-- multiple users;
-- Google Calendar integration;
-- Google Drive integration;
-- notifications;
-- uploading Course Materials;
-- Course Material management;
-- editing academic records;
-- editing personal plans;
-- completion controls;
-- drag-and-drop scheduling;
-- Assignment submission;
-- grade tracking;
-- GPA tracking;
-- inferred learning mastery;
-- attendance tracking;
-- recurring Class Meeting calculation;
-- term switching;
-- a production academic calendar.
+- AI or AI-assisted planning,
+- external Course research,
+- source reconciliation,
+- syllabus parsing,
+- PDF analysis,
+- automatic Assignment extraction,
+- automatic lecture-topic extraction,
+- automatic Learning Objective generation,
+- automatic Study Task generation,
+- automatic duration estimation,
+- automatic task prioritization,
+- automatic scheduling,
+- automatic carryover,
+- adaptive replanning,
+- generated Course Roadmaps,
+- Supabase,
+- production database,
+- local persistence,
+- authentication,
+- authorization,
+- multiple users,
+- tenant isolation,
+- Google Calendar integration,
+- Google Drive integration,
+- notifications,
+- Course Material uploads,
+- Course Material management,
+- editing academic records,
+- editing personal plans,
+- interactive completion controls,
+- drag-and-drop scheduling,
+- Assignment submission,
+- grade tracking,
+- GPA tracking,
+- inferred mastery,
+- attendance tracking,
+- recurring Class Meeting calculation,
+- term switching,
+- production academic-calendar management,
+- billing.
 
-Static Class Meetings and Course Material references do not imply these future
-systems exist.
+Static schedule/material context does not imply these systems exist.
 
-Duration estimates are static authored values.
+Authored durations are static values.
 
 They are not generated estimates.
 
 ---
 
-# 12. Canonical Mock Scenario
+# 13. Canonical Mock Scenario
 
-The detailed canonical V1 fixture is defined in `MOCK_DATA_SPEC.md`.
+Detailed canonical fixture behavior belongs to:
 
-The initial reference experience uses a static academic plan representing a
-realistic:
+`docs/MOCK_DATA_SPEC.md`
+
+The reference experience represents a realistic:
 
 ```text
 UC Davis
@@ -1486,18 +1442,17 @@ Fall Quarter 2026
 
 Course context.
 
-The static fixture may be manually derived from sanitized Course materials such
-as:
+The fixture may be manually derived from sanitized materials such as:
 
-- the current syllabus,
+- syllabus,
 - lecture schedule,
 - Assignment information,
 - assigned textbook,
-- and later available lecture notes.
+- lecture notes where available.
 
-This use of real Course context does NOT mean V1 performs ingestion.
+This does not mean V1 performs ingestion.
 
-For V1:
+Conceptually:
 
 ```text
 Course materials
@@ -1511,21 +1466,21 @@ authored personal academic plan
 five primary UI views
 ```
 
-All five views must agree on:
+All five views must agree on relevant:
 
 - Course identity,
 - reference date,
-- current Academic Week,
+- Academic Week,
 - Study Task identity,
-- authored task ordering,
+- authored ordering,
 - completion state,
 - Assignment deadlines,
 - Learning Objective relationships,
-- and weekly progress.
+- progress.
 
 `MOCK_DATA_SPEC.md` owns:
 
-- exact static fixture relationships,
+- exact fixture relationships,
 - provenance examples,
 - source-review examples,
 - reference-date data,
@@ -1538,307 +1493,573 @@ All five views must agree on:
 - screen responsibilities,
 - presentation expectations.
 
-This document owns:
+This specification owns the completed V1:
 
-- required product behavior,
-- domain meaning,
+- product semantics,
 - cross-view rules,
-- current V1 scope.
+- invariants,
+- exclusions,
+- historical acceptance criteria.
 
 ---
 
-# 13. Completion and Verification
-
-Verify the five primary views against the shared static academic data and the
-rules above.
-
-At minimum, V1 must be able to represent and verify these scenarios.
+# 14. Required Verification Scenarios
 
 ---
 
-## 13.1 Study Task Linked to Objective and Assignment
+## 14.1 Study Task Linked to Objective and Assignment
 
 A Study Task supports:
 
 - at least one Learning Objective,
-- and one Assignment.
+- one Assignment.
 
 Verify:
 
 - it remains one Study Task,
 - it counts once in progress,
-- relationships remain visible where relevant.
+- relationships appear where relevant.
 
 ---
 
-## 13.2 Study Task Linked to Neither
+## 14.2 Study Task Linked to Neither
 
-A Study Task belongs to a Course but has:
+A Study Task belongs to a Course with:
 
 - no Learning Objective,
 - no Assignment.
 
-Verify that it still appears where its planned date requires it.
+Verify it still appears wherever its planned date requires.
 
 ---
 
-## 13.3 Assignment Due Today Without a Study Task
+## 14.3 Assignment Due Today Without Today Study Task
 
 Verify:
 
-- the Assignment appears as deadline context,
-- it does not create a Today Study Task automatically.
+- the Assignment remains visible as deadline context,
+- no Today Study Task is automatically created.
 
 ---
 
-## 13.4 Completed Study Task Planned Today
+## 14.4 Completed Study Task Planned Today
 
 Verify:
 
-- it is omitted from Today's actionable list,
-- it is omitted from Dashboard's actionable Today summary,
-- it remains visible in Weekly Plan and Course Page where appropriate,
-- it contributes to weekly progress.
+- omitted from Today actionable list,
+- omitted from Dashboard actionable daily summary,
+- retained where appropriate in Weekly Plan/Course Page,
+- counted in weekly progress.
 
 ---
 
-## 13.5 Earlier Unfinished Study Task
+## 14.5 Earlier Unfinished Study Task
 
 Verify:
 
-- it remains on its original date,
+- it remains on its original planned date,
 - it does not silently move into Today.
 
 ---
 
-## 13.6 Multiple Courses With Unequal Task Totals
+## 14.6 Unequal Course Task Totals
 
 Verify:
 
 - Course progress is calculated independently,
-- overall progress uses raw Study Task totals,
+- overall progress uses raw task totals,
 - Course percentages are not averaged.
 
 ---
 
-## 13.7 Course With Zero Current-Week Study Tasks
+## 14.7 Course With Zero Current-Week Study Tasks
 
 Verify:
-
-the UI shows:
 
 > No study tasks planned.
 
-and does not display a misleading percentage.
+Do not show misleading percentage progress.
 
 ---
 
-## 13.8 Unknown Course
+## 14.8 Unknown Course
 
 Verify:
 
-- Course Page shows a clear not-found state,
-- the app does not display unrelated Course data.
+- clear not-found state,
+- no unrelated Course data.
 
 ---
 
-## 13.9 Missing Duration
+## 14.9 Missing Duration
 
 Verify:
 
-- the UI does not fabricate an estimated duration.
+- no duration is fabricated.
 
 ---
 
-## 13.10 Incomplete Source Context
+## 14.10 Incomplete Source Context
 
-Verify that a Course can still display correctly when some Course Materials or
-metadata are absent.
+Verify a Course still renders correctly when some Course Materials or metadata
+are unavailable.
 
-Do not fabricate missing information.
-
----
-
-## 13.11 Source Information Requiring Review
-
-The static fixture may include source information that cannot safely be
-normalized without human review.
-
-Verify that fixture preparation does not silently manufacture a correction.
-
-The application does not need a source-review interface in V1.
+Do not fabricate missing context.
 
 ---
 
-# 14. Cross-View Verification
+## 14.11 Source Information Requiring Review
+
+Fixture preparation must not silently manufacture a correction for ambiguous
+source information.
+
+V1 does not require a source-review UI.
+
+---
+
+# 15. Cross-View Verification
 
 Verify all five primary views are reachable.
 
-Specifically confirm:
+Specifically:
 
-- Dashboard is directly reachable.
-- Courses is directly reachable.
-- Weekly Plan is directly reachable.
-- Today is directly reachable.
+- Dashboard directly reachable,
+- Courses directly reachable,
+- Weekly Plan directly reachable,
+- Today directly reachable,
 - Course Cards open Course Pages.
 
-Weekly Plan and Today must NOT exist only as Dashboard sections.
+Weekly Plan and Today must not exist only as Dashboard sections.
 
-Upcoming Assignments must NOT require a sixth primary view.
+Upcoming Assignments must not require a sixth primary view.
 
-Walk the same Study Tasks across:
+Trace shared Study Tasks across:
 
 - Dashboard,
 - Today,
 - Weekly Plan,
 - Course Page.
 
-Verify:
+Verify that relevant:
 
-- identity agrees,
-- title agrees,
-- Course association agrees,
-- completion state agrees,
-- Assignment relationships agree,
-- Learning Objective relationships agree,
-- authored order agrees where relevant.
+- identity,
+- title,
+- Course association,
+- completion state,
+- Assignment relationships,
+- Learning Objective relationships,
+- authored order
 
-Verify the same weekly progress result appears wherever the same Course/week
-scope is represented.
+remain consistent.
+
+The same Course/week progress scope should produce the same result anywhere it
+is represented.
 
 ---
 
-# 15. Date and Ordering Verification
+# 16. Date and Ordering Verification
 
 Verify:
 
-- every V1 view uses the shared reference date,
+- all views use the shared reference date,
 - machine date does not alter the static scenario,
 - Today includes only incomplete reference-date Study Tasks,
-- Today's Study Tasks preserve authored order,
+- Today preserves authored order,
 - Dashboard Next Action equals Today's first Study Task,
-- Class Meetings are ordered by authored start time,
+- supplied meeting/schedule ordering is preserved where relevant,
 - Upcoming Assignments are ordered by due date,
 - equal-date Assignments preserve authored order,
-- Weekly Plan preserves Study Task planned dates.
+- Weekly Plan preserves planned Study Task dates.
 
 ---
 
-# 16. Semantic Verification
+# 17. Semantic Verification
 
-Verify that the interface never implies:
+The UI must never imply:
 
-- Study Task completion equals Assignment submission,
-- Study Task completion equals mastery,
-- weekly progress equals Course completion,
-- Course Material equals Study Task,
-- Class Meeting equals Study Task,
-- Assignment deadline equals Study Task planned date,
-- instructor Course Fact equals personal planning suggestion.
+- Study Task completion = Assignment submission,
+- Study Task completion = mastery,
+- weekly progress = Course completion,
+- Course Material = Study Task,
+- Class Meeting = Study Task,
+- Assignment deadline = Study Task planned date,
+- instructor Course Fact = personal planning suggestion.
 
-The interface must preserve these distinctions even if visual components share
-styling.
+Visual similarity must not erase semantic distinction.
 
 ---
 
-# 17. Implementation-State Rule
+# 18. Milestone 1 Completion State
 
-This specification describes required behavior.
+Milestone 1 was completed through:
 
-It does NOT prove that any behavior currently exists.
+- SD-001
+- SD-002
+- SD-003
+- SD-004
+- SD-005
+- SD-006
+- SD-007
 
-Use `IMPLEMENTATION.md` as the source of truth for verified current
-implementation.
+Verified implementation details belong in:
 
-Do not update `IMPLEMENTATION.md` to claim a feature exists merely because:
+`docs/IMPLEMENTATION.md`
+
+This specification should not be used to claim implementation state.
+
+---
+
+# 19. Frozen Contract Rule
+
+This document is now a completed milestone specification.
+
+Future agents should generally NOT modify V1 product behavior to accommodate new
+capabilities.
+
+Example:
+
+Adding authentication later does not mean:
+
+> authentication becomes a V1 requirement.
+
+Instead:
+
+```text
+V1 remains the completed static UI contract
+
+Later milestone
+→ defines authentication behavior
+→ preserves relevant V1 product semantics
+```
+
+The same applies to:
+
+- persistence,
+- uploads,
+- Course ingestion,
+- AI,
+- adaptive planning,
+- integrations,
+- billing.
+
+---
+
+# 20. Preserved V1 Invariants in Future Work
+
+Later architecture may change implementation substantially.
+
+The following V1-derived product distinctions should continue unless explicitly
+superseded:
+
+- Course Fact vs personal planning,
+- Learning Objective vs Assignment vs Study Task,
+- Course Material vs Study Task,
+- Assignment due date vs Study Task planned date,
+- missing information remains missing,
+- provenance matters,
+- one conceptual item retains stable identity,
+- progress does not claim mastery,
+- generated planning does not become instructor truth.
+
+Later milestones may intentionally supersede V1 mechanics such as:
+
+- fixed reference date,
+- read-only behavior,
+- authored static ordering,
+- no carryover,
+- no persistence.
+
+Such changes belong in later accepted specifications.
+
+---
+
+# 21. Transition to Persistent Multi-User Work
+
+Future persistent/private capability must not be specified by rewriting this
+file.
+
+Instead, a later milestone specification should define:
+
+- user/account behavior,
+- authentication,
+- authorization,
+- Course ownership,
+- CRUD,
+- persistence,
+- validation,
+- tenant isolation,
+- real date behavior,
+- editable planning.
+
+That specification should inherit relevant V1 academic semantics while defining
+the new behavior explicitly.
+
+---
+
+# 22. Transition to Course Materials and Ingestion
+
+Future material ingestion should receive its own accepted requirements.
+
+It may define:
+
+- upload behavior,
+- private storage,
+- material ownership,
+- extraction,
+- provenance,
+- review,
+- uncertainty,
+- deletion.
+
+V1's static Course Material references do not define that implementation.
+
+---
+
+# 23. Transition to AI Planning
+
+Future AI planning should receive a later accepted specification defining:
+
+- what AI may generate,
+- grounding requirements,
+- review/approval,
+- failure handling,
+- cost/usage behavior,
+- plan acceptance,
+- regeneration,
+- adaptive replanning.
+
+The V1 authored fixture should not be treated as an AI algorithm.
+
+---
+
+# 24. Security Transition
+
+Milestone 1 did not contain private multi-user runtime capability.
+
+Later security-sensitive functionality must follow:
+
+- `docs/SECURITY_REQUIREMENTS.md`
+- `docs/DATA_PRIVACY.md`
+- `docs/THREAT_MODEL.md`
+- `docs/SECURITY_TESTING.md`
+
+Those documents do not retroactively change Milestone 1's historical scope.
+
+They govern future relevant implementation.
+
+---
+
+# 25. Implementation-State Rule
+
+This specification describes the completed milestone contract.
+
+It does not prove current implementation state.
+
+Use:
+
+`docs/IMPLEMENTATION.md`
+
+for verified implementation reality.
+
+Do not claim a feature exists merely because:
 
 - it appears in this specification,
-- it appears in a plan,
-- or Build created code for it.
+- it appears in a Plan,
+- it appears in future direction.
 
-Meaningful behavior should be verified before being recorded as established
-implementation.
+Verified reality remains separate from requirements.
 
 ---
 
-# 18. Document Ownership
+# 26. Document Ownership
 
-Use the durable documents according to their responsibilities.
+Use durable documents according to their responsibilities.
 
-### `PRODUCT_VISION.md`
+---
+
+## `PRODUCT_VISION.md`
 
 Owns:
 
 - long-term product direction,
+- multi-user product direction,
 - future Course ingestion,
 - source grounding,
 - Course intelligence,
-- planning,
-- AI/human-control principles,
-- adaptive replanning.
+- AI-assisted planning,
+- adaptive replanning,
+- monetization direction.
 
-### `V1_SPEC.md`
+---
+
+## `V1_SPEC.md`
 
 Owns:
 
-- current product behavior,
-- academic semantics,
+- completed Milestone 1 product semantics,
 - V1 invariants,
-- current acceptance criteria,
-- current exclusions.
+- V1 acceptance criteria,
+- V1 exclusions,
+- historical V1 scope.
 
-### `UI_SPEC.md`
+It should not become the specification for every future milestone.
+
+---
+
+## `UI_SPEC.md`
 
 Owns:
 
-- screen information hierarchy,
-- UI responsibilities,
-- presentation expectations,
-- reusable presentation concepts.
+- UI information hierarchy,
+- presentation responsibilities,
+- reusable UI concepts,
+- visual/interaction expectations.
 
-### `MOCK_DATA_SPEC.md`
+---
+
+## `MOCK_DATA_SPEC.md`
 
 Owns:
 
 - static fixture semantics,
-- source-backed fixture context,
-- stable identities,
-- mock relationships,
+- fixture source context,
+- stable mock identities,
+- fixture relationships,
 - derivation expectations,
-- fixture validation.
+- mock-data validation.
 
-### `ARCHITECTURE.md`
+---
 
-Owns:
-
-- technical direction,
-- technical boundaries,
-- future conceptual architecture layers.
-
-### `DECISIONS.md`
+## `ARCHITECTURE.md`
 
 Owns:
 
-- accepted durable product and engineering decisions.
+- durable technical boundaries,
+- conceptual system layers,
+- future architecture direction,
+- provider-neutral technical structure.
 
-### `IMPLEMENTATION.md`
+---
+
+## `SECURITY_REQUIREMENTS.md`
+
+Owns:
+
+- durable application security requirements.
+
+---
+
+## `DATA_PRIVACY.md`
+
+Owns:
+
+- data classification,
+- privacy handling,
+- data-minimization requirements,
+- retention/deletion principles.
+
+---
+
+## `THREAT_MODEL.md`
+
+Owns:
+
+- assets,
+- actors,
+- trust boundaries,
+- realistic threat scenarios.
+
+---
+
+## `SECURITY_TESTING.md`
+
+Owns:
+
+- defensive adversarial testing procedures,
+- security regression-test patterns.
+
+---
+
+## `DECISIONS.md`
+
+Owns:
+
+- accepted durable product,
+- architecture,
+- security,
+- automation,
+- Git,
+- release decisions.
+
+---
+
+## `IMPLEMENTATION.md`
 
 Owns:
 
 - verified current implementation reality.
 
-### `TASKS.md`
+---
+
+## `TASKS.md`
 
 Owns:
 
 - task sequence,
-- milestone status,
-- implementation roadmap.
+- task status,
+- milestone sequencing,
+- roadmap execution order.
 
-If these documents disagree materially:
+---
 
-STOP.
+# 27. Conflict Rule
 
-Surface the contradiction during Plan.
+If durable documents appear to disagree materially:
 
-Do not silently select whichever interpretation is easiest to implement.
+STOP the affected implementation.
+
+Do not silently choose the easiest interpretation.
+
+Plan should determine:
+
+1. whether the conflict is real,
+2. which document owns the subject,
+3. whether one document is stale,
+4. whether a new durable decision is required.
+
+---
+
+# 28. Final Principle
+
+V1 proved the core product model:
+
+```text
+Course context
++
+Learning Objectives
++
+Assignments
++
+Study Tasks
++
+deadlines
++
+progress
+        ↓
+five coherent views
+        ↓
+"What should I do today?"
+```
+
+The next stages may replace static fixtures with real systems.
+
+They should not erase the product distinctions Milestone 1 successfully
+established.
+
+V1 is now:
+
+> a completed foundation to build on,
+
+not:
+
+> a specification that expands forever.

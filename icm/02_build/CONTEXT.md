@@ -1,1817 +1,1753 @@
-# School Dashboard ICM — Build Stage
+# ICM — Build Stage
 
 ## 1. Purpose
 
-The Build stage exists to turn an understood School Dashboard requirement or
-accepted Plan into working project changes.
+The Build stage converts an accepted Plan into working implementation.
 
-Build should:
+Build owns:
 
-- implement the requested behavior,
-- preserve accepted product semantics,
-- remain inside task scope,
-- make the smallest coherent change,
-- use repository conventions where practical,
-- run useful implementation checks,
-- and leave the work ready for independent Verify.
+- implementation,
+- task-local engineering decisions,
+- secure coding,
+- targeted tests,
+- dependency changes when accepted,
+- implementation checks,
+- diff inspection,
+- and a trustworthy handoff to Verify.
 
-The goal is NOT to maximize:
+Build does NOT own:
 
-- code written,
-- files changed,
-- abstractions introduced,
-- documentation generated.
+- redefining product behavior,
+- inventing security policy,
+- changing privacy policy,
+- expanding accepted scope,
+- declaring final PASS,
+- or authorizing production deployment.
 
-The goal is:
+The objective is:
 
-> Produce the simplest correct implementation that satisfies the accepted task
-> and can be meaningfully verified.
-
-School Dashboard is a side project intended to move quickly.
-
-Build should therefore automate ordinary implementation work aggressively while
-preserving the important product, architecture, security, Git, and scope
-guardrails.
+> implement the smallest secure coherent solution that satisfies the accepted
+> Plan and leaves strong evidence for independent Verify.
 
 ---
 
-# 2. Development Autonomy
+# 2. Build Is an Execution Stage
 
-Build has authority to make ordinary low-risk implementation decisions without
-asking Mike for approval.
+Build should not repeatedly reconsider decisions already resolved by Plan.
 
-Examples include:
+Use the accepted Plan as the task-specific execution contract.
 
-- local variable names,
-- helper-function names,
-- ordinary component decomposition,
-- reasonable file organization,
-- semantic HTML structure,
-- Tailwind utility choices,
-- straightforward responsive behavior,
-- small TypeScript types,
-- local utility functions,
-- ordinary Next.js conventions,
-- small task-local refactors needed for the implementation,
-- simple accessibility improvements,
-- equivalent low-risk implementation details.
+Build may autonomously decide ordinary local details such as:
 
-These decisions should be:
+- helper names,
+- component decomposition,
+- safe file organization,
+- local TypeScript types,
+- framework conventions,
+- implementation syntax,
+- test organization,
+- straightforward accessibility details,
+- small task-local refactors.
 
-- reversible,
-- task-local,
-- consistent with repository conventions,
-- consistent with the accepted Plan,
-- and compatible with durable project requirements.
+Build should NOT stop merely because several equivalent implementation options
+exist.
 
-Do not stop implementation merely because more than one reasonable local
-solution exists.
+Choose the clearest option compatible with:
 
-Choose the clearest reasonable solution and continue.
+- the Plan,
+- project conventions,
+- architecture,
+- security requirements,
+- and existing code.
 
 ---
 
-# 3. Full-Task Automation
+# 3. Build Entry Conditions
 
-A single instruction from Mike may authorize one named task to proceed through
-the complete School Dashboard lifecycle:
+Before meaningful implementation, Build should have:
 
-```text
-Plan
-↓
-Build
-↓
-Verify
-↓
-PASS
-↓
-promote verified documentation
-↓
-mark task Done
-↓
-task-scoped commit
-↓
-normal safe push
-```
+- an authorized task,
+- an accepted Plan when required,
+- a risk tier,
+- defined scope,
+- relevant requirements,
+- acceptance criteria,
+- verification targets,
+- no unresolved material blocker.
 
-Plan, Build, and Verify remain separate logical stages.
+For substantial work, Build should be able to answer:
 
-A one-prompt workflow does NOT mean those responsibilities should be collapsed
-into one undifferentiated activity.
+> What am I implementing?
 
-When Build is entered from an accepted Plan under a full-task instruction,
-Build should complete the accepted implementation and continue directly into
-Verify when:
+> What am I explicitly not implementing?
 
-- the accepted scope has been implemented,
-- relevant Build checks have completed,
-- no unresolved blocking defect remains,
-- no material Plan conflict remains,
-- and the task is ready for independent verification.
+> What risk tier applies?
 
-Do not create a manual checkpoint merely because Build completed.
+> Which security/privacy rules constrain the task?
 
-If Mike explicitly requested Build only, stop after the Build handoff.
+> What behavior must remain unchanged?
 
-A full-task instruction authorizes the named task only.
+> What evidence must exist before Verify?
 
-It does NOT authorize beginning the next roadmap task after completion.
+If Build still has to invent a major product or security rule:
+
+return to Plan.
 
 ---
 
-# 4. When Build Must Stop
+# 4. Required Entry Context
 
-Build must stop and surface the issue when implementation reveals a decision
-that materially changes:
+Before implementing:
 
-- product behavior,
-- V1 scope,
-- academic semantics,
-- durable architecture,
-- accepted data relationships,
-- security or privacy,
-- a significant dependency,
-- an external service,
-- the accepted task boundary,
-- destructive behavior,
-- or a previously accepted durable decision.
+1. read root `AGENTS.md`;
+2. read root `CONTEXT.md`;
+3. read this Build-stage context;
+4. read the accepted active task Plan;
+5. inspect relevant current implementation;
+6. inspect Git state;
+7. load only the durable context required by the task/risk tier.
+
+Do not load every repository document automatically.
+
+Do not load every historical artifact.
+
+Use progressive disclosure.
+
+---
+
+# 5. Risk Tier Controls Build Depth
+
+Build must preserve the risk tier assigned during Plan.
+
+Use the highest applicable tier.
+
+## R0
+
+Typical Build behavior:
+
+- documentation edits,
+- formatting,
+- non-executable metadata.
+
+Minimal technical verification.
+
+---
+
+## R1
+
+Typical Build behavior:
+
+- UI,
+- styling,
+- read-only application behavior,
+- safe refactors,
+- ordinary client-side functionality.
+
+Use normal engineering checks.
+
+---
+
+## R2
+
+Typical Build behavior:
+
+- persistence,
+- APIs,
+- database behavior,
+- server actions,
+- background jobs,
+- significant dependencies,
+- data transformations.
+
+Requires stronger validation, failure handling, and automated tests.
+
+---
+
+## R3
+
+Typical Build behavior:
+
+- authentication,
+- authorization,
+- multi-user data,
+- tenant isolation,
+- PII,
+- uploads,
+- private files,
+- webhooks,
+- OAuth,
+- billing,
+- external redirects,
+- public write endpoints,
+- AI actions involving private data,
+- secrets.
+
+Requires implementation of explicit security controls and relevant negative
+tests.
+
+---
+
+## R4
+
+High-impact work.
+
+Build may prepare:
+
+- code,
+- migrations,
+- tests,
+- simulations,
+- dry runs,
+
+when safe.
+
+Do not execute the high-impact action without the approval required by Plan and
+`AGENTS.md`.
+
+---
+
+# 6. Risk Escalation During Build
+
+Implementation may reveal a higher-risk boundary that Plan did not anticipate.
 
 Examples:
 
-### Product change
+- a UI feature suddenly needs a server API;
+- a database feature introduces multi-user ownership;
+- an integration requires OAuth;
+- a document feature requires private uploads;
+- an AI feature requires sending private data externally.
 
-The implementation would automatically move unfinished Study Tasks into Today.
+When this occurs:
 
-STOP.
+1. stop the affected implementation path;
+2. identify the new boundary;
+3. reassess the risk tier;
+4. return to Plan when security, privacy, architecture, or acceptance criteria
+   materially change.
 
-That contradicts accepted V1 behavior.
-
----
-
-### Scope expansion
-
-A Course Page task suddenly appears to require Course editing.
-
-STOP.
-
-Editing is outside current V1.
+Do not continue under an obsolete low-risk Plan.
 
 ---
 
-### Durable architecture
+# 7. Inspect Before Editing
 
-Implementation appears to require introducing a global state-management
-library.
+Before changing an existing area:
 
-STOP and surface the decision if that change is materially project-wide.
+inspect:
 
----
+- relevant source files,
+- existing tests,
+- existing types,
+- existing utilities,
+- current routes/APIs,
+- dependencies,
+- configuration,
+- nearby patterns.
 
-### Security / privacy
+Prefer extending established project patterns when they remain appropriate.
 
-Implementation would require committing private Course files or credentials.
-
-STOP.
-
----
-
-### Significant dependency
-
-A third-party dependency would become a substantial project dependency rather
-than a trivial setup tool.
-
-STOP and surface the tradeoff.
+Do not replace working code solely because another design is possible.
 
 ---
 
-### Destructive operation
+# 8. Repository State Before Build
 
-Implementation would require destroying, rewriting, or discarding existing
-project or user work.
+Inspect Git state before meaningful edits.
 
-STOP unless the destructive action was explicitly approved.
+At minimum understand:
 
----
+- current branch,
+- configured upstream,
+- working tree,
+- staged files,
+- untracked files,
+- existing unrelated changes.
 
-# 5. When to Use Build
+Do not overwrite unrelated user work.
 
-Use Build when the task requires creating, modifying, or removing actual
-implementation.
-
-Examples include:
-
-- initializing application infrastructure,
-- creating routes,
-- creating UI components,
-- implementing navigation,
-- adding static academic fixtures,
-- implementing derived academic-data helpers,
-- building page behavior,
-- fixing bugs,
-- adding validation,
-- writing targeted tests,
-- updating configuration required by the accepted task,
-- or implementing an accepted architecture change.
-
-Do not use Build merely to explore what should be created.
-
-Meaningful unresolved design belongs in:
-
-`icm/01_plan/`
+Do not assume the repository is clean because a previous stage reported it.
 
 ---
 
-# 6. Build Entry Conditions
+# 9. Accepted Plan Is the Build Contract
 
-Before substantial implementation, Build should be able to answer:
-
-- What are we building?
-- Why are we building it?
-- What behavior is required?
-- What is explicitly out of scope?
-- Which product invariants constrain the task?
-- What repository areas are expected to change?
-- What acceptance criteria define success?
-- How is the result expected to be verified?
-
-For non-trivial work, these answers should normally come from an accepted Plan.
-
-If Build would still need to invent an important part of product behavior, the
-task is not ready.
-
-Return to Plan.
-
-If only ordinary implementation details remain, continue autonomously.
-
----
-
-# 7. Required Context
-
-Before implementation:
-
-1. Read root `AGENTS.md`.
-2. Read root `CONTEXT.md`.
-3. Read this Build-stage context.
-4. Read the accepted task Plan when one exists.
-5. Use the root context router to load only the durable sources relevant to the
-   task.
-6. Inspect actual repository files involved.
-7. Inspect Git state before editing when existing local work may affect task
-   safety.
-
-Do not automatically load every project document.
-
-Do not automatically load historical ICM artifacts.
-
-Do not automatically load raw Course materials.
-
-Do not assume repository state from historical task artifacts.
-
----
-
-## 7.1 Common Build Context
-
-Depending on the active task, relevant durable context may include:
-
-### `docs/V1_SPEC.md`
-
-Use when implementing:
-
-- V1 behavior,
-- academic concepts,
-- Today behavior,
-- progress,
-- Assignment behavior,
-- Study Task behavior,
-- or another student-facing product requirement.
-
----
-
-### `docs/UI_SPEC.md`
-
-Use when implementing:
-
-- a primary view,
-- navigation,
-- information hierarchy,
-- reusable UI elements,
-- empty states,
-- responsive presentation,
-- accessibility-related presentation behavior.
-
----
-
-### `docs/MOCK_DATA_SPEC.md`
-
-Use when implementing:
-
-- static Course data,
-- Study Task relationships,
-- Learning Objective relationships,
-- Assignment relationships,
-- reference-date behavior,
-- source-backed mock Course Facts,
-- progress derivation,
-- fixture identity,
-- authored ordering.
-
----
-
-### `docs/ARCHITECTURE.md`
-
-Use when:
-
-- project structure,
-- routes,
-- technical boundaries,
-- framework behavior,
-- shared data flow,
-- or architecture matters.
-
----
-
-### `docs/IMPLEMENTATION.md`
-
-Use when extending or modifying behavior that may already exist.
-
-Then inspect repository reality directly.
-
----
-
-### `docs/DECISIONS.md`
-
-Use when an accepted durable decision constrains implementation.
-
----
-
-### `docs/TASKS.md`
-
-Use when task scope, dependency order, current status, or sequencing matters.
-
----
-
-# 8. Context Minimization
-
-Use only the context necessary for the task.
-
-For a Courses-view task, Build may need:
-
-- `V1_SPEC.md`,
-- `UI_SPEC.md`,
-- `MOCK_DATA_SPEC.md`,
-- `IMPLEMENTATION.md`,
-- the accepted Plan,
-- relevant Courses and Dashboard implementation.
-
-It probably does NOT need:
-
-- full textbooks,
-- every historical Plan artifact,
-- every historical Verify artifact,
-- future AI planning documentation,
-- unrelated application files.
-
-For a Today task, Build likely does need:
-
-- `V1_SPEC.md`,
-- `UI_SPEC.md`,
-- `MOCK_DATA_SPEC.md`,
-- the accepted Plan,
-- relevant shared academic data,
-- relevant current implementation.
-
-More context is not automatically better.
-
-Use the smallest sufficient context set.
-
----
-
-# 9. Accepted Plan Is the Build Baseline
-
-When an accepted Plan exists, use it as the task-specific implementation
-baseline.
-
-Follow its:
+Build should follow the accepted Plan's:
 
 - objective,
+- risk classification,
 - requirements,
 - non-goals,
-- relevant invariants,
-- constraints,
+- invariants,
+- security/privacy requirements,
 - proposed approach,
 - impact map,
 - acceptance criteria,
-- implementation sequence,
 - verification targets.
 
-Do not reopen settled questions merely because another implementation is
-possible.
+Do not reopen settled decisions merely because another implementation would be
+easier.
 
 ---
 
-# 10. Plans Are Not Absolute About Local Detail
+# 10. Local Plan Deviations
 
-The accepted Plan defines behavior and boundaries.
+Build may deviate from low-level Plan details when repository reality makes
+another implementation clearly better.
 
-It does not need to dictate every local code decision.
+Allowed examples:
 
-Build may reasonably adjust low-risk implementation details when repository
-reality makes another approach cleaner.
+- slightly different file placement,
+- equivalent framework primitive,
+- helper extraction,
+- type organization,
+- test organization.
 
-Example:
+A local deviation is acceptable when:
 
-The Plan expected:
+- product behavior does not change,
+- security properties do not change,
+- privacy behavior does not change,
+- architecture does not materially change,
+- scope does not expand,
+- acceptance criteria remain valid.
 
-`components/course-card.tsx`
-
-but established repository conventions place feature-local components inside:
-
-`app/courses/_components/`
-
-Build may follow the established convention if:
-
-- product behavior remains unchanged,
-- architecture is not materially altered,
-- acceptance criteria remain valid,
-- scope does not expand.
-
-Mention meaningful deviations in the Build handoff.
-
-Do not return to Plan for harmless local differences.
+Record meaningful deviations in the Build handoff.
 
 ---
 
 # 11. Material Plan Conflict
 
-If repository reality proves a material Plan assumption wrong:
+Return to Plan when implementation reveals that the accepted approach would
+materially change:
 
-1. stop expanding the affected implementation,
-2. identify the incorrect assumption,
-3. inspect the relevant evidence,
-4. determine whether the issue affects:
-   - product behavior,
-   - architecture,
-   - scope,
-   - acceptance criteria,
-   - security,
-   - privacy,
-   - or durable decisions,
-5. return to Plan when necessary.
+- product behavior,
+- architecture,
+- security policy,
+- privacy policy,
+- ownership/authorization,
+- persistence semantics,
+- task scope,
+- acceptance criteria,
+- external provider choice,
+- significant dependency strategy.
 
-Do not force an invalid Plan simply because it was previously written.
+Do not force an invalid Plan.
 
-Do not silently redesign the feature either.
-
----
-
-# 12. Inspect Before Editing
-
-Before modifying an existing area:
-
-- inspect the relevant files,
-- understand current responsibilities,
-- inspect nearby patterns,
-- inspect existing types,
-- inspect existing tests where relevant,
-- inspect configuration where relevant,
-- inspect Git status.
-
-Prefer extending existing project patterns over inventing parallel systems.
-
-Do not replace working implementation merely because another style is possible.
+Do not silently redesign the system either.
 
 ---
 
-# 13. Smallest Coherent Change
+# 12. Smallest Secure Coherent Change
 
-Implement the smallest coherent change that completely satisfies the accepted
+Implement the smallest coherent solution that fully satisfies the accepted
 task.
 
-A coherent change may legitimately span several files.
+Avoid:
 
-For example:
+- unrelated refactors,
+- speculative infrastructure,
+- future-feature scaffolding,
+- premature abstractions,
+- unnecessary dependencies,
+- giant framework rewrites.
 
-- route,
-- component,
+Smallest does NOT mean:
+
+> remove required validation or security controls.
+
+Security required by the accepted Plan is part of the minimum solution.
+
+---
+
+# 13. Build in Logical Increments
+
+A useful implementation sequence is often:
+
+1. establish required types/contracts;
+2. implement core behavior;
+3. implement security/authorization boundaries;
+4. connect UI/API/data flow;
+5. implement failure states;
+6. add targeted tests;
+7. run Build checks;
+8. inspect the diff;
+9. hand off to Verify.
+
+Do not build several speculative layers before validating the core path.
+
+---
+
+# 14. Secure Coding Default
+
+For relevant tasks:
+
+assume external input is hostile until validated.
+
+Assume resource identifiers can be guessed.
+
+Assume client-side values can be modified.
+
+Assume public endpoints can be automated or abused.
+
+Assume external systems can fail.
+
+Assume AI output can be wrong or maliciously influenced.
+
+Implement accordingly.
+
+---
+
+# 15. Trust Boundary Enforcement
+
+Security checks belong at trusted boundaries.
+
+Examples:
+
+browser  
+→ server validation
+
+authenticated request  
+→ server authorization
+
+server  
+→ database access
+
+external webhook  
+→ signature verification
+
+file upload  
+→ validation/storage boundary
+
+Do not rely on client-side controls for security.
+
+---
+
+# 16. Input Validation
+
+Validate untrusted data at server/trust boundaries.
+
+Depending on the input, validate:
+
 - type,
-- fixture helper,
-- targeted test
+- format,
+- allowed values,
+- length,
+- size,
+- ownership relationship,
+- required fields,
+- URL scheme/domain,
+- file properties.
 
-may all belong to one feature.
+Prefer explicit schemas when complexity justifies them.
 
-Do not artificially force implementation into one file.
+Client validation may improve UX.
 
-At the same time, avoid unrelated:
-
-- cleanup,
-- refactoring,
-- renaming,
-- abstractions,
-- styling rewrites,
-- feature additions.
-
-Keep the change understandable.
+It is not the security boundary.
 
 ---
 
-# 14. Build in Logical Increments
+# 17. Output Safety
 
-For meaningful tasks, implement in a useful order.
+Use framework-safe output rendering by default.
 
-A typical sequence may be:
+Avoid unsafe HTML execution.
 
-1. inspect current implementation,
-2. establish required data/types,
-3. implement the smallest core behavior,
-4. connect supporting UI or helpers,
-5. handle required empty/error states,
-6. add targeted tests when useful,
-7. run implementation checks,
-8. inspect the Git diff,
-9. hand the implementation into Verify.
+If rendering user-supplied rich content becomes necessary:
 
-Do not build several speculative layers before proving the core path.
+use an accepted sanitization strategy.
+
+Do not manually concatenate untrusted content into executable contexts.
 
 ---
 
-# 15. Current V1 Hard Boundary
+# 18. Authentication
 
-During the initial UI milestone, do NOT introduce:
+When authentication is in scope:
 
-- AI,
-- external Course research,
-- syllabus parsing,
-- PDF processing,
-- automatic Assignment extraction,
-- automatic Learning Objective generation,
-- automatic Study Task generation,
-- automatic duration estimation,
-- automatic prioritization,
-- scheduling engines,
-- adaptive replanning,
-- Supabase,
-- a production database,
-- authentication,
-- user accounts,
-- Google Calendar,
-- Google Drive,
-- Course Material uploads,
-- task editing,
-- completion mutation,
-- plan saving.
+use accepted project/provider mechanisms.
 
-The static fixture represents information these systems may eventually produce.
+Do not invent custom password/session/token protocols unless explicitly
+approved.
 
-V1 does not implement those systems.
+Authentication logic should remain server-trusted.
+
+Never expose server credentials to the browser.
+
+Build must preserve the distinction:
+
+Authentication:
+
+> Who is this actor?
+
+Authorization:
+
+> May this actor perform this action?
 
 ---
 
-# 16. Product Invariants During Build
+# 19. Authorization
 
-For student-facing V1 behavior, preserve the invariants defined in:
+Authorization is required for every protected action/resource.
 
-`docs/V1_SPEC.md`
+Do not assume authorization because:
 
-Important examples include:
+- UI hides the object,
+- user supplied the object ID,
+- route is nested under a user page,
+- identifier is difficult to guess,
+- request is authenticated.
 
-- one shared academic plan,
-- stable Study Task identity,
-- Assignment due date != Study Task planned date,
-- Today = incomplete Study Tasks planned for `referenceDate`,
-- earlier unfinished work does not automatically move to Today,
-- Next Action = first Today Study Task in authored order,
-- weekly progress counts Study Tasks only,
-- Course Facts != personal planning choices,
-- V1 is read-only.
+Check permission at the server/data boundary.
 
-Do not override an invariant because another implementation is simpler.
+For private user resources, conceptually verify:
 
----
-
-# 17. Shared Academic Data
-
-When working with the V1 fixture, prefer:
-
-```text
-shared academic data
-↓
-derived selection/calculation
-↓
-view
-```
-
-over separate canonical copies such as:
-
-- Dashboard copy of data,
-- Today copy of data,
-- Weekly Plan copy of data,
-- Course Page copy of data.
-
-The same academic item should maintain one canonical identity.
-
-Do not create screen-specific canonical Course, Assignment, Objective, or Study
-Task records.
+authenticated actor  
++  
+requested action  
++  
+resource ownership / tenant membership
 
 ---
 
-# 18. Derived Data
+# 20. Multi-User / Tenant Isolation
 
-Whenever practical, derive values such as:
+For multi-user functionality:
 
-- Today Study Tasks,
-- Today's Classes,
-- Upcoming Assignments,
-- Next Action,
-- Course weekly progress,
-- overall weekly progress.
+every private data read/write must preserve tenant isolation.
 
-Do not hardcode contradictory derived values independently into multiple views.
+Do not trust client-supplied ownership identifiers.
 
-For example, do not store:
-
-`weeklyProgress: 60`
-
-if progress can reliably be calculated from canonical Study Tasks.
-
-The durable derivation rules live in:
-
-`V1_SPEC.md`
-
-and:
-
-`MOCK_DATA_SPEC.md`
-
----
-
-# 19. Course Facts vs Personal Plan
-
-Preserve the distinction between:
-
-`Course Fact`
-
-and:
-
-`Personal planning choice`
+Prefer deriving ownership from authenticated server context.
 
 Example:
 
-Course Fact:
+unsafe:
 
-`Problem #1 due Monday`
+user sends:
 
-Personal plan:
+`userId = "123"`
 
-`Begin Problem #1 Friday — 30 min`
+and server trusts it.
 
-Do not present a personal Study Task as an instructor requirement.
+Safer:
 
-Do not fabricate instructor facts to make UI content more complete.
+server resolves authenticated user  
+→ server scopes query to authenticated owner
 
----
-
-# 20. Missing Academic Information
-
-Missing data is valid.
-
-Do not invent:
-
-- deadlines,
-- duration estimates,
-- instructor names,
-- lecture topics,
-- textbook sections,
-- Assignment relationships,
-- Learning Objective relationships,
-- Course Materials.
-
-Use the empty or optional state defined by the accepted specification.
+Build should make cross-user access difficult by architecture, not only by UI.
 
 ---
 
-# 21. Source Uncertainty
+# 21. Persistence
 
-When working with manually normalized Course data, do not silently correct
-questionable source information.
+When implementing persistence:
 
-If fixture data includes source uncertainty that requires human interpretation,
-preserve the accepted reviewed value or status defined by the mock-data
-contract.
+- preserve product relationships,
+- enforce ownership,
+- validate writes,
+- enforce integrity constraints where appropriate,
+- use safe query mechanisms,
+- consider delete/update behavior,
+- avoid duplicated canonical data unless intentionally required.
 
-Build does not perform Course-source research or reconciliation during V1.
+Do not mechanically translate mock fixture shapes into production schemas.
 
----
-
-# 22. UI Implementation
-
-When implementing student-facing UI, follow:
-
-`docs/UI_SPEC.md`
-
-for information hierarchy and presentation responsibilities.
-
-Preserve:
-
-- semantic distinctions,
-- useful visual hierarchy,
-- responsive usability,
-- reasonable accessibility,
-- consistency across views.
-
-Do not make every piece of information visually equal.
-
-Do not introduce fake controls for unimplemented functionality.
-
-A read-only prototype should feel intentionally read-only rather than broken.
+The accepted Plan owns production data modeling.
 
 ---
 
-# 23. Responsive Implementation
+# 22. Database Query Safety
 
-Use ordinary responsive behavior appropriate to the existing stack.
+Use parameterized ORM/query-builder/database operations.
 
-Build may autonomously decide:
+Do not create SQL by concatenating untrusted strings.
 
-- stacking behavior,
-- grid transitions,
-- spacing adjustments,
-- compact metadata presentation,
+Database identifiers are not secrets.
 
-when those decisions are low risk.
+Authorization cannot depend on ID obscurity.
 
-Do not hide required information merely to make a narrow layout easier.
-
-Do not add a complex responsive framework solely for V1.
+Use least-privilege credentials where supported.
 
 ---
 
-# 24. Accessibility
+# 23. Database Migrations
 
-Use normal semantic web practices.
+Migrations are controlled changes.
 
-Where applicable:
+For meaningful migrations:
 
-- use correct interactive elements,
-- preserve keyboard access,
-- use useful heading structure,
-- avoid status communicated only through color,
-- provide meaningful labels,
-- avoid inaccessible fake controls.
+- make intent explicit,
+- preserve existing data where required,
+- understand rollback/recovery,
+- avoid destructive changes without authorization,
+- test migration behavior where practical.
 
-Accessibility improvements that are clearly local and low-risk may be made
-without separate approval.
+R4 destructive migrations require the approval defined by Plan.
 
-Do not add a dependency merely to claim accessibility support.
+Build may prepare them without executing production impact.
 
 ---
 
-# 25. Dependencies
+# 24. User Input
 
-Do not add dependencies automatically because they make coding easier.
+Forms, APIs, server actions, and URL parameters must be treated as untrusted.
 
-Before adding one, determine whether the capability already exists in:
+Validate:
 
-- Next.js,
-- React,
-- TypeScript,
-- Tailwind,
-- the browser,
-- an existing project dependency.
+- required fields,
+- allowed formats,
+- length,
+- enum/value boundaries,
+- ownership relationships,
+- numeric/date constraints.
 
-A small local solution is often preferable to another dependency.
+Do not persist arbitrary client data merely because TypeScript says the type is
+correct.
 
----
-
-## 25.1 Low-Risk Setup Dependencies
-
-Conventional dependencies that are part of an already-approved framework setup
-may be added when the accepted Plan clearly requires them.
-
-These do not need repeated approval if they are normal parts of the selected
-stack.
+Runtime validation is separate from static typing.
 
 ---
 
-## 25.2 Material Dependencies
+# 25. APIs
 
-Stop and surface a dependency decision when a package:
+For APIs consider:
 
-- materially changes architecture,
-- introduces significant maintenance burden,
-- handles sensitive data,
-- creates vendor lock-in,
-- affects large parts of the app,
-- or was not reasonably implied by the accepted Plan.
+- authentication,
+- authorization,
+- validation,
+- response minimization,
+- status/error behavior,
+- rate/abuse control,
+- idempotency where relevant,
+- enumeration risks,
+- logging.
 
----
+Do not expose internal database structures unnecessarily.
 
-# 26. Security and Sensitive Information
-
-Never put real secrets into:
-
-- source code,
-- documentation,
-- fixture data,
-- tests,
-- ICM artifacts,
-- committed environment files.
-
-Never expose:
-
-- API keys,
-- passwords,
-- access tokens,
-- credentials.
-
-Use approved environment-variable patterns when future tasks need secrets.
-
-Do not commit private student or Course information unnecessarily.
+Do not return private objects simply because the caller knows their ID.
 
 ---
 
-# 27. Raw Course Materials
+# 26. Public Endpoints
 
-Do not automatically place raw materials such as:
+Public endpoints must assume automated hostile use.
 
-- textbooks,
-- Canvas exports,
-- instructor PDFs,
-- lecture files,
-- student notes
+Examples include:
 
-into the application repository.
+- NFC tap routes,
+- public review handoffs,
+- signup,
+- password reset,
+- public forms,
+- webhooks.
 
-The V1 UI should normally use normalized static fixture information.
+Consider:
 
-Raw source documents should only be handled when a task specifically requires
-them.
+- spam,
+- enumeration,
+- replay,
+- abuse volume,
+- malicious payloads,
+- resource exhaustion.
 
-Do not reproduce large copyrighted source content inside fixture files.
-
----
-
-# 28. Error Handling
-
-Handle actual failure cases deliberately.
-
-Do not:
-
-- swallow errors,
-- report success after failure,
-- create empty catch blocks,
-- hide failures behind broad fallbacks,
-- weaken validation simply to make checks pass.
-
-When debugging, prefer:
-
-```text
-failure
-↓
-evidence
-↓
-hypothesis
-↓
-targeted change
-↓
-recheck
-```
-
-over repeated speculative editing.
+Implement accepted abuse controls.
 
 ---
 
-# 29. Evidence-Based Debugging
+# 27. Rate Limiting
 
-When something fails, inspect the actual:
+When Plan requires rate/abuse protection:
 
-- error message,
-- stack trace,
-- failing test,
-- browser behavior,
-- type error,
-- build output,
-- relevant source.
+apply it to the meaningful trust boundary.
 
-Do not make several speculative changes at once.
+Do not add arbitrary limits without product/security rationale.
 
-Fix the smallest supported cause first.
+Rate limits should consider:
 
-Then rerun the relevant check.
+- user,
+- IP,
+- resource,
+- operation type
 
----
+where appropriate.
 
-# 30. Testing During Build
-
-Build may create and run targeted tests when they provide useful confidence.
-
-Tests should verify meaningful behavior rather than implementation trivia.
-
-When appropriate, cover:
-
-- required behavior,
-- important edge cases,
-- failure states,
-- data relationships,
-- ordering,
-- regression-sensitive behavior.
-
-Do not introduce a large testing system merely because one small feature needs
-verification.
-
-Do not modify tests simply to make an incorrect implementation pass.
+Verify should later prove abuse controls rather than merely inspect configuration.
 
 ---
 
-# 31. Tests Are Not Completion
+# 28. Secrets
 
-Passing tests are useful evidence.
+Never hardcode secrets.
 
-They do not automatically prove:
+Never expose secrets to client bundles.
 
-- the specification was interpreted correctly,
-- the UI is usable,
-- no regression exists,
-- all acceptance criteria were satisfied.
+Never log secrets.
 
-Independent Verify still evaluates meaningful implementation against the
-accepted requirements.
+Never commit secrets.
 
----
+Use accepted environment-secret mechanisms.
 
-# 32. Build Checks
+If Build discovers a real committed/exposed secret:
 
-Before handing meaningful work to Verify, run the strongest practical checks
-available for the task.
+STOP.
 
-Depending on the implementation, these may include:
+Treat it as an incident requiring remediation/rotation.
 
-- type checking,
-- linting,
-- targeted tests,
-- production build,
-- local development runtime,
-- route navigation,
-- browser inspection,
-- fixture validation,
-- manual behavior inspection.
-
-Use checks proportional to risk.
-
-Do not run irrelevant checks merely for ceremony.
+Do not simply remove the visible string and continue.
 
 ---
 
-# 33. Explain What Checks Prove
+# 29. Environment Variables
 
-When reporting Build checks, distinguish:
+Distinguish:
 
-`what the check proves`
+server-only configuration
 
 from:
 
-`what the check does NOT prove`
+intentionally client-exposed configuration.
 
-Example:
+Do not use public environment-variable naming for secrets.
 
-`npm run build`
+When adding configuration:
 
-may prove:
-
-- the production build succeeds,
-- TypeScript/framework compilation is acceptable.
-
-It does NOT prove:
-
-- every visual requirement is satisfied,
-- every interaction behaves correctly,
-- the product semantics are correct.
+- document required variable names,
+- avoid real values in committed examples,
+- validate required server configuration when appropriate.
 
 ---
 
-# 34. Teaching During Build
+# 30. Privacy
 
-Mike is learning software engineering while building School Dashboard.
+For tasks involving personal/private data:
 
-Teaching should support progress without creating unnecessary friction.
+follow `docs/DATA_PRIVACY.md`.
 
-When implementation introduces an important concept, briefly explain:
+Build should minimize:
 
-- what it is,
-- why it is being used,
-- where it lives,
-- how it affects the current task.
+- collection,
+- duplication,
+- exposure,
+- logging,
+- unnecessary retention.
 
-Concepts that often deserve explanation include:
+Do not use real user data in ordinary fixtures/tests.
 
-- a new Next.js pattern,
-- important React behavior,
-- meaningful TypeScript structure,
-- shared data flow,
-- routing,
+---
+
+# 31. Logging
+
+Logs should provide operational value without becoming a privacy leak.
+
+Do not log:
+
+- passwords,
+- access tokens,
+- refresh tokens,
+- private keys,
+- full sensitive payloads,
+- private document contents,
+- unnecessary PII.
+
+Prefer:
+
+- event type,
+- safe identifiers,
+- structured error metadata.
+
+---
+
+# 32. Error Handling
+
+User-facing errors should not leak:
+
+- stack traces,
+- database internals,
+- environment configuration,
+- credentials,
+- internal service details.
+
+Internal diagnostics should preserve enough evidence to debug safely.
+
+Never silently swallow meaningful errors.
+
+---
+
+# 33. File Uploads
+
+Upload features require the controls accepted by Plan.
+
+Typical implementation concerns:
+
+- ownership,
+- size bounds,
+- content/type validation,
+- safe filenames,
+- private storage,
+- access-controlled retrieval,
+- metadata,
+- deletion,
+- processing isolation.
+
+Do not treat the filename extension as proof of content type.
+
+Do not store private uploads in public locations by default.
+
+---
+
+# 34. File Downloads
+
+Private files require authorization on retrieval.
+
+Do not rely solely on obscure URLs.
+
+When using signed URLs:
+
+- keep lifetime appropriate,
+- scope access appropriately,
+- avoid exposing broader storage permissions.
+
+---
+
+# 35. External URLs
+
+Validate user/external URLs before redirecting or fetching.
+
+Consider:
+
+- allowed protocol,
+- expected domain rules,
+- malformed URLs,
+- unsafe schemes,
+- open redirects.
+
+ReviewTap-style external review handoffs should use accepted redirect rules.
+
+---
+
+# 36. Webhooks
+
+When implementing webhooks:
+
+- verify authenticity using provider-supported signing;
+- verify payload before trusted processing;
+- consider freshness/replay;
+- use idempotent processing where relevant;
+- avoid duplicate side effects;
+- handle retry/failure safely.
+
+Do not trust a webhook because its URL is difficult to discover.
+
+---
+
+# 37. External Integrations
+
+Treat third-party APIs as external trust boundaries.
+
+Validate important responses before treating them as trusted state.
+
+Handle:
+
+- timeout,
+- failure,
+- malformed data,
+- rate limit,
+- partial availability.
+
+Do not expose provider credentials.
+
+---
+
+# 38. AI Integration
+
+AI/model output is untrusted.
+
+Do not permit model output to bypass:
+
 - validation,
-- significant dependency behavior,
-- security-sensitive configuration,
-- testing architecture.
+- authentication,
+- authorization,
+- product approval requirements.
 
-Do not interrupt implementation with explanations of trivial syntax.
+For private data:
 
----
+send only accepted information.
 
-# 35. Increased Automation for Learning
+Do not casually include entire user records/documents in prompts.
 
-Mike does not need to manually perform every development step.
+When AI can perform actions:
 
-Build may automate:
-
-- file creation,
-- routine edits,
-- repetitive setup,
-- local refactors,
-- standard commands,
-- routine checks.
-
-Preserve learning by explaining meaningful engineering decisions in the
-handoff.
-
-Do not deliberately slow implementation simply so Mike can type every command
-himself.
-
-When there is a particularly valuable hands-on learning step, mention it as an
-optional review opportunity rather than making it a blocker unless Mike asks
-for the manual workflow.
+authorization must be checked by the application, not by the model.
 
 ---
 
-# 36. Documentation During Build
+# 39. Prompt Injection
 
-Do not update:
+When AI operates over user/external documents:
+
+treat document text as untrusted content, not privileged instructions.
+
+Do not allow uploaded Course materials or website content to override system
+rules/tool permissions.
+
+Tool/action permissions remain controlled outside the model's generated text.
+
+---
+
+# 40. AI Cost Controls
+
+When AI usage has meaningful cost:
+
+implement accepted limits/telemetry such as:
+
+- operation count,
+- model usage,
+- token/usage measurement,
+- per-user accounting,
+- rate limits,
+- quotas.
+
+Do not introduce billing merely because cost tracking exists.
+
+Cost visibility and monetization are separate concerns.
+
+---
+
+# 41. Dependencies
+
+Before adding a meaningful dependency:
+
+confirm the accepted Plan allows it.
+
+Use existing platform capability when reasonable.
+
+When adding:
+
+- update lockfile normally,
+- do not bypass security warnings,
+- do not install unrelated packages,
+- avoid abandoned/unknown dependencies where practical.
+
+Build should record meaningful dependency additions in its handoff.
+
+---
+
+# 42. Supply Chain Safety
+
+Do not:
+
+- install packages from random URLs,
+- execute unreviewed remote scripts,
+- disable lockfiles,
+- bypass package-integrity controls,
+- downgrade security controls merely to satisfy compatibility.
+
+Prefer official package registries and maintained packages.
+
+---
+
+# 43. Tests During Build
+
+Build should create automated tests appropriate to risk.
+
+Do not wait for Verify to invent all test coverage.
+
+Tests should be part of implementation when behavior is important.
+
+---
+
+# 44. R1 Testing
+
+Typical evidence may include:
+
+- lint,
+- typecheck,
+- build,
+- component/browser checks.
+
+Automated tests are useful when regression value justifies them.
+
+---
+
+# 45. R2 Testing
+
+Typically include:
+
+- unit tests,
+- data invariant tests,
+- integration tests,
+- failure cases,
+- API/data behavior.
+
+Do not rely only on manual UI inspection for persistent/server behavior.
+
+---
+
+# 46. R3 Testing
+
+Add relevant automated negative/security cases.
+
+Examples:
+
+- unauthorized request denied,
+- cross-user access denied,
+- malformed payload rejected,
+- invalid redirect denied,
+- forged webhook rejected,
+- invalid upload rejected,
+- sensitive fields excluded,
+- unauthenticated access denied.
+
+The happy path alone is insufficient.
+
+---
+
+# 47. Security Tests Must Test Real Controls
+
+Weak test:
+
+> function exists named `authorizeUser`.
+
+Strong test:
+
+> authenticated User A requests User B's resource and receives denial.
+
+Prefer behavioral evidence over naming/implementation trivia.
+
+---
+
+# 48. Test Integrity
+
+Do not:
+
+- weaken tests to make implementation pass,
+- delete failing tests without justification,
+- mock away the security control being tested,
+- change acceptance criteria because a test fails.
+
+When a valid test exposes a defect:
+
+fix the defect.
+
+---
+
+# 49. Evidence-Based Debugging
+
+When something fails:
+
+failure  
+→ inspect evidence  
+→ form hypothesis  
+→ targeted change  
+→ rerun relevant check
+
+Avoid broad speculative edits.
+
+One supported fix is better than several guesses.
+
+---
+
+# 50. UI and Accessibility
+
+For student/user-facing interfaces:
+
+use semantic elements and normal accessibility practices.
+
+Where relevant:
+
+- keyboard access,
+- focus visibility,
+- heading structure,
+- meaningful labels,
+- status not communicated only through color,
+- reasonable responsive behavior.
+
+Accessibility improvements that are local and compatible with scope may be
+implemented autonomously.
+
+---
+
+# 51. Client vs Server Boundaries
+
+Do not move sensitive/security logic to the client merely for convenience.
+
+Client components should not receive unnecessary secrets/private data.
+
+Server-side behavior should enforce:
+
+- authentication,
+- authorization,
+- protected reads/writes.
+
+Do not assume `"use client"` code is trusted.
+
+---
+
+# 52. Security Headers and Browser Controls
+
+When the application becomes production-facing, follow accepted project
+security requirements for relevant browser protections.
+
+Examples may include:
+
+- Content Security Policy,
+- frame protections,
+- MIME sniffing protections,
+- referrer controls,
+- secure cookie behavior.
+
+Do not add random headers without understanding deployment/framework behavior.
+
+These should be established by `SECURITY_REQUIREMENTS.md`.
+
+---
+
+# 53. Performance and Efficiency
+
+Build should avoid obviously inefficient designs.
+
+Consider performance when it materially matters:
+
+- unbounded queries,
+- N+1 access,
+- loading unnecessary private data,
+- repeated expensive AI calls,
+- large uploads,
+- unnecessary client bundles.
+
+Do not prematurely optimize trivial paths.
+
+---
+
+# 54. Resource Bounds
+
+User-controlled operations should have reasonable bounds when abuse could cause
+cost/resource problems.
+
+Examples:
+
+- text lengths,
+- upload sizes,
+- pagination,
+- query sizes,
+- AI operations,
+- expensive searches.
+
+Bounds should come from accepted product/security requirements rather than
+arbitrary guesses when material.
+
+---
+
+# 55. Concurrency and Idempotency
+
+When duplicate operations can cause harm:
+
+consider concurrency and idempotency.
+
+Examples:
+
+- billing webhooks,
+- account creation,
+- payment processing,
+- ingestion jobs,
+- destructive actions.
+
+Do not introduce elaborate distributed coordination for ordinary UI updates.
+
+---
+
+# 56. Business Logic Integrity
+
+Security includes protecting product invariants.
+
+Do not permit API/client manipulation to bypass:
+
+- ownership,
+- workflow status,
+- quotas,
+- consent,
+- required transitions.
+
+Business rules that matter must be enforced on trusted server boundaries.
+
+---
+
+# 57. Scope Discipline
+
+Do not build adjacent roadmap items.
+
+When implementation reveals useful future work:
+
+record it as a candidate.
+
+Do not implement it unless required to complete the accepted task.
+
+---
+
+# 58. Future Infrastructure
+
+Do not scaffold future systems merely because they are likely later.
+
+Examples:
+
+- billing,
+- AI,
+- queues,
+- analytics,
+- integrations,
+- uploads
+
+should be introduced only when accepted tasks require them.
+
+---
+
+# 59. Documentation During Build
+
+Build may update documentation necessary to support development when the change
+is already accepted.
+
+Do not promote unverified behavior into:
 
 `docs/IMPLEMENTATION.md`
 
-merely because code now exists.
+Do not mark the active task Done.
 
-Implementation should normally be described as established reality only after
-sufficient Verify evidence.
-
-Build may identify documentation updates that Verify should finalize later.
+Verify owns final verified state promotion.
 
 ---
 
-## 36.1 Requirements Documents
+# 60. Security Documentation
 
-Do not change:
+Do not rewrite:
 
-- `V1_SPEC.md`,
-- `UI_SPEC.md`,
-- `MOCK_DATA_SPEC.md`
+- `SECURITY_REQUIREMENTS.md`,
+- `DATA_PRIVACY.md`,
+- `THREAT_MODEL.md`
 
-merely to make them match an implementation mistake.
+merely to make implementation easier.
 
-If implementation reveals a genuine requirement problem:
+If accepted requirements prove invalid/incomplete:
 
 return to Plan.
 
-Requirements drive implementation.
+Implementation follows policy.
 
-Implementation does not silently redefine requirements.
-
----
-
-## 36.2 Architecture and Decisions
-
-If Build reveals a potential durable architecture or product decision:
-
-surface it.
-
-Do not automatically promote every local implementation choice into:
-
-`ARCHITECTURE.md`
-
-or:
-
-`DECISIONS.md`.
-
-Only meaningful accepted durable choices belong there.
+Implementation does not silently rewrite policy.
 
 ---
 
-# 37. Task Status
+# 61. Threat Model Discoveries
 
-Do not mark a meaningful implementation task:
+If Build discovers a meaningful new attack surface not represented in the
+accepted Plan:
 
-`Done`
+record it.
 
-merely because Build completed.
+If it materially changes controls or acceptance criteria:
 
-A useful lifecycle is:
+return to Plan.
 
-```text
-Not started
-↓
-In progress
-↓
-Ready for verification
-↓
-Done
-```
+If it is low-impact and already covered by existing requirements:
 
-Build may prepare the task for verification.
-
-Verify determines whether sufficient evidence exists for completion.
-
-Follow the status conventions in:
-
-`docs/TASKS.md`
+implement the control and document the discovery in the handoff.
 
 ---
 
-# 38. Build Output Artifacts
+# 62. Security Incidents During Build
+
+Stop normal execution if Build discovers:
+
+- exposed real secret,
+- unexpected sensitive data in Git,
+- confirmed cross-user data leak,
+- production credential exposure,
+- destructive unauthorized action,
+- serious active security defect involving real users.
+
+Do not bury the issue inside routine implementation.
+
+Surface the incident and safest next action.
+
+---
+
+# 63. Build Checks
+
+Before handoff, run checks proportional to the task.
+
+Examples:
+
+- lint,
+- typecheck,
+- unit tests,
+- integration tests,
+- production build,
+- browser tests,
+- API tests,
+- database tests,
+- security tests,
+- dependency checks,
+- static analysis,
+- `git diff --check`.
+
+Do not run irrelevant expensive checks for ceremony.
+
+Do not skip relevant security tests to save time.
+
+---
+
+# 64. CI
+
+If CI exists:
+
+local checks should anticipate CI requirements.
+
+Before handoff when practical:
+
+run the same important checks locally.
+
+Do not modify CI merely to suppress valid failures.
+
+If CI fails after local success:
+
+investigate rather than assuming CI is wrong.
+
+---
+
+# 65. Diff Inspection
+
+Before declaring Build ready:
+
+inspect the complete task diff.
+
+Confirm:
+
+- expected files changed,
+- unrelated files did not,
+- no secrets were introduced,
+- no private/raw files were introduced,
+- no generated junk is tracked,
+- no unexpected dependency was added,
+- no security control was accidentally removed,
+- no future-scope implementation leaked in.
+
+---
+
+# 66. Sensitive Diff Review
+
+For R3+ work, specifically inspect for:
+
+- client-exposed secrets,
+- missing authorization,
+- broad database queries,
+- unsafe user-controlled IDs,
+- logging of sensitive values,
+- public storage exposure,
+- unsafe redirects,
+- disabled security checks,
+- accidental debug endpoints.
+
+Build should try to catch these before Verify.
+
+---
+
+# 67. Git Discipline
+
+Build may autonomously inspect repository state.
+
+Build should not normally commit unfinished current-task implementation.
+
+The current task remains owned by:
+
+Build  
+→ implementation  
+→ checks  
+→ handoff
+
+then:
+
+Verify  
+→ independent validation  
+→ full PASS  
+→ finalization
+
+unless repository workflow defines branch commits/PR preparation differently.
+
+---
+
+# 68. Task Branch Workflow
+
+When repository policy uses feature/task branches:
+
+Build may create/use the accepted task branch according to repository rules.
+
+Build may commit work when branch workflow requires intermediate commits and
+the accepted ICM explicitly permits it.
+
+Do not merge to protected production branches during Build.
+
+Verify/CI/repository policy own merge readiness.
+
+---
+
+# 69. Verified Predecessor Synchronization
+
+If an already-verified predecessor task is committed but not synchronized:
+
+Build may perform safe normal synchronization according to `AGENTS.md`.
+
+Confirm:
+
+- repository identity,
+- branch,
+- no divergence,
+- no conflict,
+- no unsafe unrelated content.
+
+A simple local-ahead state is not a blocker.
+
+---
+
+# 70. Git Transport Fallback
+
+If Git synchronization fails solely because of transport/authentication:
+
+follow the safe fallback process from `AGENTS.md`.
+
+Confirm the SAME:
+
+- repository,
+- branch,
+- history.
+
+An authenticated HTTPS fallback may replace unavailable SSH when safe.
+
+Transport fallback does not authorize:
+
+- force push,
+- rebase,
+- reset,
+- history rewrite,
+- repository change.
+
+---
+
+# 71. Destructive Git
+
+Do not automatically:
+
+- force push,
+- hard reset,
+- rewrite history,
+- discard user work,
+- overwrite divergent remote work,
+- perform destructive conflict resolution.
+
+Stop when safe reconciliation requires human judgment.
+
+---
+
+# 72. Build Artifact
+
+A Build artifact is optional.
 
 Use:
 
 `icm/02_build/output/`
 
-only when the task benefits from a durable Build artifact.
-
-Possible examples:
-
-- meaningful implementation handoff notes,
-- significant migration notes,
-- a substantial deviation record,
-- a complex implementation map.
-
-Do not create a Build artifact automatically for every task.
-
-The actual source code and Git diff are usually the primary implementation
-record.
-
----
-
-# 39. Build Artifact Naming
-
-When an artifact is justified, use a descriptive task-specific name.
-
-Example:
-
-`SD-012-assignment-persistence-build-notes.md`
-
-Avoid vague names such as:
-
-- `build.md`
-- `notes.md`
-
-Build artifacts are temporary working evidence.
-
-They are not permanent product specifications.
-
----
-
-# 40. Human Review Summary
-
-When a substantial Build artifact or handoff is useful, begin with a concise
-Human Review Summary.
-
-The purpose is to let Mike understand the important result quickly without
-having to inspect every implementation detail.
-
-Use the following structure where relevant.
-
----
-
-## What Changed
-
-Briefly explain:
-
-- what behavior was implemented,
-- what major project areas changed,
-- what intentionally remained untouched.
-
-Do not reproduce a file-by-file diff.
-
----
-
-## Important Implementation Choices
-
-Mention only choices worth understanding.
+when durable Build notes provide real value.
 
 Examples:
 
-- shared fixture data was centralized,
-- progress is derived rather than stored,
-- a Next.js dynamic route was used for Course Page.
+- complex migration execution notes,
+- substantial implementation deviation,
+- multi-service change map.
 
-Do not list trivial code decisions.
+Do not generate Build artifacts merely for process completeness.
 
----
-
-## What Mike Should Review
-
-Point to the highest-value:
-
-- files,
-- behavior,
-- UI,
-- dependency,
-- configuration,
-- or command output.
-
-If no focused review is necessary:
-
-`None.`
+Source code + tests + diff are normally the Build evidence.
 
 ---
 
-## Learn From This Build
+# 73. Build Handoff
+
+Meaningful Build work should end with a concise handoff.
 
 Use:
 
-### Worth Understanding
-
-Important engineering ideas demonstrated by the implementation.
-
-### Can Learn Later
-
-Concepts present in the code but not important to review now.
-
-Do not turn the handoff into a large tutorial.
-
----
-
-## Checks Run
-
-For each meaningful check, report:
-
-- command/check,
-- result,
-- what it proves,
-- what it does not prove.
-
----
-
-## Limitations or Blockers
-
-Distinguish:
-
-### Expected deferred work
-
-Something intentionally outside current scope.
-
-from:
-
-### Actual defect/blocker
-
-Something preventing correct completion.
-
-If neither exists:
-
-`None.`
-
----
-
-## Plan Deviations
-
-Describe meaningful differences from the accepted Plan.
-
-If none:
-
-`None.`
-
-Do not report trivial local adjustments.
-
----
-
-## Ready for Verify
-
-State:
-
-`YES`
-
-or:
-
-`NO`
-
-with a short reason if needed.
-
----
-
-# 41. No Artificial Human Checkpoints
-
-Do not require Mike to approve implementation between every logical Build step.
-
-When the accepted Plan allows autonomous implementation:
-
-continue through the coherent Build.
-
-Pause only for:
-
-- a material decision,
-- a concrete blocker,
-- destructive behavior,
-- a security or privacy concern,
-- significant scope expansion,
-- or another issue explicitly requiring human judgment.
-
-Routine non-destructive Git inspection does not require a human checkpoint.
-
-If an already-verified predecessor task is committed locally and the branch is
-simply ahead of its configured upstream, Build may synchronize that verified
-commit using a normal push when the Git safety conditions in this document are
-satisfied.
-
-Do not stop merely because a verified predecessor commit has not yet been
-pushed.
-
-This is intentionally a faster workflow.
-
----
-
-# 42. Build Discoveries
-
-Implementation often reveals information that was invisible during Plan.
-
-Classify discoveries before acting.
-
----
-
-## Local Implementation Detail
-
-If the discovery is:
-
-- contained,
-- reversible,
-- low-risk,
-- compatible with accepted behavior,
-
-resolve it autonomously.
-
-Example:
-
-A small utility is cleaner than repeating date filtering in three components.
-
-Build may create it.
-
----
-
-## Plan-Impacting Discovery
-
-If the discovery changes:
-
-- expected implementation approach materially,
-- scope,
-- acceptance criteria,
-- architecture,
-- product behavior,
-
-return to Plan.
-
----
-
-## Durable Discovery
-
-If implementation reveals a potentially lasting project-wide rule:
-
-surface it as a decision candidate.
-
-Do not automatically promote it.
-
----
-
-## Security / Destructive Discovery
-
-Stop immediately when the discovery creates:
-
-- a meaningful security risk,
-- privacy risk,
-- destructive action,
-- data-loss risk,
-- credential exposure.
-
-Do not silently work around it.
-
----
-
-# 43. Git Discipline
-
-Build has high autonomy for normal, non-destructive Git inspection and safe
-synchronization.
-
-Build may use operations such as:
-
-- `git status`
-- `git diff`
-- `git diff --staged`
-- `git log`
-- `git fetch`
-
-Build may inspect:
-
-- the current branch,
-- its configured upstream,
-- local ahead/behind state,
-- remote ahead/behind state,
-- divergence,
-- conflicts,
-- staged files,
-- untracked files,
-- unrelated working-tree changes.
-
-These operations do not require a separate human approval checkpoint.
-
----
-
-## 43.1 Current-Task Rule
-
-Build should NOT normally commit or push unfinished current-task
-implementation.
-
-The ordinary current-task flow is:
-
-```text
-Build implementation
-↓
-Build checks
-↓
-diff inspection
-↓
-handoff to Verify
-↓
-independent verification
-↓
-PASS
-↓
-Verify finalization
-↓
-task-scoped commit
-↓
-normal push
-```
-
-Build should not bypass Verify simply because implementation appears correct.
-
----
-
-## 43.2 Verified Predecessor Synchronization
-
-Build MAY perform a normal push for an already-verified and already-committed
-previous task when ALL of the following are true:
-
-- the predecessor task already received sufficient verification,
-- its commit already exists locally,
-- the current branch has a configured upstream,
-- local is simply ahead of that upstream,
-- the upstream does not contain independent commits creating divergence,
-- no unresolved conflict exists,
-- no unrelated unsafe work would be pushed,
-- no secret or credential would be pushed,
-- no private/raw Course material would be pushed,
-- no destructive reconciliation is required.
-
-A safe state such as:
-
-```text
-local branch
-ahead of its configured upstream by verified predecessor commit
-no remote divergence
-```
-
-is NOT a blocker.
-
-Build may perform:
-
-`git push`
-
-and continue with the active task.
-
-This synchronization is routine repository maintenance.
-
-It is not current-task finalization.
-
----
-
-## 43.3 Failed Predecessor Push
-
-If a normal predecessor push fails, Build may safely inspect using:
-
-- `git status`
-- `git log`
-- `git fetch`
-
-Do not treat a failed push as permission to perform destructive
-reconciliation.
-
-If the remote contains independent work, history has diverged, or safe
-synchronization is unclear:
-
-STOP and surface the issue.
-
----
-
-## 43.4 Git Operations Requiring Explicit Approval
-
-Build must NOT automatically:
-
-- force push,
-- `git reset --hard`,
-- rebase,
-- rewrite history,
-- delete branches,
-- delete tags,
-- discard uncommitted user work,
-- resolve destructive conflicts by choosing a side,
-- overwrite genuinely divergent remote work,
-- stage unrelated user changes,
-- commit unfinished current-task implementation,
-- commit or push secrets or credentials,
-- commit or push private/raw Course materials.
-
-High automation does not mean destructive Git autonomy.
-
----
-
-# 44. Diff Review
-
-Before declaring meaningful Build work ready for Verify, inspect the resulting
-change set.
-
-Confirm:
-
-- expected files changed,
-- unexpected files did not change,
-- no secrets were added,
-- no private Course source material was accidentally added,
-- no generated junk was accidentally tracked,
-- no unrelated refactor leaked in,
-- the change remains inside accepted scope.
-
-The question is not only:
-
-> Does the new code appear to work?
-
-It is also:
-
-> Did we change only what this task was supposed to change?
-
----
-
-# 45. Build Quality Check
-
-Before handing meaningful work to Verify, confirm:
-
-- [ ] Required behavior is implemented.
-- [ ] Accepted Plan boundaries were respected.
-- [ ] Relevant V1 invariants remain intact.
-- [ ] No future feature leaked into current scope.
-- [ ] Repository patterns were reused where reasonable.
-- [ ] No unnecessary dependency was added.
-- [ ] No private or sensitive information was introduced.
-- [ ] Relevant empty/failure states were considered.
-- [ ] Targeted Build checks were run.
-- [ ] Failures are documented accurately.
-- [ ] The Git diff was inspected.
-- [ ] Material Plan deviations are explained.
-- [ ] No known blocking defect is being hidden.
-- [ ] The current task remains uncommitted unless Verify has completed it.
-
-Do not knowingly hand broken implementation to Verify while claiming readiness.
-
----
-
-# 46. Handoff to Verify
-
-Build is ready for Verify when:
-
-1. implementation for the accepted scope exists,
-2. relevant Build checks pass or limitations are clearly documented,
-3. no unresolved blocking defect remains,
-4. material Plan deviations are resolved or surfaced,
-5. acceptance criteria remain valid,
-6. Verify has enough context to independently evaluate the work.
-
-When the active instruction authorizes the complete task lifecycle and Build is:
-
-`READY FOR VERIFY`
-
-the next action is:
-
-```text
-load icm/03_verify/CONTEXT.md
-↓
-enter Verify
-↓
-independently evaluate the task
-```
-
-Do not wait for another prompt from Mike.
-
----
-
-# 47. Final Build Handoff
-
-At the end of meaningful Build work, provide:
-
 ## Build Status
 
-Use one of:
+One:
 
 - `READY FOR VERIFY`
 - `READY FOR VERIFY WITH KNOWN LIMITATION`
 - `RETURN TO PLAN`
 - `BLOCKED`
 
----
+## Risk Tier
+
+R0–R4.
 
 ## What Changed
 
 Concise implementation summary.
 
----
+## Security Controls Implemented
 
-## Why This Approach
-
-Only the meaningful implementation reasoning.
-
----
-
-## Main Files
-
-List the small set of important implementation files.
-
-Do not list every automatically generated file unless it matters.
-
----
-
-## Important Implementation Choices
-
-Meaningful autonomous decisions made during Build.
+For R2+ when relevant.
 
 If none:
 
 `None.`
 
----
+## Tests / Checks
 
-## Build Checks
+Actual checks and results.
 
-What was actually run and the actual result.
+## Important Implementation Decisions
 
----
-
-## Known Limitations
-
-Distinguish deferred scope from defects.
-
-If none:
-
-`None.`
-
----
+Only meaningful task-local choices.
 
 ## Plan Deviations
 
-Meaningful deviations only.
-
 If none:
 
 `None.`
 
----
+## Known Limitations
+
+Separate deferred scope from actual defects.
 
 ## Verification Targets
 
-Identify the behaviors Verify should independently prove.
-
-Do NOT tell Verify:
-
-> This works.
-
-Instead provide:
-
-- the requirement,
-- the implementation location,
-- the evidence Build gathered,
-- and the behavior Verify should challenge.
+Important positive/regression/negative cases Verify must independently
+challenge.
 
 ---
 
-## What Mike Should Understand
+# 74. Ready for Verify Criteria
 
-Provide only the highest-value engineering concept or decision from the Build.
+Build is ready when:
 
-If none:
+1. accepted implementation exists;
+2. accepted scope is satisfied;
+3. relevant security controls are implemented;
+4. required tests exist;
+5. Build checks are acceptable;
+6. no known blocking defect remains;
+7. Plan remains valid;
+8. diff is task-scoped;
+9. Verify has sufficient evidence/targets.
 
-`None.`
-
----
-
-## Next Stage
-
-If Build status is:
+Then state:
 
 `READY FOR VERIFY`
 
-and the active instruction authorizes the complete task lifecycle:
+---
 
-> Proceed directly to Verify.
+# 75. Automatic Build → Verify Transition
 
-If Build status is:
+When Build status is:
 
-`READY FOR VERIFY WITH KNOWN LIMITATION`
+`READY FOR VERIFY`
 
-proceed only if the limitation does not require a material decision and Verify
-can independently classify the result.
+and the active instruction authorizes the complete lifecycle:
 
-If Build status is:
+finish the Build handoff,
 
-`RETURN TO PLAN`
+load:
 
-return to Plan.
+`icm/03_verify/CONTEXT.md`
 
-If Build status is:
+and continue automatically.
 
-`BLOCKED`
-
-state the concrete blocker and stop.
+Do not ask Mike for permission merely because implementation completed.
 
 ---
 
-# 48. Current Milestone Boundary
+# 76. Known Limitations
 
-During Milestone 1, Build should remember:
+A limitation does not automatically prevent Verify.
 
-```text
-V1 =
-read-only UI
-+
-static/hardcoded academic data
-+
-five primary views
-```
+Examples of potentially acceptable limitation:
 
-It is NOT:
+- deferred unrelated capability,
+- environment constraint that does not affect accepted requirements.
 
-- an AI academic planner,
-- a database-backed application,
-- a course-material ingestion system,
-- a calendar integration,
-- a student account system.
+A known security defect affecting accepted behavior IS a blocker.
 
-Build the current product.
-
-Do not scaffold the future product unless an accepted task explicitly requires
-it.
+Do not downgrade a security problem into a harmless limitation.
 
 ---
 
-# 49. One-Prompt Build Boundary
-
-When Mike provides a full-task instruction such as:
-
-> Complete SD-003 using the repository ICM workflow.
-
-Build should interpret the accepted Plan as authorization to implement the
-named task when Plan status is:
-
-`READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
-
-The Build stage should then:
-
-1. load this Build context,
-2. load the accepted task Plan,
-3. inspect current repository and Git state,
-4. synchronize an already-verified predecessor commit if necessary and safe,
-5. implement the accepted task,
-6. run proportionate Build checks,
-7. inspect the task diff,
-8. produce the Build handoff,
-9. continue directly into Verify when ready.
-
-Build must NOT:
-
-- mark the current task Done,
-- commit unfinished current-task implementation,
-- push unfinished current-task implementation,
-- skip independent Verify,
-- begin the following roadmap task.
-
-After Build, Verify owns the final technical quality gate and ordinary
-post-PASS task finalization.
-
-The automation goal is:
-
-> one prompt to finish one task safely, not one prompt for every development
-> stage.
-
----
-
-# 50. Current Roadmap Awareness
+# 77. Return to Plan
 
 Use:
 
-`docs/TASKS.md`
+`RETURN TO PLAN`
 
-as the authoritative source for current task sequencing and status.
+when implementation reveals a material issue requiring redesign.
 
-Do not hardcode old completed tasks into global Build-stage instructions.
+Examples:
 
-Mike's explicit instruction remains the execution authorization.
+- accepted authorization strategy cannot work,
+- schema cannot preserve required ownership,
+- provider lacks required security feature,
+- scope must materially expand,
+- privacy policy is unresolved,
+- risk tier changed materially.
 
-The Build stage remains reusable as the roadmap advances.
+Provide the precise discovery.
+
+Do not restart planning from zero.
+
+---
+
+# 78. Blocked
+
+Use:
+
+`BLOCKED`
+
+when execution cannot proceed because of a concrete unresolved blocker.
+
+State:
+
+- blocker,
+- evidence,
+- smallest next action.
+
+Do not use Blocked simply because implementation is difficult.
+
+---
+
+# 79. Build Self-Review
+
+Before handoff, challenge the implementation:
+
+> Did I implement accepted behavior or reinterpret it?
+
+> Did risk increase during Build?
+
+> Is authorization enforced server-side?
+
+> Can another user manipulate an ID?
+
+> Did I trust client data?
+
+> Did I expose private data unnecessarily?
+
+> Did I add an unnecessary dependency?
+
+> Did I log sensitive information?
+
+> Are tests checking real behavior?
+
+> Did I weaken security to make something work?
+
+> Did unrelated changes enter the diff?
+
+Fix supported issues before handoff.
+
+---
+
+# 80. Efficiency
+
+Build should optimize execution efficiency.
+
+Prefer:
+
+- existing project patterns,
+- focused context,
+- small diffs,
+- targeted tests,
+- existing utilities,
+- repository source of truth.
+
+Avoid:
+
+- tutorials,
+- repeated Plan reasoning,
+- unnecessary documentation,
+- speculative refactors,
+- needless dependencies,
+- broad rewrites.
+
+Spend more effort on high-risk boundaries than ordinary boilerplate.
+
+---
+
+# 81. Delivery-First Behavior
+
+Build should execute rather than narrate.
+
+Do not produce frequent progress commentary unless:
+
+- useful for a long task,
+- a decision is needed,
+- a blocker occurs,
+- security issue appears.
+
+Routine coding should proceed autonomously.
+
+The final handoff contains the important explanation.
+
+---
+
+# 82. Interrupted Build Recovery
+
+When resuming Build:
+
+inspect:
+
+- Git state,
+- current Plan,
+- task status,
+- existing implementation,
+- tests,
+- any Build artifact.
+
+Determine what has already been completed.
+
+Continue from trustworthy repository evidence.
+
+Do not restart blindly.
+
+---
+
+# 83. Production Boundary
+
+Build may create production-capable code.
+
+Build does not independently authorize production deployment.
+
+Production release belongs to:
+
+`icm/04_release/CONTEXT.md`
+
+when explicitly authorized.
+
+Do not deploy because:
+
+- Build succeeded,
+- tests passed,
+- or Verify is expected to pass.
+
+---
+
+# 84. Final Principle
+
+Build should require very little human involvement when Plan is good.
+
+The ideal flow is:
+
+accepted contract  
+→ focused implementation  
+→ secure defaults  
+→ automated tests  
+→ evidence  
+→ independent Verify
+
+The goal is:
+
+> move quickly on routine engineering while making dangerous mistakes difficult.

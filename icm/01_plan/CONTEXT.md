@@ -1,393 +1,232 @@
-# School Dashboard ICM — Plan Stage
+# ICM — Plan Stage
 
 ## 1. Purpose
 
-The Plan stage exists to understand and design non-trivial work before
-implementation begins.
+The Plan stage converts an authorized task into a precise execution contract
+for Build and Verify.
 
-A good Plan should:
+Plan exists to answer:
 
-- reduce uncertainty,
-- prevent unnecessary work,
-- identify the correct project boundaries,
-- protect product invariants,
-- and give Build a clear path to follow.
+- what are we building,
+- why are we building it,
+- what already exists,
+- what must remain unchanged,
+- what risk does the task introduce,
+- which security/privacy boundaries apply,
+- what implementation approach is appropriate,
+- and what evidence will later prove the task is complete.
 
-The goal is NOT to produce a long planning document.
+Plan should remove material uncertainty before Build begins.
 
-The goal is:
+Plan does NOT need to resolve every local implementation detail.
 
-> Produce enough specific, reliable context that Build can implement the task
-> without redesigning the feature or guessing about important behavior.
+The objective is:
 
-School Dashboard is a side project intended to move quickly.
-
-Use planning effort in proportion to the risk and complexity of the task.
-
-Do not create process for process's sake.
-
----
-
-# 2. Development Autonomy Mode
-
-School Dashboard intentionally allows more agent autonomy than a highly
-controlled production project.
-
-Default rule:
-
-> Make low-risk, reversible, task-local decisions autonomously when existing
-> project context provides enough guidance.
-
-Mike does NOT need to approve every:
-
-- file name,
-- component split,
-- helper function,
-- CSS organization choice,
-- local TypeScript type,
-- small refactor required by the task,
-- straightforward framework convention,
-- minor responsive-layout choice,
-- implementation detail with no durable product impact.
-
-Surface a decision to Mike only when it materially affects one or more of:
-
-- product behavior,
-- V1 scope,
-- durable architecture,
-- academic semantics,
-- user data,
-- security or privacy,
-- a significant new dependency,
-- an external service,
-- an irreversible or destructive operation,
-- substantial future maintainability,
-- or the accepted task boundary.
-
-Do not ask Mike to choose between equivalent low-risk implementation details
-merely because several options exist.
-
-When one option clearly fits the repository and accepted specifications, choose
-it and explain the choice briefly.
+> give Build enough accepted context to implement confidently without
+> redesigning the product, while giving Verify enough explicit criteria to
+> independently prove or disprove success.
 
 ---
 
-# 3. Full-Task Automation
+# 2. Plan Is the Risk Gate
 
-A single instruction from Mike may authorize one named task to proceed through
-the complete School Dashboard workflow:
+Every meaningful task must receive a risk classification before Build.
 
-```text
-Plan
-↓
-Build
-↓
-Verify
-↓
-PASS
-↓
-promote verified documentation
-↓
-mark task Done
-↓
-task-scoped commit
-↓
-normal safe push
-```
+Plan owns that classification.
 
-Plan, Build, and Verify remain separate logical stages.
+Use the highest applicable tier.
 
-A one-prompt workflow does NOT mean the stages should be collapsed into one
-undifferentiated activity.
+## R0 — Documentation / non-executable
 
-Each stage must:
+Examples:
 
-- load its own instructions,
-- perform its own responsibilities,
-- respect its own boundaries,
-- and produce the evidence or handoff needed by the next stage.
+- documentation,
+- copy,
+- comments,
+- metadata,
+- non-functional configuration notes.
 
-When the active instruction authorizes the complete task lifecycle, Plan should
-continue automatically into Build if:
-
-- requirements are sufficiently clear,
-- no material human decision remains,
-- the accepted scope is understood,
-- no blocker exists,
-- and the task is safe to continue.
-
-Do not create a manual approval checkpoint merely because planning completed.
-
-Plan should stop only when human judgment is materially required.
-
-A full-task instruction authorizes the named task only.
-
-It does NOT automatically authorize starting the next roadmap task.
+Usually requires minimal verification.
 
 ---
 
-# 4. Automation vs Human Review
+## R1 — Low-risk application behavior
 
-The normal School Dashboard workflow is:
+Examples:
 
-```text
-Plan
-↓
-resolve ordinary planning and implementation choices autonomously
-↓
-surface only material decisions when necessary
-↓
-Build
-↓
-Verify
-↓
-PASS
-↓
-automatic routine task finalization
-```
+- UI presentation,
+- styling,
+- read-only screens,
+- ordinary client behavior,
+- safe refactors,
+- non-sensitive tests.
 
-A task does NOT require a separate human approval round merely because a Plan
-artifact exists.
+Usually supports high autonomy.
 
-If:
+---
+
+## R2 — Data / API / dependency behavior
+
+Examples:
+
+- persistence,
+- database schema,
+- APIs,
+- server actions,
+- data transformations,
+- caching,
+- background jobs,
+- meaningful dependencies.
+
+Requires explicit data-flow reasoning and stronger verification.
+
+---
+
+## R3 — Security-sensitive functionality
+
+Examples:
+
+- authentication,
+- authorization,
+- user-owned data,
+- multi-user / multi-tenant behavior,
+- PII,
+- private files,
+- uploads,
+- sessions,
+- OAuth,
+- webhooks,
+- public write endpoints,
+- billing,
+- external redirects,
+- administrative actions,
+- AI actions over private/user data,
+- secrets.
+
+Requires explicit security planning and negative verification targets.
+
+---
+
+## R4 — High-impact / destructive / irreversible
+
+Examples:
+
+- destructive production migration,
+- bulk deletion,
+- broad permission changes,
+- custom cryptographic design,
+- custom authentication protocol design,
+- irreversible production action,
+- destructive Git history manipulation,
+- operation whose failure may expose or destroy large amounts of user data.
+
+The high-impact action requires explicit human approval.
+
+Do not lower a risk tier merely to preserve automation.
+
+---
+
+# 3. Risk Can Escalate During Planning
+
+A task may initially appear low-risk and reveal a higher-risk boundary.
+
+Examples:
+
+- UI work reveals a new API requirement,
+- Course creation reveals user-owned database records,
+- file display reveals private upload storage,
+- integration reveals OAuth,
+- analytics reveals PII,
+- AI planning requires sending private data to a model.
+
+When a higher-risk boundary appears:
+
+1. reclassify the task;
+2. load newly relevant security/privacy context;
+3. update acceptance criteria and verification requirements;
+4. surface a material decision only if one actually exists.
+
+Do not continue with a stale lower-risk Plan.
+
+---
+
+# 4. Full-Task Automation
+
+A single instruction may authorize one named task through:
+
+Plan  
+→ Build  
+→ Verify  
+→ PASS  
+→ task finalization
+
+without another prompt between stages.
+
+Plan must not create an artificial approval checkpoint when:
 
 - requirements are clear,
-- no material product or architecture decision remains,
-- no blocker exists,
-- the proposed change is reversible,
-- scope is understood,
-- and the current instruction authorizes continuation,
+- risk has been classified,
+- relevant security/privacy requirements are already accepted,
+- no material product decision remains,
+- no material architecture decision remains,
+- no security/privacy policy decision remains,
+- no blocker exists.
 
-the Plan should conclude:
+When all are true, Plan should conclude:
 
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-```
+`READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
 
-and proceed directly into Build.
+and continue into Build when the active instruction authorizes the full
+lifecycle.
 
-If Mike explicitly requests planning only, stop after Plan.
+If Mike requested planning only:
 
-Stage autonomy does not override the user's explicitly limited requested scope.
-
-Human review is for meaningful choices.
-
-It is not a routine stage transition.
+stop after Plan.
 
 ---
 
-# 5. When to Use Plan
+# 5. Batch Automation
 
-Use the Plan stage when work requires meaningful reasoning before
-implementation.
+When Mike explicitly authorizes a bounded task batch, Plan applies independently
+to each task.
 
-Typical examples include:
+Do not create one giant Plan covering several unrelated tasks merely to reduce
+process overhead.
 
-- new product features,
-- new pages or meaningful UI flows,
-- shared data-model changes,
-- cross-file behavior,
-- new routes,
-- architecture changes,
-- persistence,
-- authentication,
-- third-party integrations,
-- AI or ingestion features,
-- security-sensitive changes,
-- significant refactors,
-- unclear requirements,
-- or work with important acceptance criteria.
+Each task should still have:
 
-Do not require a formal Plan for trivial work whose implementation is already
-obvious.
+- its own scope,
+- risk tier,
+- acceptance criteria,
+- verification targets,
+- completion boundary.
 
-Examples that may not need a full Plan:
-
-- correcting copy,
-- fixing a typo,
-- adjusting straightforward spacing,
-- renaming a clearly scoped variable,
-- fixing an obvious small styling defect,
-- or another contained reversible change.
-
-Use process in proportion to risk.
+The next authorized task begins only after the previous task satisfies the
+batch rules.
 
 ---
 
-# 6. Current V1 Planning Boundary
-
-For the initial School Dashboard UI milestone, plan around:
-
-- static/hardcoded academic data,
-- one shared academic plan,
-- five primary student views,
-- read-only behavior,
-- realistic but static Course Facts,
-- authored Learning Objectives,
-- authored Study Tasks,
-- authored completion states,
-- authored dates and durations.
-
-Current V1 does NOT authorize:
-
-- databases,
-- Supabase,
-- authentication,
-- multiple users,
-- material uploads,
-- syllabus ingestion,
-- PDF extraction,
-- external Course research,
-- AI planning,
-- automatic Study Task generation,
-- automatic prioritization,
-- automatic scheduling,
-- adaptive replanning,
-- Google Calendar,
-- Google Drive.
-
-Consult:
-
-`docs/V1_SPEC.md`
-
-for the complete current boundary.
-
-Future capabilities described elsewhere are context, not current authorization.
-
----
-
-# 7. Required Context
+# 6. Required Entry Context
 
 Before meaningful planning:
 
-1. Read root `AGENTS.md`.
-2. Read root `CONTEXT.md`.
-3. Read this Plan-stage context.
-4. Identify the active task from the explicit instruction and `docs/TASKS.md`
-   when sequencing matters.
-5. Use the root context router to identify only the durable sources relevant to
-   the task.
-6. Inspect relevant repository reality when implementation already exists.
-7. Inspect Git state when existing local work may affect planning or safe
-   continuation.
+1. read root `AGENTS.md`;
+2. read root `CONTEXT.md`;
+3. read this Plan-stage context;
+4. identify the explicitly authorized task;
+5. inspect `docs/TASKS.md` when sequencing/status matters;
+6. inspect `docs/IMPLEMENTATION.md` when current behavior matters;
+7. inspect relevant repository code/configuration;
+8. inspect Git state when local work may affect planning safety;
+9. load only additional durable sources relevant to this task.
 
-Do not automatically load every project document.
+Do not automatically load all documentation.
 
-Do not assume roadmap position from stale historical artifacts.
-
-Use current task state and repository reality.
+Do not automatically load all previous Plan/Verify artifacts.
 
 ---
 
-# 8. Common Durable Sources
-
-Depending on the task, relevant context may include:
-
-## `docs/PRODUCT_VISION.md`
-
-Use when:
-
-- long-term product intent matters,
-- future capabilities affect interpretation of current work,
-- source grounding or human-control principles matter.
-
----
-
-## `docs/V1_SPEC.md`
-
-Use when:
-
-- current behavior,
-- academic semantics,
-- product invariants,
-- scope,
-- acceptance criteria,
-- or exclusions matter.
-
-This is the main product source for current V1 behavior.
-
----
-
-## `docs/UI_SPEC.md`
-
-Use when:
-
-- planning a page,
-- UI component,
-- information hierarchy,
-- navigation experience,
-- empty state,
-- responsive behavior,
-- or other presentation responsibility.
-
----
-
-## `docs/MOCK_DATA_SPEC.md`
-
-Use when:
-
-- static academic fixtures,
-- task identity,
-- Course relationships,
-- reference date,
-- provenance,
-- source-backed Course Facts,
-- derived Today behavior,
-- Assignment relationships,
-- or progress derivation matter.
-
----
-
-## `docs/ARCHITECTURE.md`
-
-Use when:
-
-- technical boundaries,
-- framework structure,
-- data flow,
-- routes,
-- system responsibilities,
-- integrations,
-- or architecture matter.
-
----
-
-## `docs/IMPLEMENTATION.md`
-
-Use when:
-
-- the task modifies existing implementation,
-- current code reality matters,
-- previous verified behavior constrains the change.
-
----
-
-## `docs/DECISIONS.md`
-
-Use when:
-
-- a durable accepted decision may constrain the solution.
-
-Do not reopen settled decisions merely because another implementation is
-possible.
-
----
-
-## `docs/TASKS.md`
-
-Use when:
-
-- task identity,
-- dependencies,
-- sequencing,
-- milestone boundaries,
-- or task status matter.
-
-A task being next in the roadmap does not authorize execution by itself.
-
----
-
-# 9. Do Not Plan From Documentation Alone When Code Exists
+# 7. Plan From Repository Reality
 
 When implementation already exists:
 
@@ -395,586 +234,926 @@ inspect it.
 
 Determine:
 
-- what exists,
-- what actually works,
-- what is already shared,
-- what patterns exist,
-- what tests or verification mechanisms exist,
-- what routes exist,
-- what dependencies exist,
-- and whether documentation matches repository reality.
+- relevant routes,
+- components,
+- services,
+- data structures,
+- dependencies,
+- tests,
+- configuration,
+- established patterns,
+- verified behavior,
+- known limits.
 
-Do not plan a replacement for functionality that already solves the task.
+Do not design a replacement for functionality that already satisfies the task.
 
 Do not assume documentation proves implementation.
 
 ---
 
-# 10. Planning Workflow
+# 8. Durable Context Selection
 
-For meaningful tasks, work through the following reasoning sequence.
+Depending on the task, Plan may need:
 
-The output does not need to mirror every step as a large section if the task is
-simple.
+## Product specifications
+
+Use when behavior or invariants are affected.
+
+Examples:
+
+- `docs/V1_SPEC.md`
+- future accepted milestone specifications
 
 ---
 
-## Step 1 — Define the Objective
+## `docs/UI_SPEC.md`
 
-State clearly:
+Use when presentation or interaction responsibilities matter.
+
+---
+
+## `docs/ARCHITECTURE.md`
+
+Use when technical boundaries, data ownership, services, persistence,
+integrations, or deployment architecture matter.
+
+---
+
+## `docs/IMPLEMENTATION.md`
+
+Use to understand verified current reality.
+
+Then inspect code.
+
+---
+
+## `docs/DECISIONS.md`
+
+Use when durable accepted decisions may constrain the task.
+
+---
+
+## `docs/SECURITY_REQUIREMENTS.md`
+
+Use for R2+ when security requirements are relevant.
+
+Required for R3/R4 unless the task genuinely does not touch application
+security.
+
+---
+
+## `docs/DATA_PRIVACY.md`
+
+Use when user/personal/sensitive data is collected, stored, transmitted,
+logged, exposed, deleted, exported, or retained.
+
+---
+
+## `docs/THREAT_MODEL.md`
+
+Use when:
+
+- task is R3/R4,
+- attack surface changes,
+- trust boundaries change,
+- new actors/services appear.
+
+---
+
+## `docs/SECURITY_TESTING.md`
+
+Primarily a Verify document, but Plan should inspect relevant sections when
+security acceptance criteria must be designed in advance.
+
+---
+
+# 9. Security-Foundation Transition Rule
+
+If an R3/R4 task requires security/privacy documents that do not yet exist or
+are materially incomplete:
+
+do NOT invent a security policy inside the feature task.
+
+Instead:
+
+- identify the missing durable foundation,
+- determine whether the feature can safely proceed without it,
+- stop before Build when policy would otherwise be invented ad hoc.
+
+Example:
+
+If adding authentication requires deciding:
+
+- account deletion behavior,
+- session policy,
+- user data ownership,
+
+and these decisions are not established:
+
+surface those decisions before implementation.
+
+---
+
+# 10. Planning Workflow
+
+For meaningful tasks, Plan should reason through the following sequence.
+
+The artifact does not need excessive prose.
+
+Use the smallest amount of detail necessary to remove material uncertainty.
+
+---
+
+## Step 1 — Define Objective
+
+State:
 
 - what problem is being solved,
-- which user experience or system behavior is affected,
-- and what successful completion should accomplish.
+- which user/system behavior changes,
+- what successful completion means.
 
-Avoid vague objectives.
+Avoid vague goals.
 
 Weak:
 
-> Improve the Dashboard.
+> Add database support.
 
 Better:
 
-> Build the Courses primary view and reusable Course Card behavior using the
-> shared static academic fixture while preserving the current read-only V1
-> boundary.
+> Replace the static Course source with authenticated user-owned persisted
+> Courses while preserving the existing five-view behavior and preventing
+> cross-user access.
 
 ---
 
 ## Step 2 — Establish Current State
 
-Inspect what currently exists.
+Inspect and summarize only relevant existing reality.
 
 Determine:
 
-- relevant files,
-- relevant routes,
-- relevant components,
-- relevant data,
-- existing patterns,
-- verified behavior,
-- missing behavior,
-- known limitations,
-- and relevant Git state.
-
-If implementation does not exist yet, say so directly.
-
-Do not invent an existing structure merely because one is likely to appear
-later.
+- current implementation,
+- current constraints,
+- existing tests,
+- existing security boundaries,
+- prior verified behavior that must remain intact.
 
 ---
 
-## Step 3 — Identify Requirements
+## Step 3 — Define Required Behavior
 
 Separate:
 
 ### Required
 
-Behavior needed to satisfy the active task.
+Must exist for task completion.
 
-### Useful but optional
+### Optional
 
-Improvements that may be implemented only if they naturally fit without
-expanding scope.
+May be included only if low-risk and naturally required by the accepted
+implementation.
 
 ### Out of scope
 
-Behavior intentionally excluded from the active task.
+Explicitly excluded.
 
-Use V1 exclusions aggressively.
-
-Do not build future functionality because it seems useful.
+Aggressively prevent future-feature leakage.
 
 ---
 
-## Step 4 — Identify Relevant Product Invariants
+## Step 4 — Identify Product Invariants
 
-For student-facing behavior, identify the V1 invariants that constrain the task.
+List only invariants that materially constrain this task.
 
-Examples may include:
-
-- one shared academic plan,
-- stable Study Task identity,
-- Today filtering rules,
-- authored ordering,
-- Assignment due date vs Study Task planned date,
-- weekly progress rules,
-- Course Fact vs personal planning distinction,
-- read-only behavior.
-
-Do not repeat every invariant in every Plan.
-
-Include only those that materially constrain the active task.
+Do not reproduce the entire product specification.
 
 ---
 
-## Step 5 — Identify Constraints
+## Step 5 — Assign Risk Tier
 
-Record constraints that materially affect the solution.
+State:
+
+`Risk Tier: R0 / R1 / R2 / R3 / R4`
+
+Then provide a brief rationale.
+
+Example:
+
+`R3 — introduces authenticated user-owned Course records and therefore creates
+authorization and tenant-isolation boundaries.`
+
+---
+
+# 11. Data-Flow Planning
+
+For R2+ tasks, describe relevant data flow.
+
+Identify:
+
+- data origin,
+- validation boundary,
+- processing location,
+- storage,
+- reads,
+- writes,
+- external transfer,
+- output.
+
+Example:
+
+user form  
+→ server validation  
+→ authenticated ownership resolution  
+→ database write  
+→ authorized database read  
+→ UI
+
+Do not create detailed diagrams when a short flow is sufficient.
+
+---
+
+# 12. Trust Boundaries
+
+For R3+ tasks, explicitly identify trust boundaries.
 
 Examples:
 
-- existing architecture,
-- V1 scope,
-- accepted stack,
-- static-data boundary,
-- existing route conventions,
-- relevant UI contract,
-- relevant mock-data contract,
-- security rules,
-- dependency restrictions,
-- previously accepted decisions,
-- predecessor implementation that must remain working.
+- browser → server,
+- unauthenticated → authenticated,
+- application → database,
+- application → object storage,
+- application → AI provider,
+- provider → webhook endpoint,
+- public NFC user → ReviewTap backend.
 
-Do not design around hypothetical future constraints.
+At each relevant boundary ask:
 
----
+> What can the less-trusted side control?
 
-## Step 6 — Design the Smallest Coherent Solution
-
-Propose the simplest implementation that fully satisfies the active task.
-
-Prefer:
-
-- existing project patterns,
-- framework conventions,
-- shared components where justified,
-- simple data flow,
-- small helpers,
-- direct implementation.
-
-Avoid:
-
-- speculative service layers,
-- premature abstraction,
-- unnecessary context providers,
-- unnecessary state management,
-- future-proofing for unapproved features,
-- unnecessary dependencies,
-- giant generic component systems.
-
-A solution may touch several files when those files naturally belong to the
-same behavior.
-
-Smallest does not mean "fewest files."
-
-It means:
-
-> no unnecessary system.
+> What must the trusted side verify?
 
 ---
 
-# 11. Local Decisions the Agent May Make Automatically
+# 13. Actors and Authorization
 
-Plan may resolve task-local choices autonomously when they are:
-
-- reversible,
-- low risk,
-- contained,
-- compatible with durable requirements,
-- and do not establish a meaningful project-wide convention.
+For R3+ tasks identify relevant actors.
 
 Examples:
 
-- local helper function names,
-- whether a small display fragment becomes a local component,
-- ordinary TypeScript type organization,
-- Tailwind class composition,
-- normal responsive stacking,
-- straightforward file placement that matches existing conventions,
-- a simple utility required by the task,
-- semantic HTML structure,
-- minor accessibility implementation details.
+- anonymous visitor,
+- authenticated student,
+- business owner,
+- administrator,
+- external provider,
+- background worker.
 
-Record important local choices when useful.
+For protected resources define:
 
-Do not ask Mike to approve them individually.
+- who owns it,
+- who may read it,
+- who may create it,
+- who may modify it,
+- who may delete it.
+
+Do not use client-side visibility as authorization.
 
 ---
 
-# 12. Decisions That Require Mike
+# 14. Data Classification
 
-Surface a decision when it materially changes:
+When persistent user data is involved, classify relevant information according
+to `docs/DATA_PRIVACY.md`.
 
-## Product behavior
+Until the project-specific taxonomy is finalized, Plan should at minimum
+identify whether data is:
+
+- public,
+- internal/non-public,
+- personal,
+- sensitive,
+- secret/credential,
+- private uploaded content.
+
+This classification should influence:
+
+- storage,
+- logging,
+- access,
+- test data,
+- external transfer,
+- deletion.
+
+---
+
+# 15. Abuse Cases
+
+For R3+ tasks, identify realistic abuse cases.
+
+Do not brainstorm unlimited theoretical attacks.
+
+Focus on likely, high-value cases.
+
+Examples:
+
+- user changes a Course ID to another user's Course,
+- attacker calls API without authentication,
+- malicious upload bypasses UI restrictions,
+- forged webhook is submitted,
+- public review endpoint is spammed,
+- unsafe external redirect is configured,
+- AI prompt attempts to override authorization,
+- sensitive information leaks in errors.
+
+Every important abuse case should map to:
+
+- a prevention/control,
+- and a Verify target.
+
+---
+
+# 16. Security Requirements Mapping
+
+For R3+ tasks, identify the relevant accepted security rules.
 
 Example:
 
-Should unfinished Study Tasks automatically carry into Today?
+Requirement:
 
-That changes the product.
+> private Course records require server-side ownership authorization.
 
-Mike should decide.
+Implementation consequence:
 
----
+> every Course read/write must bind resource ownership to the authenticated
+> user.
 
-## Durable architecture
+Verification consequence:
 
-Example:
+> User A accessing User B's Course ID must fail.
 
-Should School Dashboard introduce a global state library?
+Security requirements should flow:
 
-That may affect the entire application.
-
-Mike should approve.
-
----
-
-## Significant dependency
-
-Example:
-
-Should a third-party scheduling library be added?
-
-Mike should approve if the dependency is materially significant.
+requirement  
+→ design control  
+→ negative test
 
 ---
 
-## Scope
+# 17. Privacy Planning
 
-Example:
+When privacy is relevant, determine:
 
-A task appears to require editing behavior even though V1 is read-only.
+- what data is collected,
+- why it is required,
+- where it is stored,
+- whether it leaves the system,
+- whether logs may contain it,
+- who may access it,
+- deletion/retention implications.
 
-That changes task or product scope.
+Do not collect data merely because it might become useful later.
 
-Mike should decide.
+If privacy policy decisions are unresolved:
 
----
-
-## Security / privacy
-
-Example:
-
-A proposed implementation would commit real private Course materials to the
-repository.
-
-Stop and surface the issue.
+surface them before Build.
 
 ---
 
-## External service
+# 18. Dependency Planning
 
-Example:
-
-A task unexpectedly requires Google OAuth.
-
-That requires separate planning and approval.
-
----
-
-## Destructive or irreversible work
-
-Example:
-
-A Git or data operation would destroy or rewrite existing work.
-
-Stop and obtain approval.
-
----
-
-# 13. Do Not Invent Decisions
-
-Not every choice is a "Decision for Mike."
-
-Do not ask questions such as:
-
-> Should I use `map()` or a loop?
-
-> Should this local helper live above or below the component?
-
-> Should I use `gap-4` or `space-y-4`?
-
-These are ordinary implementation details.
-
-Choose reasonably.
-
-Human review should focus on decisions worth human attention.
-
----
-
-# 14. Impact Map
-
-Identify the expected impact of the task.
-
-Useful categories include:
-
-### Expected to change
-
-Files or areas likely to be edited.
-
-### May need inspection
-
-Files needed to understand the change.
-
-### Should remain untouched
-
-Areas specifically outside scope.
-
-Example:
-
-```text
-Expected to change:
-- Courses route
-- reusable Course Card component
-- shared static academic data when required by the accepted task
-
-May need inspection:
-- existing navigation
-- Dashboard shell
-- mock academic specification
-
-Should remain untouched:
-- persistence
-- AI
-- authentication
-- Google integrations
-```
-
-The exact format may vary.
-
----
-
-# 15. Acceptance Criteria
-
-Every meaningful Plan should define observable acceptance criteria.
-
-Acceptance criteria describe behavior.
-
-They should NOT merely describe implementation effort.
-
-Weak:
-
-> Create a Course component.
-
-Better:
-
-> The Courses primary view shows every approved static Course, each Course Card
-> exposes the information required by the UI specification, and selecting a
-> Course uses the existing Course Page route without inventing unsupported
-> academic information.
-
-Acceptance criteria should be specific enough that Verify can independently
-determine whether implementation succeeded.
-
----
-
-# 16. Acceptance Criteria Should Cover Relevant Edges
-
-When meaningful, consider:
-
-- expected behavior,
-- empty state,
-- unknown input,
-- data association,
-- cross-view consistency,
-- ordering,
-- missing optional information,
-- responsive behavior,
-- accessibility,
-- regression risk.
-
-Do not invent dozens of meaningless edge cases.
-
-Focus on cases that could realistically reveal incorrect behavior.
-
----
-
-# 17. Verification Must Be Planned Before Build
-
-For each important acceptance criterion, determine how it can be verified.
-
-Possible methods include:
-
-- TypeScript checking,
-- linting,
-- production build,
-- automated tests,
-- targeted unit tests,
-- browser/runtime inspection,
-- route navigation,
-- visual inspection,
-- fixture validation,
-- targeted code inspection.
-
-Use the strongest practical evidence proportional to the task.
-
-Do not add a testing framework solely because verification needs to occur if
-simpler evidence is sufficient.
-
-Plan should leave Verify with clear targets rather than vague instructions to
-"check everything."
-
----
-
-# 18. UI Planning
-
-When planning a student-facing UI task, distinguish:
-
-```text
-Product behavior
-→ V1_SPEC.md
-
-Presentation responsibility
-→ UI_SPEC.md
-
-Static academic information
-→ MOCK_DATA_SPEC.md
-
-Technical implementation
-→ task Plan
-```
-
-Do not allow the task Plan to redefine product behavior that belongs in the
-durable specifications.
-
----
-
-# 19. Static Data Planning
-
-When a task requires static academic data:
-
-- use the shared academic plan,
-- preserve stable identities,
-- preserve Course ownership,
-- derive view-specific data,
-- preserve authored ordering,
-- do not fabricate missing Course Facts,
-- do not convert the static fixture into database infrastructure.
-
-The Plan may specify the TypeScript representation needed by the active task.
-
-That representation is implementation detail unless it establishes a durable
-architecture decision.
-
----
-
-# 20. Source-Material Planning
-
-Raw academic materials are not normal context for UI implementation.
-
-Do not load:
-
-- complete textbooks,
-- complete syllabi,
-- every lecture note,
-- every screenshot,
-
-unless the active task actually depends on their content.
-
-For the V1 UI, prefer the normalized static fixture.
-
-This keeps context focused and reduces unnecessary token usage.
-
----
-
-# 21. Dependency Planning
-
-If implementation may require a new dependency:
+If a new dependency may be required:
 
 first determine whether:
 
-- Next.js already provides the capability,
-- React already provides the capability,
-- the browser already provides the capability,
-- an existing project dependency already solves it,
-- or a small local implementation is simpler.
+- platform/framework capability already exists,
+- existing dependency solves it,
+- a small local solution is safer,
+- the dependency materially increases attack surface.
 
-Only surface dependency approval when the new package is materially significant.
+For meaningful dependencies consider:
 
-Tiny development tooling required by the already-approved framework setup may be
-resolved according to the task Plan when conventional and low risk.
+- package purpose,
+- maintenance,
+- ecosystem maturity,
+- security implications,
+- transitive impact.
 
----
-
-# 22. Risks and Unknowns
-
-Record uncertainty that could affect the solution.
-
-Distinguish:
-
-### Blocker
-
-Prevents Build.
-
-### Material open decision
-
-Needs Mike.
-
-### Implementation uncertainty
-
-Build can investigate safely.
-
-### Deferred future work
-
-Not relevant to current completion.
-
-Do not label ordinary unknown implementation details as blockers.
+Do not choose a dependency solely because generated examples commonly use it.
 
 ---
 
-# 23. Planning for Fast Iteration
+# 19. External-Service Planning
 
-Because this is a side project, optimize for useful iteration.
+When introducing an external provider, determine:
 
-Prefer:
+- what data is sent,
+- what credentials are required,
+- what trust is delegated,
+- failure behavior,
+- vendor-specific lock-in,
+- security implications,
+- privacy implications,
+- cost implications where material.
 
-```text
-small useful feature
-↓
-verify
-↓
-finish
-```
-
-over:
-
-```text
-design entire future system
-↓
-build large abstraction
-↓
-discover product assumption was wrong
-```
-
-Plans should favor changes that are:
-
-- easy to inspect,
-- easy to reverse,
-- easy to verify,
-- useful to the current product.
+Provider selection is a material decision when multiple choices significantly
+affect architecture, cost, privacy, or maintainability.
 
 ---
 
-# 24. Plan Output Artifact
+# 20. AI Planning
 
-For meaningful planned work, create a task-specific Plan artifact under:
+For tasks involving AI/models, Plan must identify:
 
-`icm/01_plan/output/`
+- input data,
+- private/sensitive data sent externally,
+- model/provider,
+- prompt-injection exposure,
+- source-grounding requirements,
+- allowed tool/actions,
+- approval boundaries,
+- failure behavior,
+- rate/cost controls,
+- output validation.
+
+AI output is untrusted.
+
+Do not let model output become authoritative or privileged merely because it was
+generated successfully.
+
+---
+
+# 21. File-Upload Planning
+
+File upload tasks are at least R3.
+
+Plan must address:
+
+- ownership,
+- access control,
+- allowed file types,
+- maximum size,
+- validation,
+- storage,
+- public/private visibility,
+- download authorization,
+- deletion,
+- retention,
+- processing,
+- malicious-content considerations.
+
+Do not rely only on file extensions.
+
+---
+
+# 22. API Planning
+
+For APIs, consider:
+
+- authentication,
+- authorization,
+- request validation,
+- response minimization,
+- error handling,
+- rate/abuse control,
+- idempotency where relevant,
+- enumeration risk,
+- logging.
+
+Public endpoints must be designed assuming hostile inputs.
+
+---
+
+# 23. Webhook Planning
+
+Webhook tasks require:
+
+- provider authenticity verification,
+- replay considerations,
+- idempotency,
+- safe parsing,
+- failure recovery,
+- sensitive logging rules.
+
+Endpoint secrecy alone is not authentication.
+
+---
+
+# 24. Persistence Planning
+
+When introducing persistence:
+
+do not automatically convert mock objects into production schema.
+
+Plan should determine:
+
+- product concepts that actually require persistence,
+- ownership,
+- relationships,
+- integrity constraints,
+- authorization boundaries,
+- migration needs,
+- delete behavior,
+- indexes/performance requirements where meaningful.
+
+Use the prototype as evidence, not as a locked schema.
+
+---
+
+# 25. Multi-Tenant Planning
+
+For multi-user/multi-tenant features, Plan must make isolation explicit.
+
+For each private entity define:
+
+- owner/tenant relationship,
+- server-side authorization point,
+- database/data-access enforcement strategy,
+- negative test.
+
+Never assume unpredictable IDs provide isolation.
+
+---
+
+# 26. Logging Planning
+
+When meaningful server behavior is added, decide:
+
+- what events need logs,
+- what must never be logged,
+- what identifiers are sufficient,
+- what errors need diagnostics.
+
+Avoid logging complete sensitive payloads.
+
+---
+
+# 27. Failure and Recovery Planning
+
+For meaningful R2+ tasks consider:
+
+- provider failure,
+- database failure,
+- partial operation,
+- duplicate request,
+- timeout,
+- invalid state,
+- retry behavior,
+- recovery.
+
+Do not over-engineer failure recovery for trivial local UI behavior.
+
+---
+
+# 28. Deployment Impact
+
+Plan should identify whether the task affects:
+
+- environment variables,
+- migrations,
+- build configuration,
+- production infrastructure,
+- external service configuration,
+- deployment sequence.
+
+Implementation authorization does not automatically authorize production
+deployment.
+
+If Release work is needed:
+
+record it as a separate stage requirement.
+
+---
+
+# 29. Smallest Secure Coherent Solution
+
+Choose the simplest solution that fully satisfies:
+
+- product requirements,
+- risk requirements,
+- security requirements,
+- privacy requirements,
+- acceptance criteria.
+
+Avoid:
+
+- speculative infrastructure,
+- unnecessary services,
+- premature abstraction,
+- unnecessary dependencies,
+- security theater.
+
+Smallest means:
+
+> no unnecessary system.
+
+It does NOT mean:
+
+> remove required security controls to reduce code.
+
+---
+
+# 30. Impact Map
+
+Identify:
+
+## Expected to change
+
+Likely implementation areas.
+
+## Must inspect
+
+Existing areas required to understand the change.
+
+## Should remain untouched
+
+Explicit scope boundaries.
 
 Example:
 
-`SD-004-course-page-plan.md`
+Expected to change:
+- Course persistence layer
+- authenticated Course actions
+- Course queries
 
-Do not use generic names such as:
+Must inspect:
+- existing Course UI
+- auth/session utilities
+- database schema
 
-`plan.md`
-
-or:
-
-`notes.md`
-
-Create an artifact only when the task benefits from a durable planning record.
-
-Do not create a Plan artifact for every trivial change.
+Should remain untouched:
+- uploads
+- AI planning
+- billing
 
 ---
 
-# 25. Plan Artifact Structure
+# 31. Acceptance Criteria
 
-A substantial Plan artifact should normally use:
+Every meaningful task needs observable acceptance criteria.
 
-```text
+Acceptance criteria describe behavior, not coding effort.
+
+Weak:
+
+> Add authorization.
+
+Better:
+
+> Authenticated users can read their own Courses; attempting to read another
+> user's Course through a modified resource ID is denied server-side.
+
+Criteria must be specific enough for independent Verify.
+
+---
+
+# 32. Positive and Negative Acceptance Criteria
+
+For R3+ tasks include both.
+
+Positive:
+
+> owner can access own Course.
+
+Negative:
+
+> another authenticated user cannot access that Course.
+
+Also include relevant malformed/failure behavior.
+
+Security-sensitive work should not PASS based only on a happy path.
+
+---
+
+# 33. Verification Is Designed During Plan
+
+Plan defines what evidence Verify should later gather.
+
+Possible evidence:
+
+- unit tests,
+- integration tests,
+- E2E tests,
+- API tests,
+- database assertions,
+- browser inspection,
+- static analysis,
+- dependency checks,
+- code scanning,
+- security negative tests,
+- logs,
+- build output,
+- CI.
+
+Use the strongest practical evidence proportional to risk.
+
+Do not leave Verify with:
+
+> test security.
+
+Specify what should be challenged.
+
+---
+
+# 34. Adversarial Verification Targets
+
+For R3+ tasks Plan should identify likely adversarial checks.
+
+Examples:
+
+- substitute another user's ID,
+- omit authentication,
+- modify role,
+- submit malformed payload,
+- send oversized input,
+- use disallowed redirect,
+- forge webhook signature,
+- retry/replay request,
+- upload invalid file.
+
+These become Verify targets.
+
+Use `docs/SECURITY_TESTING.md` when available.
+
+---
+
+# 35. Test Strategy
+
+Plan should determine what testing is justified.
+
+## R0
+
+Usually formatting/document inspection.
+
+## R1
+
+Typical:
+
+- lint,
+- typecheck,
+- build,
+- UI/runtime checks.
+
+## R2
+
+Typically add:
+
+- unit/invariant tests,
+- integration tests,
+- failure cases.
+
+## R3+
+
+Typically add:
+
+- automated authorization/security tests,
+- negative cases,
+- E2E or integration coverage,
+- adversarial tests,
+- security tooling where applicable.
+
+Do not add a large framework solely for one trivial task.
+
+But do not avoid test infrastructure when the project now genuinely needs it.
+
+---
+
+# 36. CI Requirements
+
+If repository CI exists:
+
+Plan should identify required checks relevant to the task.
+
+If a meaningful task introduces behavior that currently cannot be automatically
+protected, Plan may identify CI/test infrastructure as required scope.
+
+Do not bypass failing CI as a completion strategy.
+
+---
+
+# 37. Human Decisions
+
+Surface a decision only when it materially affects:
+
+- product behavior,
+- architecture,
+- security policy,
+- privacy policy,
+- provider/vendor selection,
+- significant dependency,
+- data retention,
+- authorization model,
+- irreversible operation,
+- R4 action,
+- task scope.
+
+Do not ask Mike to choose:
+
+- helper names,
+- local component placement,
+- equivalent framework syntax,
+- small styling decisions,
+- ordinary reversible implementation details.
+
+---
+
+# 38. Recommendation When Human Decision Is Required
+
+When human judgment is required:
+
+do not merely ask:
+
+> What do you want?
+
+Provide:
+
+- decision,
+- viable options,
+- recommended option,
+- important tradeoff,
+- consequence of each choice.
+
+Keep it concise.
+
+---
+
+# 39. Decisions Agents May Resolve
+
+Plan may automatically resolve:
+
+- low-risk implementation structure,
+- conventional framework usage,
+- safe local refactors,
+- test organization,
+- local type organization,
+- ordinary accessibility implementation,
+- small reusable helpers.
+
+Record meaningful choices when useful.
+
+Do not promote them to `DECISIONS.md` unless genuinely durable.
+
+---
+
+# 40. Durable Decision Candidates
+
+Identify choices that may deserve durable documentation.
+
+Examples:
+
+- authentication provider,
+- tenant ownership model,
+- storage provider,
+- route convention,
+- security boundary,
+- retention rule,
+- major architectural split.
+
+Do not automatically write them to `DECISIONS.md`.
+
+They become durable after acceptance.
+
+---
+
+# 41. Documentation Planning
+
+Plan may identify documentation updates required after successful Verify.
+
+Do not update:
+
+`docs/IMPLEMENTATION.md`
+
+to claim planned functionality already exists.
+
+Do not mark the task Done during Plan.
+
+Do not promote security controls as implemented before Verify proves them.
+
+---
+
+# 42. Plan Output Artifact
+
+For meaningful tasks create a task-specific artifact under:
+
+`icm/01_plan/output/`
+
+Use a descriptive name.
+
+Example:
+
+`SD-012-authenticated-course-persistence-plan.md`
+
+Do not use:
+
+- `plan.md`
+- `notes.md`
+
+Trivial R0/R1 work may omit a durable Plan artifact when it adds no value.
+
+---
+
+# 43. Plan Artifact Structure
+
+A substantial artifact should normally contain:
+
 # <Task ID> — <Task Name>
 
 ## Human Review Summary
@@ -983,13 +1162,15 @@ A substantial Plan artifact should normally use:
 
 ## Current State
 
+## Risk Classification
+
 ## Requirements
 
 ## Non-Goals
 
 ## Relevant Product Invariants
 
-## Constraints
+## Security / Privacy Context
 
 ## Proposed Approach
 
@@ -997,579 +1178,342 @@ A substantial Plan artifact should normally use:
 
 ## Acceptance Criteria
 
-## Implementation Steps
-
 ## Verification Plan
 
 ## Risks / Open Questions
 
 ## Build Readiness
-```
 
-Sections may be shortened or omitted when they add no value.
+Include only relevant sections.
 
-Do not add empty ceremony.
+For R0/R1 tasks, security sections may simply state:
+
+`No new security boundary introduced.`
+
+Do not create fake threat analysis.
 
 ---
 
-# 26. Human Review Summary
+# 44. Human Review Summary
 
-The Plan artifact should begin with a concise summary that allows Mike to review
-the important parts quickly without reading the entire technical Plan.
+The artifact should start with a concise review section.
 
 Use:
 
-## Mike's Next Actions
+## Mike's Required Actions
 
-Include only actions Mike genuinely needs to perform.
-
-Maximum five.
+Only genuine required actions.
 
 If none:
 
 `None.`
-
----
 
 ## Decisions Requiring Mike
 
-Include only material choices requiring human approval.
-
-For each:
-
-- explain the choice,
-- give the recommended option,
-- explain the consequence briefly.
+Only material decisions.
 
 If none:
 
 `None.`
 
-Do not list ordinary task-local implementation decisions here.
+## Risk Tier
 
----
+State:
 
-## Learn Before Build
+`R0`, `R1`, `R2`, `R3`, or `R4`
 
-Use three levels.
-
-### Must Understand Before Build
-
-Only concepts Mike needs to understand in order to make a required decision or
-meaningfully review risk.
-
-### Can Learn During Build
-
-Useful concepts that will be easier to learn while inspecting actual code.
-
-### Not Needed Yet
-
-Concepts that sound relevant but are outside the current task.
-
-Keep this concise.
-
-Do not turn every Plan into a tutorial.
-
----
+with one-sentence reasoning.
 
 ## Current Blockers
 
-Include only conditions that actually prevent Build.
+Only real blockers.
 
 If none:
 
 `None.`
-
-Risks are not automatically blockers.
-
----
 
 ## Automation Status
 
-State one of:
+Use one:
 
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-```
+`READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
 
-```text
-READY FOR BUILD AFTER LISTED APPROVAL
-```
+`READY FOR BUILD AFTER LISTED APPROVAL`
 
-```text
-BLOCKED
-```
-
-When the complete task lifecycle is authorized and the status is:
-
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-```
-
-continue directly into Build.
-
-Do not wait for another prompt.
+`BLOCKED`
 
 ---
 
-# 27. Learn Before Build Should Not Become Friction
+# 45. Security Summary for R3+
 
-Teaching remains important, but School Dashboard should move quickly.
+For R3/R4 include concise:
 
-Do not require Mike to study every framework concept before implementation.
+## Protected Assets
 
-A concept belongs under:
+What must be protected.
 
-### Must Understand Before Build
+## Trust Boundaries
 
-only when misunderstanding it would make Mike unable to responsibly approve a
-material decision.
+Where trust changes.
 
-Otherwise prefer:
+## Primary Abuse Cases
 
-### Can Learn During Build
+Highest-value realistic attacks.
 
-Examples that often can be learned during Build:
+## Required Controls
 
-- a straightforward React component pattern,
-- a simple TypeScript type,
-- a route convention,
-- ordinary Tailwind layout,
-- a helper function.
+Controls Build must implement.
 
-Learning should support progress, not block it unnecessarily.
+## Negative Verification
 
----
+What Verify must attempt.
 
-# 28. Proposed Approach
-
-The Proposed Approach should explain:
-
-- what structure will be used,
-- how data/control flows,
-- why it is the simplest suitable option,
-- important tradeoffs.
-
-Do not describe every line of code that Build will write.
-
-Plan the system boundary.
-
-Let Build handle local implementation detail.
+Avoid enormous generic checklists.
 
 ---
 
-# 29. Implementation Steps
-
-Provide an ordered sequence that Build can follow.
-
-Each step should:
-
-- have a clear purpose,
-- build on previous steps,
-- remain inside scope,
-- be reasonably reviewable.
-
-Avoid vague instructions such as:
-
-> Build the page.
-
-Prefer:
-
-```text
-1. Inspect the existing route and shared shell.
-2. Extend the shared static Course data only as required by this task.
-3. Build the reusable Course Card using existing project conventions.
-4. Render the Courses primary view from shared data.
-5. Preserve the existing Course Page route relationship.
-6. Add required responsive and accessibility behavior.
-7. Run targeted Build checks.
-8. Inspect the final task diff.
-9. Hand the implementation into Verify.
-```
-
-Build should not need to redesign the feature from scratch.
-
----
-
-# 30. Build Autonomy
-
-Once the Plan establishes:
-
-- behavior,
-- boundaries,
-- acceptance criteria,
-- relevant invariants,
-- expected affected areas,
-
-Build may make ordinary implementation decisions autonomously.
-
-Build does not need to return to Plan for:
-
-- local naming,
-- minor file organization,
-- small helper extraction,
-- ordinary framework patterns,
-- trivial styling choices,
-- equivalent low-risk implementation details.
-
-Return to Plan only when a discovery materially affects:
-
-- accepted behavior,
-- architecture,
-- task scope,
-- acceptance criteria,
-- durable decisions,
-- security,
-- privacy,
-- major dependencies,
-- or external services.
-
----
-
-# 31. Plan Deviation Threshold
-
-Build may deviate from a local implementation detail in the Plan when repository
-reality makes another low-risk approach clearly better.
-
-Example:
-
-Plan expected:
-
-`components/course-card.tsx`
-
-but repository conventions place feature-local components somewhere more
-appropriate.
-
-Build may follow the existing convention if:
-
-- product behavior does not change,
-- architecture does not materially change,
-- acceptance criteria remain valid,
-- scope remains unchanged.
-
-Document the meaningful local deviation in the Build handoff.
-
-Do not force obsolete Plan detail merely for procedural purity.
-
----
-
-# 32. Durable Decision Handling
-
-If planning establishes a meaningful project-wide choice, classify it as a
-potential durable decision.
-
-Examples:
-
-- route conventions,
-- durable data ownership,
-- source authority rules,
-- security boundaries,
-- major technology selection,
-- intentional V1 limitations.
-
-Do not automatically write every task-local choice to:
-
-`docs/DECISIONS.md`
-
-Durable decision candidates require acceptance.
-
-When a durable decision is already implied by existing accepted documentation,
-do not create a duplicate decision merely to restate it.
-
----
-
-# 33. Documentation Changes During Plan
-
-Plan may identify required documentation changes.
-
-Do not update:
-
-`docs/IMPLEMENTATION.md`
-
-to describe functionality that has not yet been built and verified.
-
-Do not mark the active task Done during Plan.
-
-Do not promote planned behavior into verified current-state documentation.
-
-Product requirements may be updated during Plan only when Mike has actually
-accepted a requirements change.
-
-Do not rewrite requirements to match a preferred implementation.
-
-Routine implementation-state documentation belongs after successful Verify.
-
----
-
-# 34. Plan Quality Check
-
-Before declaring a meaningful Plan ready, confirm it answers:
-
-```text
-What are we building?
-
-Why are we building it?
-
-What currently exists?
-
-What must remain unchanged?
-
-What is in scope?
-
-What is explicitly out of scope?
-
-Which product invariants matter?
-
-What approach will Build use?
-
-What areas should change?
-
-What areas should remain untouched?
-
-What acceptance criteria define success?
-
-How will Verify prove those criteria?
-
-Are any material human decisions unresolved?
-
-Is anything actually blocking Build?
-```
-
-If Build would still have to guess about a major piece of product behavior, the
-Plan is not ready.
-
-If Build only needs to resolve ordinary implementation detail, the Plan is
-ready.
-
----
-
-# 35. Build Readiness
-
-A task is ready for Build when:
-
-1. the objective is clear,
-2. relevant current state has been inspected,
-3. required behavior is defined,
-4. non-goals are clear,
-5. relevant invariants are identified,
-6. the proposed solution is coherent,
-7. acceptance criteria are observable,
-8. verification has been planned,
-9. material uncertainty is resolved or explicitly surfaced,
-10. no blocker remains.
+# 46. Build Readiness
+
+A meaningful Plan is ready when:
+
+1. objective is clear;
+2. repository reality was inspected;
+3. required behavior is defined;
+4. non-goals are defined;
+5. relevant product invariants are identified;
+6. task risk tier is correct;
+7. relevant security/privacy context is understood;
+8. architecture approach is coherent;
+9. acceptance criteria are observable;
+10. verification evidence is planned;
+11. unresolved material decisions are surfaced;
+12. no blocker remains.
 
 Then state:
 
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-```
+`READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
 
 or:
 
-```text
-READY FOR BUILD AFTER LISTED APPROVAL
-```
+`READY FOR BUILD AFTER LISTED APPROVAL`
 
-as appropriate.
+or:
 
-When the active instruction authorizes the complete task lifecycle and the
-result is:
-
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-```
-
-the next action is:
-
-```text
-load Build stage instructions
-↓
-proceed into Build
-```
-
-Do not create a redundant human checkpoint.
+`BLOCKED`
 
 ---
 
-# 36. Final Plan Handoff
+# 47. Automatic Plan → Build Transition
 
-At the end of meaningful Plan work, provide a concise handoff.
+When:
 
-Use:
+`READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
+
+and the active instruction authorizes full-task execution:
+
+complete the Plan artifact and handoff, then load:
+
+`icm/02_build/CONTEXT.md`
+
+and continue automatically.
+
+Do not ask Mike:
+
+> Should I start Build?
+
+The authorization already exists.
+
+---
+
+# 48. Planning-Only Requests
+
+If Mike explicitly requested:
+
+- planning,
+- architecture exploration,
+- risk assessment,
+- options analysis
+
+without implementation authorization:
+
+do not enter Build.
+
+Return the Plan and stop.
+
+---
+
+# 49. R4 Approval Boundary
+
+For R4 tasks:
+
+Plan may proceed far enough to understand and design the change.
+
+Do not perform the high-impact action until explicit approval is obtained.
+
+Examples:
+
+- destructive production migration,
+- irreversible deletion,
+- broad permission rewrite.
+
+Routine local simulation/testing may continue when safe and authorized.
+
+---
+
+# 50. Final Plan Handoff
+
+End meaningful Plan work with:
 
 ## Plan Status
 
-One of:
+One of the accepted statuses.
 
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-READY FOR BUILD AFTER LISTED APPROVAL
-BLOCKED
-```
+## Risk Tier
 
----
+R0–R4.
 
 ## What Will Be Built
 
-Short description of the accepted task.
-
----
+Concise scope.
 
 ## Important Boundaries
 
-Only the boundaries Build is most likely to accidentally cross.
+What Build must not accidentally change.
 
----
+## Security / Privacy Requirements
+
+Only relevant requirements.
 
 ## Decisions Made Automatically
 
-Mention meaningful task-local choices made autonomously when useful.
-
-Do not list trivial choices.
-
----
-
-## Decisions Requiring Mike
-
-Only material unresolved choices.
+Meaningful autonomous choices.
 
 If none:
 
 `None.`
 
----
+## Decisions Requiring Mike
 
-## Verification Targets
-
-The most important behaviors Verify must later prove.
-
----
-
-## What Mike Should Understand
-
-Only the highest-value concept or decision from the Plan.
-
-If nothing important needs explanation:
+If none:
 
 `None.`
 
----
+## Verification Targets
+
+Most important positive, regression, and negative evidence.
 
 ## Next Stage
 
-If:
+If full-task execution is authorized and status is ready:
 
-```text
-READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED
-```
+`Proceed directly to Build.`
 
-and the active user instruction authorizes the complete task lifecycle:
-
-```text
-Proceed directly to Build.
-```
-
-If:
-
-```text
-READY FOR BUILD AFTER LISTED APPROVAL
-```
-
-stop for the required approval.
-
-If:
-
-```text
-BLOCKED
-```
-
-state the concrete blocker and the smallest next action required.
+Otherwise explain the required next action.
 
 ---
 
-# 37. Stage Transition Safety
+# 51. Efficiency Rules
 
-Automatic transition from Plan into Build is allowed only when it preserves the
-accepted task boundary.
+Plan should be rigorous, not verbose.
 
-Do not continue automatically if planning reveals:
+Avoid:
 
-- unresolved product behavior,
-- unresolved academic semantics,
-- a material architecture choice,
-- significant dependency uncertainty requiring approval,
-- security or privacy concerns,
-- required external-service adoption,
-- destructive work,
-- scope expansion,
-- or another genuine blocker.
+- copying entire specifications,
+- reproducing AGENTS rules,
+- generic security checklists,
+- giant theoretical threat models,
+- tutorials,
+- irrelevant future architecture,
+- excessive alternatives when one clearly fits.
 
-Ordinary implementation uncertainty does not require a stop.
+Prefer:
 
-Build may investigate ordinary technical details safely.
+- explicit scope,
+- risk tier,
+- concrete security implications,
+- testable acceptance criteria,
+- small implementation plan.
 
-The purpose of Plan is to remove material uncertainty.
-
-It is not to eliminate every unknown before implementation.
-
----
-
-# 38. One-Prompt Task Boundary
-
-When Mike provides a full-task instruction such as:
-
-> Complete SD-003 using the repository ICM workflow.
-
-interpret that as authorization to complete SD-003 through:
-
-```text
-Plan
-↓
-Build
-↓
-Verify
-↓
-PASS
-↓
-documentation promotion
-↓
-mark SD-003 Done
-↓
-task-scoped commit
-↓
-normal safe push
-```
-
-subject to all repository safety and human-review boundaries.
-
-Do NOT interpret it as authorization to begin:
-
-`SD-004`
-
-after SD-003 completes.
-
-One task prompt means:
-
-> finish this task completely.
-
-It does not mean:
-
-> continue indefinitely through the roadmap.
+The goal is high-quality decisions per token.
 
 ---
 
-# 39. Current Roadmap Awareness
+# 52. Plan Self-Review
+
+Before handing off, Plan should challenge itself:
+
+> Did I inspect actual implementation?
+
+> Is the risk tier too low?
+
+> Did I miss a trust boundary?
+
+> Am I assuming the client enforces security?
+
+> Did I invent product behavior?
+
+> Did I accidentally include future scope?
+
+> Can Verify actually prove every important criterion?
+
+> Is there a destructive or irreversible action hidden inside the task?
+
+> Am I asking Mike to decide something an agent can safely decide?
+
+Fix the Plan when the answer reveals a problem.
+
+---
+
+# 53. Scope Failure Rule
+
+If the task cannot be completed without materially expanding accepted scope:
+
+do not quietly absorb the additional feature.
+
+State:
+
+- why scope expansion is required,
+- smallest additional scope,
+- whether it changes risk tier,
+- whether human approval is required.
+
+---
+
+# 54. Plan Does Not Own Release Authorization
+
+Plan may identify deployment implications.
+
+Plan does not automatically authorize production release.
+
+Implementation lifecycle and release lifecycle remain separate.
 
 Use:
 
-`docs/TASKS.md`
+`icm/04_release/CONTEXT.md`
 
-for current task sequencing and status.
+when deployment is later authorized.
 
-Do not hardcode a historical task such as SD-001 into the global Plan stage
-instructions.
+---
 
-The Plan stage must remain reusable as School Dashboard advances.
+# 55. Final Principle
 
-Mike's explicit instruction remains the execution authorization. A task's
-roadmap position does not independently authorize execution.
+A good Plan should let Build move quickly because the difficult uncertainty was
+resolved before implementation.
+
+For low-risk tasks:
+
+keep Plan lightweight.
+
+For high-risk tasks:
+
+spend more reasoning on:
+
+- ownership,
+- trust boundaries,
+- abuse cases,
+- security controls,
+- negative verification.
+
+The goal is:
+
+> minimum planning necessary for maximum trustworthy autonomy.
