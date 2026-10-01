@@ -698,32 +698,33 @@ The job runs:
 The same commands passed locally during SD-010 verification. The workflow
 requires no repository secret and performs no deployment. Branch protection
 and required status checks are not configured by this workflow; those remain
-SD-012 repository-governance work. Security scanners are separate SD-011 work.
+SD-012 repository-governance work. Security automation is described in section 30.
 
 ---
 
 # 30. Current Security Automation State
 
-Automated repository security enforcement is not yet established as verified
-implementation.
+SD-011 added a required `npm audit --audit-level=moderate` step to the CI job.
+It evaluates the locked production and development dependency tree on pushes
+and pull requests to `main`. The audit returned zero vulnerabilities during
+local verification. Hosted CI run status is recorded in the SD-011 Verify artifact.
 
-The project does not currently claim implemented:
+`.github/dependabot.yml` configures weekly npm and GitHub Actions version
+update pull requests. The file is valid repository configuration; actual
+Dependabot scheduling and PR creation have not yet been observed.
 
-- secret scanning enforcement,
-- dependency-review enforcement,
-- automated code security analysis,
-- required security tests,
-- security-gated CI.
+`.github/workflows/security.yml` configures CodeQL JavaScript/TypeScript
+analysis on pushes and pull requests to `main`, and GitHub dependency review
+on pull requests. The CodeQL job has `security-events: write` only for findings
+upload. The dependency-review job has read-only contents permission and fails
+on newly introduced moderate-or-higher vulnerabilities. The PR-only job has
+not yet been exercised by a pull request.
 
-These are planned for later Secure Automation Foundation tasks.
-
-Security documentation currently provides:
-
-> policy and design constraints
-
-not:
-
-> machine-enforced runtime/repository security.
+GitHub secret scanning, push protection, Dependabot alert settings, and
+required-check/branch rules could not be inspected through this session's
+available repository permissions. They are not claimed active. SD-012 must
+inspect those repository settings and decide which controls are available and
+appropriate before private multi-user work.
 
 ---
 
