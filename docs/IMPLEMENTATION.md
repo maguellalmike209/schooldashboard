@@ -683,23 +683,22 @@ because those runtime features have not been built.
 
 # 29. Current CI State
 
-No CI gate has been implemented for the application.
+SD-010 added `.github/workflows/ci.yml` for pushes and pull requests targeting
+`main`. Its single Ubuntu 24.04 job uses pinned checkout/setup-node actions,
+Node.js 24, read-only repository contents permission, and one `npm ci` install.
+The job runs:
 
-There is currently no verified automated repository pipeline enforcing:
+1. lint,
+2. typecheck,
+3. Vitest unit/integration tests,
+4. production build,
+5. Playwright Chromium installation,
+6. browser tests.
 
-- lint,
-- typecheck,
-- tests,
-- build,
-- security scans
-
-for each repository change.
-
-CI is planned under:
-
-`SD-010`
-
-and must not be treated as active until implemented and verified.
+The same commands passed locally during SD-010 verification. The workflow
+requires no repository secret and performs no deployment. Branch protection
+and required status checks are not configured by this workflow; those remain
+SD-012 repository-governance work. Security scanners are separate SD-011 work.
 
 ---
 
