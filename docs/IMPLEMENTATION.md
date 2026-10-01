@@ -657,25 +657,27 @@ Billing remains later product direction.
 
 # 28. Current Test Infrastructure
 
-No dedicated application testing framework has been added.
+SD-009 added Vitest 5.0.3 for TypeScript unit/invariant and synchronous
+presentation integration tests, and Playwright 1.63.0 with Chromium for browser
+tests. These are development dependencies in the npm lockfile.
 
-The repository currently does not have an automated application test suite
-covering:
+`npm test` runs nine selector, fixture, and component integration tests. They
+cover Today filtering/order, Dashboard Next Action, due-date ordering,
+Assignment/Study Task separation, Course-scoped relationships, missing duration,
+raw weekly progress, and zero-task presentation.
 
-- unit tests,
-- integration tests,
-- browser/E2E tests,
-- automated authorization tests,
-- automated security-regression tests.
+`npm run test:e2e` runs four Chromium tests against a local production Next.js
+server. Run `npx playwright install chromium` once per machine, then
+`npm run build` before the browser suite. It covers the five primary
+views, navigation, Course selection, unknown Course 404, cross-view Today/Next
+Action consistency, narrow-viewport overflow, and keyboard navigation.
 
-SD-005 through SD-007 used targeted verification assertions and manual/runtime
-verification, but those do not yet constitute a durable project test framework.
+The test runner starts and stops its own loopback server on port 3100. It
+rejects a preexisting server on that port so results are not attributed to an
+unrelated process. Browser artifacts are ignored by Git.
 
-Automated test infrastructure is planned under:
-
-`SD-009`
-
-and must be verified when implemented.
+No authentication, authorization, multi-user isolation, or upload tests exist
+because those runtime features have not been built.
 
 ---
 
