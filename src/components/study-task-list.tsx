@@ -34,7 +34,7 @@ export function StudyTaskList({ tasks }: { tasks: StudyTask[] }) {
             {objectives.map((objective) => (
               <p key={objective.id} className="mt-2 text-xs text-slate-600">Supports objective: {objective.title}</p>
             ))}
-            {assignment && <p className="mt-1 text-xs text-slate-600">For assignment: {assignment.title}</p>}
+            {assignment && <p className="mt-1 text-xs text-slate-600">For assignment: {assignment.title} · Due <time dateTime={assignment.dueDate}>{formatAcademicDate(assignment.dueDate)}</time></p>}
           </li>
         );
       })}

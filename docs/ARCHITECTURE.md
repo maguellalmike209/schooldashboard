@@ -2,7 +2,7 @@
 
 ## Current state
 
-The repository contains the documentation and ICM instructions plus a minimal Next.js App Router application under `src/app/`. Its only application page is `/`; no academic data fixtures, product views, schemas, or service layers exist. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified setup and commands.
+The repository contains the documentation and ICM instructions plus the completed read-only Milestone 1 Next.js App Router application under `src/app/`. One static academic fixture in `src/lib/academic-context.ts` feeds Dashboard, Courses, Course Page, Weekly Plan, and Today. Small selectors derive daily tasks, weekly progress, and deadline context; no schema or service layer exists. [IMPLEMENTATION.md](IMPLEMENTATION.md) records verified routes, behavior, and commands.
 
 ## Initial technical stack
 
@@ -13,13 +13,13 @@ The repository contains the documentation and ICM instructions plus a minimal Ne
 | TypeScript | Types for UI code and mock academic data |
 | Tailwind CSS | UI styling |
 
-SD-001 installed this stack with npm, TypeScript, and Tailwind CSS in the existing repository. Application code uses the App Router under `src/app/`; product route and component choices remain for their later tasks.
+SD-001 installed this stack with npm, TypeScript, and Tailwind CSS in the existing repository. Application code uses the App Router under `src/app/`; current route and component choices are recorded in [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Initial UI boundaries
 
 The conceptual data flow is local mock/hardcoded academic plan → selections and progress summaries → the five primary views: Dashboard, Courses, Course Page, Weekly Plan, and Today. The product vocabulary, relationships, view behavior, date rules, and progress calculation are owned by [V1_SPEC.md](V1_SPEC.md). This describes a boundary, not a prescribed schema or file layout.
 
-The mock plan supplies course identity, the term/week/reference day, objectives, assignment deadlines, task associations, optional duration estimates, authored order, and completion state. It also supplies dated class meetings with display times and static material references. All views must use the same underlying plan so that a task shown in several places is still one task and progress totals agree. Display filtering and task-count arithmetic are sufficient; this is not a scheduling or recommendation engine.
+The mock plan supplies course identity, the term/week/reference day, objectives, assignment deadlines, task associations, optional duration estimates, authored order, and completion state. The current fixture also has date-only lecture schedule context and a static material reference; no timed Class Meeting is supplied. All views use the same underlying plan so that a task shown in several places is still one task and progress totals agree. Display filtering and task-count arithmetic are sufficient; this is not a scheduling or recommendation engine.
 
 Materials and class meetings provide academic context, not separate document-processing or calendar subsystems. Upcoming assignments and course cards can be reused across the primary views without creating additional primary screens. Conceptual relationships do not require dedicated tables, services, repositories, or a file for each entity. The read-only prototype has no user mutation or persistence boundary to implement.
 

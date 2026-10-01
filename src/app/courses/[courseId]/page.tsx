@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AssignmentList } from "@/components/assignment-list";
 import { StudyTaskList } from "@/components/study-task-list";
-import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getWeeklyObjectives, getWeeklyProgress, getWeeklyStudyTasks } from "@/lib/academic-context";
+import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getUpcomingAssignments, getWeeklyObjectives, getWeeklyProgress, getWeeklyStudyTasks } from "@/lib/academic-context";
 
 export default async function CoursePage({
   params,
@@ -71,6 +72,12 @@ export default async function CoursePage({
           <h3 className="text-lg font-semibold text-slate-950">Study tasks</h3>
           <div className="mt-3"><StudyTaskList tasks={tasks} /></div>
         </div>
+      </section>
+
+      <section aria-labelledby="course-assignments" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Deliver · Course obligations</p>
+        <h2 id="course-assignments" className="mt-2 text-xl font-semibold text-slate-950">Upcoming assignments</h2>
+        <div className="mt-4"><AssignmentList assignments={getUpcomingAssignments(courseId)} /></div>
       </section>
 
       <section aria-labelledby="course-materials" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">

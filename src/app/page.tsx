@@ -1,7 +1,8 @@
 import Link from "next/link";
+import { AssignmentList } from "@/components/assignment-list";
 import { CourseCard } from "@/components/course-card";
 import { TodayTaskList } from "@/components/today-task-list";
-import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getNextAction, getTodayStudyTasks, getWeeklyProgress } from "@/lib/academic-context";
+import { academicContext, formatCurrentWeek, formatReferenceDate, formatWeeklyProgress, getCourse, getNextAction, getTodayStudyTasks, getUpcomingAssignments, getWeeklyProgress } from "@/lib/academic-context";
 
 export default function DashboardPage() {
   const scheduledCourse = getCourse(academicContext.referenceDayLecture.courseId);
@@ -59,6 +60,13 @@ export default function DashboardPage() {
           <div className="mt-4"><TodayTaskList tasks={todayTasks} /></div>
         </section>
       </div>
+
+      <section aria-labelledby="upcoming-assignments" className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Deadlines · Course obligations</p>
+        <h2 id="upcoming-assignments" className="mt-2 text-xl font-semibold text-slate-950">Assignments due soon</h2>
+        <p className="mt-2 text-sm text-slate-600">Due dates provide context for your plan; they do not add or reorder today&apos;s Study Tasks.</p>
+        <div className="mt-4"><AssignmentList assignments={getUpcomingAssignments()} layout="grid" /></div>
+      </section>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">

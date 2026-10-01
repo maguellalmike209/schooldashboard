@@ -15,6 +15,7 @@ export type Assignment = {
   title: string;
   dueDate: string;
   dueTime?: string;
+  authoredOrder: number;
 };
 
 export type StudyTask = {
@@ -37,8 +38,9 @@ const learningObjectives: LearningObjective[] = [
 ];
 
 const assignments: Assignment[] = [
-  { id: "phy9d-problem-1", courseId: "phy-009d", title: "Problem #1", dueDate: "2026-09-28", dueTime: "23:59" },
-  { id: "wrt101-response-draft", courseId: "wrt-101", title: "Response draft", dueDate: "2026-09-27" },
+  { id: "phy9d-problem-1", courseId: "phy-009d", title: "Problem #1", dueDate: "2026-09-28", dueTime: "23:59", authoredOrder: 1 },
+  { id: "wrt101-response-draft", courseId: "wrt-101", title: "Response draft", dueDate: "2026-09-27", authoredOrder: 2 },
+  { id: "his110-map-quiz", courseId: "his-110", title: "Map quiz", dueDate: "2026-09-25", authoredOrder: 3 },
 ];
 
 const studyTasks: StudyTask[] = [
@@ -135,12 +137,26 @@ export function getNextAction() {
   return getTodayStudyTasks()[0] ?? null;
 }
 
+function sortAssignmentsByDueDate(assignments: Assignment[]) {
+  return assignments.sort((first, second) => first.dueDate.localeCompare(second.dueDate)
+    || first.authoredOrder - second.authoredOrder);
+}
+
+export function selectUpcomingAssignments(assignments: readonly Assignment[], referenceDate: string, courseId?: string) {
+  return sortAssignmentsByDueDate(assignments.filter((assignment) => assignment.dueDate >= referenceDate
+    && (!courseId || assignment.courseId === courseId)));
+}
+
+export function getUpcomingAssignments(courseId?: string) {
+  return selectUpcomingAssignments(academicContext.assignments, academicContext.referenceDate, courseId);
+}
+
 export function getWeeklyAssignments(courseId: string) {
   const linkedIds = new Set(getWeeklyStudyTasks(courseId).map((task) => task.assignmentId));
-  return academicContext.assignments.filter((assignment) => assignment.courseId === courseId
+  return sortAssignmentsByDueDate(academicContext.assignments.filter((assignment) => assignment.courseId === courseId
     && ((assignment.dueDate >= academicContext.currentWeek.startsOn
       && assignment.dueDate <= academicContext.currentWeek.endsOn)
-      || linkedIds.has(assignment.id)));
+      || linkedIds.has(assignment.id))));
 }
 
 export function getWeeklyProgress(courseId?: string) {

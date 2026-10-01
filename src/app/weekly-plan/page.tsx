@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { AssignmentList } from "@/components/assignment-list";
 import { StudyTaskList } from "@/components/study-task-list";
-import { academicContext, formatAcademicDate, formatCurrentWeek, formatWeeklyProgress, getWeeklyAssignments, getWeeklyObjectives, getWeeklyProgress, getWeeklyStudyTasks } from "@/lib/academic-context";
+import { academicContext, formatCurrentWeek, formatWeeklyProgress, getWeeklyAssignments, getWeeklyObjectives, getWeeklyProgress, getWeeklyStudyTasks } from "@/lib/academic-context";
 
 export default function WeeklyPlanPage() {
   return (
@@ -45,16 +46,7 @@ export default function WeeklyPlanPage() {
                 <section aria-labelledby={`deliver-${course.id}`}>
                   <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Deliver · Course obligations</p>
                   <h3 id={`deliver-${course.id}`} className="mt-1 text-lg font-semibold text-slate-950">Assignments</h3>
-                  {assignments.length > 0 ? (
-                    <ul className="mt-3 space-y-3">
-                      {assignments.map((assignment) => (
-                        <li key={assignment.id} className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm">
-                          <p className="font-semibold text-slate-950">{assignment.title}</p>
-                          <p className="mt-1 text-slate-700">Due <time dateTime={assignment.dueDate}>{formatAcademicDate(assignment.dueDate)}</time></p>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : <p className="mt-3 text-sm text-slate-600">No assignments due or linked to this week&apos;s study tasks.</p>}
+                  <div className="mt-3"><AssignmentList assignments={assignments} emptyMessage="No assignments due or linked to this week's study tasks." /></div>
                 </section>
               </div>
 
