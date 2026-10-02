@@ -78,20 +78,44 @@ Completed tasks:
 - SD-005
 - SD-006
 - SD-007
+- SD-008
+- SD-009
+- SD-010
+- SD-011
 
 The project is now completing the:
 
-> Secure Automation Foundation
+> Secure Automation Foundation Closeout
 
-before beginning persistent private multi-user capability work.
+SD-008 through SD-011 established the policy, testing, CI, and
+security-automation baseline.
 
-This foundation exists to make later autonomous development:
+SD-012 and SD-013 now close that foundation by:
+
+- establishing an enforced protected repository workflow;
+- validating the intended branch → PR → automated checks → merge path;
+- resolving known repository-enforcement gaps;
+- independently auditing the complete automation foundation;
+- reconciling durable documentation with verified repository reality.
+
+Private multi-user capability work must not begin until this closeout is
+complete unless an explicitly accepted Plan establishes that a missing
+foundation item is genuinely irrelevant.
+
+The purpose of the foundation is to make later autonomous development:
 
 - safer,
 - more testable,
 - more repeatable,
 - more secure,
 - less dependent on Mike manually supervising routine implementation.
+
+The roadmap is phase-gated.
+
+Fully define the current engineering phase.
+
+Keep later phases directional until verified implementation evidence justifies
+decomposing them into implementation tasks.
 
 ---
 
@@ -406,10 +430,10 @@ Do not silence real findings merely to make CI green.
 
 ## Objective
 
-Move from direct-main convenience toward a production-safe repository workflow
-before high-risk multi-user development.
+Establish and exercise the practical protected repository workflow before
+security-sensitive multi-user development begins.
 
-Desired mature flow:
+Target workflow:
 
 ```text
 authorized task
@@ -430,31 +454,8 @@ required CI/security checks
 ↓
 merge
 ↓
-Release when authorized
+Release only when separately authorized
 ```
-
-## Required investigation
-
-Plan must inspect actual GitHub capabilities available to the repository before
-selecting protections.
-
-Potential controls include:
-
-- protected `main`,
-- rulesets,
-- required pull request,
-- required status checks,
-- restricted force push,
-- secret scanning,
-- push protection,
-- code scanning.
-
-Do not document a control as active unless repository evidence confirms it.
-
-## Important boundary
-
-Merge completion does not automatically mean production deployment unless a
-separately accepted deployment policy explicitly establishes that behavior.
 
 ---
 
@@ -466,74 +467,41 @@ separately accepted deployment policy explicitly establishes that behavior.
 
 ## Objective
 
-Attempt to find holes in the complete machine before trusting it with private
-multi-user product work.
+Independently audit SD-008 through SD-012 as one complete engineering system
+before trusting the foundation with private multi-user product development.
 
-## Audit targets
+The audit should answer:
 
-Review:
+> Does the Secure Automation Foundation actually enforce the behavior its
+> documents describe, and is there sufficient evidence to rely on it for the
+> next security-sensitive phase?
 
-- `AGENTS.md`
-- root `CONTEXT.md`
-- Plan
-- Build
-- Verify
-- Release
-- Security Requirements
-- Data Privacy
-- Threat Model
-- Security Testing
-- Decisions
-- Tasks
-- Implementation
-- automated test infrastructure
-- CI
-- security tooling
-- GitHub repository controls
+SD-013 is primarily a closeout and verification task.
 
-## Adversarial questions
+It should not manufacture new implementation work simply to justify the task.
 
-The audit should attempt to answer questions such as:
+When a genuine material gap is discovered:
 
-> Can Build silently expand scope?
+- identify it precisely;
+- repair it only when scope and accepted behavior are already clear;
+- otherwise return to Plan or human review;
+- rerun the affected verification afterward.
 
-> Can Build bypass Verify?
+## Audit Model
 
-> Can Verify PASS while a material security test fails?
+Trace important controls through:
 
-> Can Verify weaken a valid test to obtain PASS?
-
-> Can an agent mistake client filtering for authorization?
-
-> Can private user data enter logs or fixtures?
-
-> Can an agent deploy merely because Verify passed?
-
-> Can Release deploy a different commit than Verify tested?
-
-> Can CI failure be ignored?
-
-> Can a failed Git push trigger destructive recovery?
-
-> Can a task accidentally begin the next roadmap task without authorization?
-
-> Can security-sensitive work proceed without loading its required security
-> context?
-
-> Can an agent invent an unresolved provider/privacy decision?
-
-Material gaps must be repaired and re-audited.
-
-## Completion target
-
-The foundation receives PASS only when:
-
-- document responsibilities are coherent,
-- stage transitions are coherent,
-- test/CI enforcement works,
-- security tooling is functioning as accepted,
-- repository workflow matches the documented model,
-- no known material contradiction remains.
+```text
+accepted requirement
+↓
+identified threat / failure mode
+↓
+implementation or repository control
+↓
+test / adversarial verification
+↓
+observable evidence
+```
 
 ---
 

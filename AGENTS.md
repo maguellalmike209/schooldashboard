@@ -375,6 +375,10 @@ Do not automatically begin the next roadmap task.
 
 Mike may explicitly authorize several named tasks as a bounded batch.
 
+A cohesive phase may be authorized as one bounded batch when Mike identifies
+its task IDs, order, maximum boundary, and stop conditions. The authorization
+does not permit starting later roadmap work after that boundary.
+
 A batch must define:
 
 - authorized task IDs,
@@ -406,6 +410,33 @@ stop the batch unless the active instructions explicitly define a safe
 alternative.
 
 Do not manufacture PASS merely to continue a batch.
+
+---
+
+# 9A. Phase-Gated Roadmap Rule
+
+Fully define the current engineering phase. Keep later phases directional
+until verified implementation evidence justifies decomposition into detailed
+implementation tasks. Do not create future task IDs merely to make the roadmap
+look complete.
+
+---
+
+# 9B. Evidence Reuse Rule
+
+Reuse fresh, trustworthy evidence when the relevant state has not changed.
+Rerun a check when independent Verify requires it, the affected state changed,
+the evidence is stale, incomplete, or contradictory, or risk warrants fresh
+proof. Evidence reuse never bypasses required CI or security enforcement.
+
+---
+
+# 9C. No-Op Task Rule
+
+If current evidence fully satisfies an authorized task's acceptance criteria,
+record that evidence and complete the task without manufacturing implementation
+work. A no-op still requires its applicable Plan and independent Verify. Do not
+use this rule to declare PASS while a material gap remains.
 
 ---
 

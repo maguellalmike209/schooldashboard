@@ -1,773 +1,287 @@
-# School Dashboard — Mock Data and Source Packet Specification
+# School Dashboard — Mock Data Specification
 
 ## 1. Purpose
 
-This document defines how the initial School Dashboard prototype represents
-academic information using static/hardcoded data.
+This document defines the semantics, source-handling rules, and canonical static
+fixture used by the completed School Dashboard Milestone 1 prototype.
 
-The V1 prototype does NOT ingest files dynamically.
+Milestone 1 is complete.
 
-However, its static data should simulate the information that a future
-course-ingestion system would eventually produce from real student-provided
-course materials.
+This document should now be treated as the frozen fixture contract for that
+milestone.
 
-For the initial prototype, "mock data" means:
+It explains:
 
-> static application data representing a realistic academic situation
+- what the static fixture represents,
+- how Course Facts differ from personal planning,
+- how source context is handled,
+- which values are canonical,
+- which values are derived,
+- how missing or uncertain information is treated.
 
-It does NOT require the academic information itself to be invented.
+It does NOT define:
 
-A sanitized snapshot of real Course information may be used when appropriate.
+- production database schema,
+- authentication,
+- persistence,
+- Course upload architecture,
+- ingestion architecture,
+- AI planning,
+- future provider choices.
 
-The initial reference Course is based on a real student workflow:
+Use:
 
-```text
-UC Davis
-PHY 009D
-Modern Physics
-Fall Quarter 2026
-```
-
-The current source packet may contain:
-
-- Course syllabus information,
-- lecture schedule information,
-- Assignment/deadline information,
-- assigned textbook information,
-- and later student lecture notes or other Course Materials.
-
-The application should represent the result of interpreting those materials.
-
-It should NOT implement the interpretation process itself during V1.
+- `docs/V1_SPEC.md` for completed Milestone 1 product behavior,
+- `docs/UI_SPEC.md` for presentation responsibilities,
+- `docs/PRODUCT_VISION.md` for long-term product direction,
+- `docs/ARCHITECTURE.md` for technical boundaries,
+- `docs/IMPLEMENTATION.md` for verified current implementation reality.
 
 ---
 
-# 2. The Three-Layer Model
+# 2. Meaning of Mock Data
 
-The mock data must preserve three conceptually different layers.
+For Milestone 1:
+
+> mock data means static application data representing a realistic academic
+> situation.
+
+Mock does not mean every academic value must be fictional.
+
+The fixture may contain:
+
+- sanitized source-backed Course context,
+- intentionally fictional supporting Courses,
+- manually authored personal planning choices.
+
+The application receives already-structured data.
+
+It does not dynamically interpret Course files during Milestone 1.
+
+Conceptually:
 
 ```text
-SOURCE MATERIALS
-        ↓
+Course Sources
+      ↓
+manual normalization outside the application
+      ↓
+Static Course Facts
+      ↓
+Static authored personal plan
+      ↓
+School Dashboard
+```
+
+---
+
+# 3. Frozen Milestone Boundary
+
+The fixture exists to support the completed static/read-only Milestone 1
+experience.
+
+Future systems may replace manual normalization with:
+
+- uploads,
+- extraction,
+- ingestion,
+- source reconciliation,
+- AI,
+- persistence.
+
+Those systems should receive their own later requirements.
+
+Do not continually expand this fixture specification into the production data
+model.
+
+---
+
+# 4. Three Conceptual Layers
+
+The fixture preserves three different layers:
+
+```text
+SOURCE CONTEXT
+      ↓
 COURSE FACTS
-        ↓
+      ↓
 PERSONAL ACADEMIC PLAN
 ```
 
-These layers are related.
+These layers may be related.
 
 They are not interchangeable.
 
 ---
 
-# 3. Source Materials
+# 5. Source Context
 
-Source Materials are the artifacts from which academic information originates.
+Source context represents where academic information originated.
 
-Examples include:
+Possible source categories include:
 
 - syllabus,
 - lecture schedule,
-- Assignment page,
-- textbook,
+- Assignment information,
+- assigned textbook,
 - lecture slides,
-- discussion worksheet,
-- instructor handout,
+- discussion material,
 - student lecture notes,
 - student study notes.
 
-Source Materials answer:
+Source context answers:
 
 > Where did this information come from?
 
-They do NOT automatically become:
+Source artifacts do not automatically become:
 
-- Study Tasks,
-- Assignments,
 - Learning Objectives,
-- or Class Meetings.
+- Assignments,
+- Study Tasks,
+- Class Meetings.
 
 ---
 
-# 4. Course Facts
+# 6. Course Facts
 
-Course Facts are structured academic facts supported by Course sources.
-
-Examples:
-
-```text
-Course code:
-PHY 009D
-```
-
-```text
-Lecture 02 date:
-2026-09-25
-```
-
-```text
-Lecture 02 topic:
-Relativity principle and the nature of time
-```
-
-```text
-Midterm #1:
-2026-10-23
-```
-
-```text
-Final Exam:
-2026-12-09 at 3:30 PM
-```
-
-Course Facts represent Course reality as supported by available sources.
-
-They should not silently include personal planning decisions.
-
----
-
-# 5. Personal Academic Plan
-
-The Personal Academic Plan contains student-planning information.
+Course Facts describe academic information supported by available Course
+sources.
 
 Examples include:
 
-- weekly Learning Objectives,
+```text
+Course:
+PHY 009D — Modern Physics
+```
+
+```text
+Lecture #02:
+September 25, 2026
+```
+
+```text
+Lecture #02 topics:
+- Relativity principle
+- Spacetime events
+- Time measurement
+```
+
+```text
+Problem #1:
+Due September 28, 2026 at 11:59 PM
+```
+
+Course Facts must not silently include personal planning choices.
+
+---
+
+# 7. Personal Academic Plan
+
+The Personal Academic Plan contains student-planning information.
+
+Examples:
+
+- Learning Objectives,
 - Study Tasks,
-- Study Task planned dates,
-- authored task order,
-- estimated Study Task durations,
-- Study Task completion states.
+- planned dates,
+- authored task ordering,
+- estimated durations,
+- completion states.
 
 These are planning choices.
 
-They are not automatically Course requirements.
+They are not automatically instructor requirements.
 
 Example:
 
 Course Fact:
 
 ```text
-Lecture 02 covers the relativity principle.
+Lecture #02 covers relativity.
 ```
 
 Personal Study Task:
 
 ```text
-Review the relativity principle in my own words
-Estimated duration: 25 min
+Review Lecture #02 relativity topics.
 ```
 
-The second item is a personal plan derived from Course context.
-
-It must not be presented as an instructor-assigned requirement unless a source
-explicitly says so.
+The second item is a personal planning action.
 
 ---
 
-# 6. Why the Separation Matters
+# 8. Why the Boundary Matters
 
-School Dashboard eventually aims to transform academic information into useful
+School Dashboard ultimately aims to transform Course understanding into useful
 planning.
 
-That transformation only remains trustworthy if the product can distinguish:
+That transformation remains trustworthy only if the system can distinguish:
 
 ```text
-what the instructor/course said
+what the Course/source established
 ```
 
 from:
 
 ```text
-what the system or student decided to do
+what the student or planning system decided to do
 ```
 
-For V1, this distinction is represented manually in static data.
+Milestone 1 represents that distinction manually.
 
-Later systems may automate parts of it.
-
-They must preserve the same conceptual boundary.
+Future automation should preserve it.
 
 ---
 
-# 7. V1 Static Data Flow
+# 9. Canonical Runtime Source
 
-For V1:
+The implemented canonical fixture lives in:
 
-```text
-Student Course source packet
-        ↓
-manual interpretation outside the application
-        ↓
-static normalized Course Facts
-        ↓
-static authored Personal Academic Plan
-        ↓
-School Dashboard views
-```
+`src/lib/academic-context.ts`
 
-V1 does NOT contain:
+For actual current runtime behavior, that source file and verified
+`docs/IMPLEMENTATION.md` take precedence over stale examples.
 
-```text
-PDF parser
-OCR system
-document-ingestion pipeline
-Course-research agent
-AI planning engine
-automatic scheduler
-```
-
-The fixture represents the OUTPUT such systems may eventually produce.
+This document describes the semantics the fixture should preserve.
 
 ---
 
-# 8. SourceArtifact
+# 10. Canonical Academic Term
 
-V1 fixture data may use a lightweight `SourceArtifact` concept to preserve
-provenance.
-
-This is a fixture/prototype concept.
-
-It is NOT a production upload schema.
-
-A conceptual SourceArtifact may contain information such as:
-
-```text
-id
-
-courseId
-
-type
-
-title
-
-sourceOwner
-
-sourceDate
-
-notes
-```
-
-Exact TypeScript field names are implementation decisions for the task that
-introduces the fixture.
-
-The important requirement is preserving source identity where useful.
-
----
-
-# 9. Source Types
-
-Useful V1 source categories may include:
-
-```text
-instructor-syllabus
-
-lecture-schedule
-
-assignment-page
-
-instructor-slides
-
-assigned-textbook
-
-discussion-material
-
-student-lecture-notes
-
-student-study-notes
-```
-
-Additional categories may be introduced when actual fixture needs justify them.
-
-Do not create a complex taxonomy merely for completeness.
-
----
-
-# 10. Source Authority
-
-When multiple sources describe Course requirements, prefer more authoritative
-current-Course sources.
-
-The intended authority hierarchy is:
-
-```text
-1. Current instructor syllabus
-2. Current instructor Assignment information / official Course materials
-3. Current instructor lecture slides or notes
-4. Current assigned textbook
-5. Official university Course description
-6. Official department Course material
-7. Previous public offerings
-8. General educational resources
-```
-
-Student notes are useful evidence about:
-
-```text
-what was actually discussed
-what the student wrote down
-what appeared important during lecture
-```
-
-but they do not automatically override instructor sources for:
-
-- deadlines,
-- grading rules,
-- required attendance,
-- exams,
-- Course policies.
-
----
-
-# 11. SourceArtifact Is Not CourseMaterial
-
-A SourceArtifact and CourseMaterial may overlap, but they mean different
-things.
-
-SourceArtifact means:
-
-> This artifact supports or explains an academic fact.
-
-CourseMaterial means:
-
-> This resource is useful to the student as part of the Course.
-
-Example:
-
-A syllabus may be:
-
-```text
-SourceArtifact = yes
-CourseMaterial = not necessarily
-```
-
-An assigned textbook may be:
-
-```text
-SourceArtifact = yes
-CourseMaterial = yes
-```
-
-Do not collapse these concepts merely because one file can satisfy both roles.
-
----
-
-# 12. Raw Course Files Should Not Be Embedded in the Fixture
-
-The application fixture should contain concise structured information.
-
-It should NOT contain entire raw source documents.
-
-Do not copy:
-
-- complete syllabus text,
-- complete textbook chapters,
-- large lecture decks,
-- complete instructor documents
-
-into static application code.
-
-Instead store the small facts or references required by the UI.
-
-Example:
-
-Good:
-
-```text
-title:
-UCD Physics 9D — Modern Physics
-
-type:
-assigned textbook
-```
-
-Not appropriate:
-
-```text
-entire textbook contents embedded into TypeScript
-```
-
----
-
-# 13. Repository Safety
-
-Raw Course materials may contain:
-
-- copyrighted content,
-- private Course information,
-- instructor material,
-- student notes,
-- personally identifying information.
-
-Do not automatically commit raw source files to the repository.
-
-V1 fixture data should use:
-
-- concise facts,
-- sanitized values,
-- minimal source references.
-
-School Dashboard should not require private Course documents to live publicly in
-GitHub simply to support the UI prototype.
-
----
-
-# 14. Canonical Reference Course
-
-The primary realistic reference Course for the current fixture is:
-
-```text
-id:
-phy-009d
-
-code:
-PHY 009D
-
-name:
-Modern Physics
-
-institution:
-University of California, Davis
-
-term:
-Fall Quarter 2026
-```
-
-This Course provides realistic context for the initial prototype.
-
-It does not mean every screen must contain only Physics data.
-
-Additional lightweight Courses may be added where cross-Course behavior needs
-to be demonstrated.
-
----
-
-# 15. Current PHY 009D Source Packet
-
-The currently available PHY 009D source packet includes information derived
-from:
-
-```text
-current Course syllabus
-
-current lecture schedule
-
-current Assignment/deadline information
-
-assigned Physics 9D textbook
-```
-
-Later, the student may provide:
-
-```text
-lecture notes
-
-lecture slides
-
-discussion worksheets
-
-study guides
-
-other Course-specific material
-```
-
-Missing later material is normal.
-
----
-
-# 16. Source Information May Arrive Over Time
-
-The source packet is not expected to be complete on day one.
-
-Example:
-
-Before Lecture 02:
-
-```text
-syllabus
-lecture schedule
-textbook
-```
-
-may exist.
-
-After Lecture 02:
-
-```text
-student lecture notes
-instructor slides
-discussion material
-```
-
-may become available.
-
-The product should eventually become richer as new evidence arrives.
-
-V1 does not implement that ingestion cycle.
-
-The static fixture may simply represent one snapshot in time.
-
----
-
-# 17. Missing Sources Are Valid
-
-A Course does not require every possible source category.
-
-For example:
-
-```text
-syllabus exists
-lecture schedule exists
-textbook exists
-lecture notes missing
-slides missing
-discussion worksheet missing
-```
-
-is a valid Course state.
-
-Do not fabricate missing sources.
-
-Do not fabricate Course Facts merely because a source category is absent.
-
----
-
-# 18. Source References on Course Facts
-
-Where useful, static Course Facts may preserve lightweight source references.
-
-Conceptually:
-
-```text
-sourceRefs:
-- phy9d-syllabus
-- phy9d-lecture-schedule
-```
-
-Not every small value requires visible provenance in the UI.
-
-The purpose is to preserve enough source connection that later development can
-distinguish:
-
-```text
-source-backed Course information
-```
-
-from:
-
-```text
-personal planning information
-```
-
-Exact data representation is deferred to the task that implements the fixture.
-
----
-
-# 19. Interpretation Status
-
-When a Course Fact has been manually reviewed and can be represented safely,
-the fixture may treat it as:
-
-```text
-confirmed
-```
-
-When the source itself is ambiguous, contradictory, or impossible to normalize
-without guessing, represent that condition conceptually as:
-
-```text
-needs-review
-```
-
-Do NOT use numerical confidence percentages.
-
-Examples of unsupported patterns:
-
-```text
-confidence: 87%
-```
-
-```text
-confidence: 0.64
-```
-
-V1 does not define a numerical confidence model.
-
----
-
-# 20. Preserve Source Ambiguity
-
-Do not silently repair questionable source information.
-
-The current PHY 009D lecture schedule provides a useful edge case.
-
-The source contains a row corresponding conceptually to:
-
-```text
-raw date:
-Sep 31
-
-event:
-Lecture #04
-
-topic:
-Paradoxes — ladder & barn, twins
-```
-
-September has no September 31.
-
-The fixture must NOT silently convert that into:
-
-```text
-September 30
-```
-
-or:
-
-```text
-October 1
-```
-
-merely because one seems likely.
-
-A conceptual representation could preserve:
-
-```text
-rawDate:
-Sep 31
-
-normalizedDate:
-null
-
-interpretationStatus:
-needs-review
-```
-
-Exact implementation fields are not prescribed here.
-
-The invariant is:
-
-> Preserve uncertainty instead of manufacturing certainty.
-
----
-
-# 21. General Policy vs Specific Assignment Information
-
-General Course policies and specific Assignment facts are different levels of
-information.
-
-Example general policy:
-
-```text
-Homework is normally due Sundays at 11:59 PM.
-```
-
-Example specific Assignment:
-
-```text
-Problem #1
-Due September 28 at 11:59 PM
-```
-
-When a specific Assignment page gives an explicit deadline for that Assignment,
-use the specific deadline for that Assignment.
-
-Do not overwrite a specific fact merely because it differs from a broader
-Course pattern.
-
-If two equally relevant current sources genuinely conflict about the same fact,
-mark the issue for review rather than guessing.
-
----
-
-# 22. Scheduled Content vs Observed Lecture Coverage
-
-The lecture schedule describes intended or scheduled Course content.
-
-Student notes describe what the student observed or recorded.
-
-These are different.
-
-Example:
-
-Scheduled:
-
-```text
-Lecture 03
-Time dilation
-Lorentz transformations
-Length contraction
-Simultaneity
-```
-
-Student notes may later show:
-
-```text
-Lecture spent most of the time on time dilation
-Lorentz transformations were only introduced briefly
-```
-
-Do not replace the scheduled Course Fact.
-
-Preserve both meanings when later functionality needs them.
-
-Conceptually:
-
-```text
-scheduled topic
-```
-
-and:
-
-```text
-observed coverage
-```
-
-are different evidence.
-
----
-
-# 23. Academic Term
-
-The fixture represents one current Academic Term.
-
-For the canonical example:
+The fixture represents:
 
 ```text
 Fall Quarter 2026
 ```
 
-Do not invent exact term-start or term-end dates unless they are actually needed
-and supported by accepted fixture information.
+Milestone 1 does not implement:
 
-V1 does not implement term switching.
+- term creation,
+- term switching,
+- production academic-calendar management.
 
 ---
 
-# 24. Fixed Reference Date
+# 11. Fixed Reference Date
 
-V1 uses one fixed reference date.
-
-For the canonical prototype:
+The canonical reference date is:
 
 ```text
-referenceDate:
 2026-09-25
 ```
 
-This corresponds to:
+which represents:
 
 ```text
 Friday, September 25, 2026
 ```
 
-The machine's actual current date must not alter V1 behavior.
+All Milestone 1 views use this same reference date.
 
-All five views must use this same reference date.
+The machine's live date must not change the scenario.
 
 ---
 
-# 25. Current Academic Week
+# 12. Current Academic Week
 
 The canonical current Academic Week is:
 
@@ -777,23 +291,21 @@ through
 2026-09-27
 ```
 
-This provides the week boundary used for:
+This boundary is used for:
 
-- weekly Study Task grouping,
+- weekly Study Task selection,
 - weekly progress,
-- weekly Objective context.
+- weekly Learning Objective context.
 
-The Course begins during this week.
-
-That is valid.
-
-Do not fabricate earlier Course activity merely to fill Monday or Tuesday.
+Do not fabricate academic activity merely to fill every day of the week.
 
 ---
 
-# 26. Course
+# 13. Canonical Courses
 
-A conceptual static Course may contain information such as:
+The current runtime fixture contains three Courses.
+
+## PHY 009D
 
 ```text
 id:
@@ -804,72 +316,117 @@ PHY 009D
 
 name:
 Modern Physics
-
-termId:
-fall-2026
-
-institution:
-UC Davis
 ```
 
-Optional metadata may include publicly supplied instructor information when it
-is useful.
-
-Do not require every Course to have every optional metadata field.
+This is the primary realistic reference Course.
 
 ---
 
-# 27. Canonical Instructor Context
-
-Available syllabus information identifies the instructor as:
+## WRT 101
 
 ```text
-Prof. Shirley Chiang
+id:
+wrt-101
+
+code:
+WRT 101
+
+name:
+Academic Writing
 ```
 
-This may be represented as Course metadata if useful.
-
-Do not introduce unnecessary TA or staff data unless a V1 view actually benefits
-from it.
-
-V1 is not a staff-directory application.
+This is lightweight supporting fixture data.
 
 ---
 
-# 28. LectureScheduleEntry
-
-The static fixture may use a lightweight `LectureScheduleEntry` concept.
-
-This represents a Course's scheduled curriculum entry.
-
-Conceptually it may contain:
+## HIS 110
 
 ```text
-id
+id:
+his-110
 
-courseId
+code:
+HIS 110
 
-lectureNumber
-
-rawDate
-
-normalizedDate
-
-topics
-
-sourceRefs
-
-interpretationStatus
+name:
+World History
 ```
 
-This is NOT automatically the same thing as a `ClassMeeting`.
+This is lightweight supporting fixture data.
 
-Why?
+---
 
-A lecture schedule may establish:
+# 14. Realistic vs Supporting Fixture Data
+
+PHY 009D provides realistic Course context derived from a sanitized source
+packet.
+
+WRT 101 and HIS 110 are lightweight supporting Courses used to verify
+cross-Course product behavior.
+
+Supporting fixture data does not need a complete fictional Course history.
+
+Include only enough information to exercise required behavior.
+
+---
+
+# 15. Canonical PHY Week Context
+
+The current PHY week context is:
 
 ```text
-Lecture 02 occurs on September 25
+Course beginning:
+sound review and introduction to special relativity
+```
+
+Its displayed source context is:
+
+```text
+Current lecture schedule
+```
+
+This is Course context.
+
+It is not a generated full-term Course Roadmap.
+
+---
+
+# 16. Canonical Reference-Day Lecture
+
+The fixture includes:
+
+```text
+Course:
+PHY 009D
+
+Lecture:
+02
+
+Date:
+2026-09-25
+
+Topics:
+- Relativity principle
+- Spacetime events
+- Time measurement
+```
+
+This is date/topic Course schedule context.
+
+The source does not provide a time or room in the implemented fixture.
+
+Do not invent either.
+
+---
+
+# 17. Lecture Schedule Context vs Class Meeting
+
+A scheduled lecture entry is not automatically a fully populated Class Meeting.
+
+A source may establish:
+
+```text
+Lecture #02 occurs September 25.
 ```
 
 without establishing:
@@ -878,121 +435,338 @@ without establishing:
 start time
 end time
 room
-meeting recurrence
+recurrence
 ```
 
-Do not fabricate missing meeting details.
+Do not manufacture missing meeting details.
+
+Where only date/topic context exists, preserve it as such.
 
 ---
 
-# 29. Canonical Lecture Schedule Snapshot
+# 18. Canonical Course Material
 
-The first several known PHY 009D schedule entries include:
+The current fixture includes one PHY Course Material:
 
 ```text
-Lecture #01
-Date: 2026-09-23
-Topics:
-- Course overview
-- sound waves and decibel scale
-- beats
-- Doppler effect for sound
+id:
+phy9d-textbook
+
+courseId:
+phy-009d
+
+kind:
+Assigned textbook
+
+title:
+UCD Physics 9D — Modern Physics
 ```
 
+The fixture contains only the concise reference needed by the UI.
+
+It does not contain the textbook itself.
+
+---
+
+# 19. Raw Course Materials
+
+Do not embed complete raw Course documents into the application fixture.
+
+Examples that should not be copied wholesale into static source code:
+
+- syllabus text,
+- textbook chapters,
+- lecture decks,
+- instructor documents,
+- student notes.
+
+The fixture should contain:
+
+- concise Course Facts,
+- sanitized values,
+- small references required by the UI.
+
+---
+
+# 20. Repository Safety
+
+Raw Course materials may contain:
+
+- copyrighted content,
+- instructor material,
+- student information,
+- private Course information.
+
+Private/raw Course files should not be committed merely to support the static
+prototype.
+
+Future real Course Materials should enter through an authorized private product
+workflow rather than becoming repository fixture files.
+
+---
+
+# 21. Source Authority
+
+When multiple sources describe current Course requirements, more authoritative
+current-Course sources should generally outrank historical/general sources.
+
+The product authority guide is:
+
+1. Current instructor syllabus.
+2. Current instructor Assignments / official Course materials.
+3. Current lecture slides / instructor notes.
+4. Current assigned textbook sections.
+5. Official university Course description.
+6. Official department materials.
+7. Previous public Course offerings.
+8. General educational resources.
+
+Student notes may provide useful evidence about observed lecture coverage.
+
+They do not automatically override instructor sources for:
+
+- deadlines,
+- grading rules,
+- exam dates,
+- Course policies.
+
+---
+
+# 22. Specific Facts vs General Policies
+
+Specific current Assignment information should not be overwritten merely because
+it differs from a broader Course pattern.
+
+Example:
+
+General policy:
+
 ```text
-Lecture #02
-Date: 2026-09-25
-Topics:
-- relativity principle
-- spacetime events
-- time measurement
+Homework is usually due Sunday at 11:59 PM.
 ```
 
+Specific Assignment:
+
 ```text
-Lecture #03
-Date: 2026-09-28
-Topics:
-- time dilation
-- Lorentz transformations
-- length contraction
-- simultaneity
+Problem #1
+Due Monday, September 28 at 11:59 PM.
 ```
 
-The source also contains the questionable:
+When a clearly authoritative specific Assignment source establishes the
+deadline, use the specific fact.
+
+If equally relevant authoritative sources genuinely conflict:
+
+do not guess.
+
+---
+
+# 23. Missing Sources Are Valid
+
+A Course does not require every possible source category.
+
+A valid source state might be:
 
 ```text
-Lecture #04
-Raw date: Sep 31
-Topics:
-- ladder and barn paradox
-- twin paradox
-Status:
+Available:
+- syllabus
+- lecture schedule
+- textbook
+- Assignment information
+
+Missing:
+- lecture notes
+- slides
+- discussion worksheet
+```
+
+Missing information is not a fixture failure.
+
+---
+
+# 24. Do Not Invent Missing Facts
+
+If sources do not establish a value, leave it absent.
+
+Do not fabricate:
+
+- lecture time,
+- room,
+- instructor requirement,
+- Assignment deadline,
+- required textbook section,
+- office hours,
+- grade value,
+- duration.
+
+A UI component having space for a value is not evidence that the value exists.
+
+---
+
+# 25. Source Ambiguity
+
+Ambiguous or contradictory source information must not be silently normalized.
+
+Conceptually, ambiguous source information may be treated as:
+
+```text
 needs-review
 ```
 
-These are Course Facts.
+rather than:
 
-They do not automatically create Study Tasks.
+```text
+confirmed
+```
+
+Do not invent numerical confidence percentages.
+
+Milestone 1 has no numeric confidence model.
 
 ---
 
-# 30. Major Assessments
+# 26. Historical Source-Review Example
 
-Available Course information supports the following major assessments:
-
-```text
-Midterm #1
-2026-10-23
-```
+During manual source review, an impossible source date such as:
 
 ```text
-Midterm #2
-2026-11-20
+Sep 31
 ```
+
+must not be silently converted to:
 
 ```text
-Final Exam
-2026-12-09
-3:30 PM
+Sep 30
 ```
 
-Do not invent exam locations when the available source does not establish them.
+or:
 
-Major assessments are Course obligations/context.
+```text
+Oct 1
+```
 
-They do not automatically create personal preparation tasks in V1.
+without evidence.
+
+This is an example of the broader invariant:
+
+> preserve uncertainty instead of manufacturing certainty.
+
+Such an edge case does not need to exist in the runtime fixture merely to prove
+the principle.
 
 ---
 
-# 31. Assignment
+# 27. Scheduled vs Observed Course Content
 
-An Assignment represents a Course obligation or deliverable.
+Scheduled Course content and observed lecture coverage are different concepts.
 
-A conceptual Assignment may contain:
+Example:
+
+Scheduled:
 
 ```text
-id
-
-courseId
-
-title
-
-dueDate
-
-dueTime
-
-sourceRefs
-
-authoredOrder
+Lecture:
+Time dilation
+Lorentz transformations
+Length contraction
 ```
 
-Other fields may be added only when the V1 implementation actually needs them.
+Later student notes might indicate:
+
+```text
+Most time was spent on time dilation.
+```
+
+Do not silently replace the scheduled record.
+
+Future systems may preserve both:
+
+```text
+scheduled content
+```
+
+and:
+
+```text
+observed coverage
+```
 
 ---
 
-# 32. Canonical Assignment Example
+# 28. Canonical Learning Objectives
 
-The reference fixture may represent:
+The current runtime fixture contains three Learning Objectives.
+
+## PHY Sound Objective
+
+```text
+id:
+phy9d-objective-sound
+
+courseId:
+phy-009d
+
+title:
+Explain sound-wave and Doppler-effect ideas
+
+origin:
+authored-plan
+```
+
+## PHY Relativity Objective
+
+```text
+id:
+phy9d-objective-relativity
+
+courseId:
+phy-009d
+
+title:
+Explain the relativity principle and spacetime events
+
+origin:
+authored-plan
+```
+
+## WRT Argument Objective
+
+```text
+id:
+wrt101-objective-argument
+
+courseId:
+wrt-101
+
+title:
+Build a clear argument for the response draft
+
+origin:
+authored-plan
+```
+
+HIS 110 intentionally has no current-week Learning Objective in the fixture.
+
+---
+
+# 29. Learning Objective Semantics
+
+Learning Objectives in the V1 fixture belong to the authored personal plan.
+
+They are not automatically instructor-defined learning outcomes.
+
+A Course source may motivate an Objective.
+
+The authored Objective remains a planning construct unless the data explicitly
+represents a different origin.
+
+---
+
+# 30. Canonical Assignments
+
+The current fixture contains three Assignments.
+
+## PHY Problem #1
 
 ```text
 id:
@@ -1011,204 +785,254 @@ dueTime:
 23:59
 ```
 
-This is an Assignment deadline.
-
-It is NOT the same as the date the student plans to work on it.
-
-If later source review establishes a different deadline, update the fixture
-rather than preserving knowingly incorrect information.
-
----
-
-# 33. CourseMaterial
-
-CourseMaterial represents a resource useful to the student.
-
-A conceptual CourseMaterial may contain:
-
-```text
-id
-
-courseId
-
-type
-
-title
-
-reference
-
-sourceRefs
-```
-
-Example:
+## WRT Response Draft
 
 ```text
 id:
-phy9d-textbook
+wrt101-response-draft
 
 courseId:
-phy-009d
-
-type:
-textbook
+wrt-101
 
 title:
-UCD Physics 9D — Modern Physics
+Response draft
+
+dueDate:
+2026-09-27
 ```
 
-The fixture should not contain the full textbook content.
-
----
-
-# 34. Textbook Structure
-
-The assigned textbook contains broad topic areas including:
-
-```text
-Sound
-
-Foundations of Special Relativity
-
-Kinematics in Special Relativity
-
-Dynamics in Special Relativity
-
-Quantum-transition experiments
-
-Probability
-
-Matter waves and Schrödinger equation
-
-One-dimensional quantum models
-
-Three-dimensional quantum mechanics
-
-Intrinsic angular momentum / spin
-```
-
-This structure may provide useful Course context.
-
-It does NOT automatically establish:
-
-- required reading,
-- Study Tasks,
-- weekly Learning Objectives,
-- Assignment requirements.
-
-Those require explicit authored planning or source support.
-
----
-
-# 35. CourseWeekContext
-
-The fixture may include a lightweight Course/week context to explain:
-
-> What part of this Course are we currently in?
-
-For PHY 009D during the reference week, useful context may include:
-
-```text
-Course beginning
-
-Sound review
-
-Introduction to special relativity
-```
-
-This is presentation/context information.
-
-Do not manufacture a complete generated Course Roadmap for V1.
-
----
-
-# 36. LearningObjective
-
-Learning Objectives belong to the Personal Academic Plan.
-
-They are NOT automatically extracted Course requirements in V1.
-
-A conceptual LearningObjective may contain:
-
-```text
-id
-
-courseId
-
-weekId
-
-title
-
-origin
-
-evidenceSourceRefs
-```
-
-Example:
+## HIS Map Quiz
 
 ```text
 id:
-phy9d-objective-relativity-principle
+his110-map-quiz
 
 courseId:
-phy-009d
+his-110
 
 title:
-Explain the relativity principle in my own words
+Map quiz
 
-origin:
-authored-plan
+dueDate:
+2026-09-25
 ```
 
-A source may motivate the Objective.
-
-The Objective itself remains a planning construct.
+The HIS Map quiz intentionally exists without a linked Today Study Task.
 
 ---
 
-# 37. StudyTask
+# 31. Assignment Semantics
 
-StudyTask represents a concrete personal action.
+An Assignment represents an academic obligation/deadline.
 
-A conceptual StudyTask may contain:
+It does not define when the student plans to work on it.
+
+Therefore:
 
 ```text
-id
-
-courseId
-
-plannedDate
-
-authoredOrder
-
-title
-
-estimatedMinutes
-
-isComplete
-
-objectiveIds
-
-assignmentId
-
-materialIds
-
-origin
+Assignment due date
+≠
+Study Task planned date
 ```
-
-Exact TypeScript shape is not locked by this document.
-
-The important semantics are locked.
 
 ---
 
-# 38. StudyTask Origin
+# 32. Canonical Study Tasks
 
-V1 Study Tasks are part of the authored static Personal Academic Plan.
+The current runtime fixture contains seven authored Study Tasks.
 
-Conceptually:
+## 1 — PHY Lecture #01 Review
 
 ```text
-origin:
+id:
+phy9d-task-review-lecture-01
+
+plannedDate:
+2026-09-23
+
+estimatedMinutes:
+20
+
+isComplete:
+true
+
+objective:
+phy9d-objective-sound
+
+assignment:
+none
+```
+
+---
+
+## 2 — PHY Doppler Practice
+
+```text
+id:
+phy9d-task-practice-doppler
+
+plannedDate:
+2026-09-24
+
+estimatedMinutes:
+30
+
+isComplete:
+false
+
+objective:
+phy9d-objective-sound
+
+assignment:
+none
+```
+
+This intentionally demonstrates an earlier unfinished task.
+
+It does not automatically move into Today.
+
+---
+
+## 3 — WRT Response Outline
+
+```text
+id:
+wrt101-task-outline
+
+plannedDate:
+2026-09-24
+
+estimatedMinutes:
+25
+
+isComplete:
+true
+
+objective:
+wrt101-objective-argument
+
+assignment:
+wrt101-response-draft
+```
+
+---
+
+## 4 — PHY Spacetime Event Example
+
+```text
+id:
+phy9d-task-sketch-event
+
+plannedDate:
+2026-09-25
+
+estimatedMinutes:
+20
+
+isComplete:
+true
+
+objective:
+phy9d-objective-relativity
+
+assignment:
+none
+```
+
+This demonstrates a completed Study Task planned for the reference date.
+
+It contributes to weekly progress but is omitted from actionable Today.
+
+---
+
+## 5 — PHY Lecture #02 Review
+
+```text
+id:
+phy9d-task-review-lecture-02
+
+plannedDate:
+2026-09-25
+
+estimatedMinutes:
+25
+
+isComplete:
+false
+
+objective:
+phy9d-objective-relativity
+
+assignment:
+none
+```
+
+---
+
+## 6 — WRT Organize Notes
+
+```text
+id:
+wrt101-task-organize-notes
+
+plannedDate:
+2026-09-25
+
+estimatedMinutes:
+none
+
+isComplete:
+false
+
+objectives:
+none
+
+assignment:
+none
+```
+
+This intentionally demonstrates:
+
+- missing duration,
+- no Objective relationship,
+- no Assignment relationship.
+
+---
+
+## 7 — PHY Begin Problem #1
+
+```text
+id:
+phy9d-task-begin-problem-1
+
+plannedDate:
+2026-09-25
+
+estimatedMinutes:
+30
+
+isComplete:
+false
+
+objective:
+phy9d-objective-relativity
+
+assignment:
+phy9d-problem-1
+```
+
+This demonstrates one Study Task supporting both:
+
+- a Learning Objective,
+- an Assignment.
+
+---
+
+# 33. Study Task Origin
+
+All current V1 Study Tasks have the conceptual origin:
+
+```text
 authored-plan
 ```
 
@@ -1218,188 +1042,71 @@ They must not imply:
 instructor-required
 ```
 
-unless a future data model explicitly represents a Course requirement separately.
-
-Example:
-
-Source-backed fact:
-
-```text
-Lecture 02 covers the relativity principle.
-```
-
-Authored Study Task:
-
-```text
-Review Lecture 02 relativity concepts.
-```
-
-The second is a personal action.
+unless a later data model explicitly represents such a distinction.
 
 ---
 
-# 39. Personal Plan vs Course Fact Example
+# 34. Authored Order
 
-Keep this distinction visible conceptually:
+Study Tasks use one shared authored order.
 
-```text
-COURSE FACT
-
-Problem #1
-Due Monday at 11:59 PM
-```
-
-versus:
+Current order:
 
 ```text
-PERSONAL PLAN
-
-Friday
-Begin Problem #1
-30 min
+1. phy9d-task-review-lecture-01
+2. phy9d-task-practice-doppler
+3. wrt101-task-outline
+4. phy9d-task-sketch-event
+5. phy9d-task-review-lecture-02
+6. wrt101-task-organize-notes
+7. phy9d-task-begin-problem-1
 ```
 
-The Course did not necessarily tell the student:
+Derived views preserve that order where relevant.
 
-> Work on this Friday for 30 minutes.
+Do not silently replace it with:
 
-That is the planning layer.
+- deadline ranking,
+- alphabetical sorting,
+- duration sorting,
+- AI priority.
 
 ---
 
-# 40. Canonical Reference-Day Scenario
+# 35. Stable Identity
 
-The V1 reference date is:
+Every canonical academic item has one stable identity.
+
+If a Study Task appears on:
+
+- Dashboard,
+- Today,
+- Weekly Plan,
+- Course Page,
+
+it retains the same ID and state.
+
+Do not create conceptual duplicates such as:
 
 ```text
-Friday, September 25, 2026
+dashboardTask
+todayTask
+weeklyTask
+coursePageTask
 ```
 
-Available Course context may show:
-
-```text
-Lecture #02 occurs today.
-
-Lecture #02 topics include:
-- relativity principle
-- spacetime events
-- time measurement
-
-Problem #1 is upcoming.
-
-The assigned Physics 9D textbook is available.
-
-Student Lecture 02 notes have not yet been supplied.
-```
-
-The absence of student notes is valid.
-
-Do not fabricate them.
+for the same Study Task.
 
 ---
 
-# 41. Example Authored Friday Plan
+# 36. One Shared Academic Fixture
 
-The static Personal Academic Plan may contain example Study Tasks such as:
-
-```text
-Review Lecture 02 relativity topics
-25 min
-```
-
-```text
-Read the relevant textbook material on the relativity principle and time
-30 min
-```
-
-```text
-Begin Problem #1
-30 min
-```
-
-These examples are PERSONAL PLANNING CHOICES.
-
-They are not claims that the instructor assigned those exact study sessions.
-
-Exact final fixture tasks may be refined during the task that introduces the
-shared mock data.
-
----
-
-# 42. Lecture Notes as New Evidence
-
-Later, the student may provide lecture notes.
-
-Those notes may support:
-
-```text
-what topics were emphasized
-
-examples used in class
-
-questions raised
-
-student misunderstandings
-
-what was actually covered
-```
-
-They should not automatically replace:
-
-- official deadlines,
-- syllabus rules,
-- exam dates,
-- Assignment requirements.
-
-Future systems may use both.
-
----
-
-# 43. Scheduled vs Observed Content Must Remain Distinguishable
-
-If the schedule says:
-
-```text
-Lecture 03:
-Time dilation
-Lorentz transformations
-Length contraction
-Simultaneity
-```
-
-but later lecture notes show only:
-
-```text
-Time dilation
-Lorentz transformations
-```
-
-do not silently rewrite the schedule.
-
-Instead preserve conceptually:
-
-```text
-scheduled content
-```
-
-and:
-
-```text
-observed content
-```
-
-The difference may become useful for future planning.
-
----
-
-# 44. One Shared Academic Plan
-
-All five V1 views must derive from one shared academic fixture.
+All five primary views derive from one canonical fixture.
 
 Conceptually:
 
 ```text
-shared academic plan
+shared academic context
         ↓
 Dashboard
 Courses
@@ -1408,130 +1115,36 @@ Weekly Plan
 Today
 ```
 
-Do NOT create:
-
-```text
-dashboardMockData
-
-todayMockData
-
-weeklyPlanMockData
-
-coursePageMockData
-```
-
-containing duplicate canonical academic records.
-
-Views may derive different selections.
+Views may select or format different parts.
 
 They should not own separate academic truth.
 
 ---
 
-# 45. Stable Identity
+# 37. Derived Information
 
-Every academic object should have stable identity.
+View-specific summaries should normally be derived from canonical data.
 
-Examples:
-
-```text
-phy-009d
-```
-
-```text
-phy9d-problem-1
-```
-
-```text
-phy9d-objective-relativity-principle
-```
-
-```text
-phy9d-task-review-lecture-02
-```
-
-If the same Study Task appears on:
-
-- Dashboard,
-- Today,
-- Weekly Plan,
-- Course Page,
-
-it remains the same Study Task ID.
-
-Do not create screen-specific identities.
-
----
-
-# 46. Derived Data Should Normally Not Be Stored Separately
-
-View summaries should be derived from canonical fixture information.
-
-Examples:
-
-```text
-Today's Study Tasks
-```
-
-derive from:
-
-```text
-Study Tasks
-+
-referenceDate
-+
-completion state
-```
-
-```text
-Next Action
-```
-
-derives from:
-
-```text
-Today's incomplete Study Tasks
-+
-authored order
-```
-
-```text
-Course weekly progress
-```
-
-derives from:
-
-```text
-Study Tasks
-+
-current Academic Week
-+
-Course ID
-+
-completion state
-```
-
-Do not independently hardcode:
+Do not separately hardcode results such as:
 
 ```text
 todayTasks
-
 nextAction
-
 courseProgressPercent
+upcomingAssignments
 ```
 
 when they can be derived reliably.
 
 ---
 
-# 47. Today Derivation
+# 38. Today Derivation
 
-For V1:
+For frozen V1:
 
 ```text
 Today Study Tasks =
-Study Tasks where:
+Study Tasks where
 
 plannedDate == referenceDate
 
@@ -1540,30 +1153,43 @@ AND
 isComplete == false
 ```
 
-Then preserve:
+Then sort by:
 
 ```text
 authoredOrder
 ```
 
-Do not include:
+For the current fixture, actionable Today is:
 
-- earlier unfinished tasks,
-- Assignments merely due today,
-- automatically generated work.
+```text
+1. Review Lecture #02 relativity topics
+2. Organize class notes
+3. Begin Problem #1
+```
+
+The completed spacetime-event Study Task does not appear in actionable Today.
+
+The earlier unfinished Doppler Study Task does not automatically move into
+Today.
 
 ---
 
-# 48. Next Action Derivation
+# 39. Next Action Derivation
 
 For V1:
 
 ```text
 Next Action =
-first Study Task in Today's authored order
+first Study Task in actionable Today order
 ```
 
-If Today has no remaining Study Tasks:
+Therefore the current Next Action is:
+
+```text
+Review Lecture #02 relativity topics
+```
+
+If Today contains no remaining Study Tasks:
 
 ```text
 Next Action = none
@@ -1573,9 +1199,9 @@ Do not invent replacement work.
 
 ---
 
-# 49. Upcoming Assignments Derivation
+# 40. Upcoming Assignment Derivation
 
-Upcoming Assignments include Assignments where:
+Upcoming Assignments include:
 
 ```text
 dueDate >= referenceDate
@@ -1585,16 +1211,24 @@ Order by:
 
 ```text
 1. due date
-2. authored order when dates are equal
+2. authored order for equal dates
 ```
 
-Assignment deadline does not automatically determine Study Task order.
+For the current fixture the ordering is:
+
+```text
+1. HIS 110 — Map quiz — 2026-09-25
+2. WRT 101 — Response draft — 2026-09-27
+3. PHY 009D — Problem #1 — 2026-09-28
+```
+
+Assignment deadline order does not automatically determine Study Task order.
 
 ---
 
-# 50. Weekly Progress Derivation
+# 41. Weekly Progress Derivation
 
-For an Academic Week:
+For the current Academic Week:
 
 ```text
 Progress =
@@ -1603,31 +1237,43 @@ completed Study Tasks planned inside the week
 all Study Tasks planned inside the week
 ```
 
-Course progress applies the same calculation after filtering to one Course.
+Current fixture:
 
-Overall weekly progress counts Study Tasks across all current Courses.
+```text
+PHY 009D:
+2 of 5 complete
+
+WRT 101:
+1 of 2 complete
+
+HIS 110:
+No study tasks planned.
+
+Overall:
+3 of 7 complete
+```
 
 Do not:
 
 - count Assignments,
-- count Objectives,
-- count Materials,
-- count Class Meetings,
+- count Learning Objectives,
+- count Course Materials,
+- count schedule context,
 - average Course percentages.
 
 ---
 
-# 51. Zero-Task Progress
+# 42. Zero-Task Progress
 
-If a Course has no Study Tasks during the Academic Week:
+If a Course has no current-week Study Tasks:
 
-show conceptually:
+show:
 
 ```text
 No study tasks planned.
 ```
 
-Do not store or imply:
+Do not imply:
 
 ```text
 0%
@@ -1639,222 +1285,387 @@ or:
 100%
 ```
 
-Neither correctly communicates the state.
+HIS 110 intentionally exercises this case.
 
 ---
 
-# 52. Incomplete Source Packet Is Normal
+# 43. Relationship Integrity
 
-The fixture must support Courses where only part of the future source packet
-exists.
+Every related object must belong to the same Course.
 
-Example:
+Invalid:
 
 ```text
-Course:
-PHY 009D
-
-Available:
-- syllabus
-- lecture schedule
-- textbook
-- Assignment information
-
-Missing:
-- lecture notes
-- slides
-- discussion worksheet
+PHY Study Task
+→ WRT Learning Objective
 ```
 
-The Course remains valid.
-
----
-
-# 53. Do Not Invent Missing Course Facts
-
-If available sources do not establish information, leave it absent.
-
-Do not fabricate:
+or:
 
 ```text
-lecture time
-
-room
-
-instructor requirement
-
-Assignment deadline
-
-required textbook chapter
-
-office hours
-
-Study Task duration
-
-grade value
+WRT Study Task
+→ PHY Assignment
 ```
 
-simply because a UI component has space for it.
-
-Missing information is a legitimate fixture state.
+Cross-Course relationships are fixture errors.
 
 ---
 
-# 54. ClassMeeting vs LectureScheduleEntry
+# 44. Missing Duration
 
-Do NOT automatically convert every LectureScheduleEntry into a fully populated
-ClassMeeting.
+A missing duration remains absent.
 
-A schedule may establish:
+The canonical WRT Study Task:
 
 ```text
-Lecture occurs on Friday
+Organize class notes
 ```
 
-without supplying:
+has no duration.
+
+Do not fabricate one.
+
+---
+
+# 45. Assignment Due Today Without Today Task
+
+The HIS Map quiz is due on the reference date:
 
 ```text
-10:00 AM
-Physics Building Room 55
+2026-09-25
 ```
 
-If a V1 ClassMeeting requires start time and the source packet does not contain
-one:
+It has no linked Study Task.
 
-do not invent it.
-
-The implementation may:
-
-- omit the ClassMeeting,
-- present date-only Course schedule context where permitted,
-- or use a separate intentionally authored fixture Course for ClassMeeting UI
-  verification.
-
-The task Plan should choose the smallest option compatible with the relevant
-acceptance criteria.
-
----
-
-# 55. Additional Courses
-
-The fixture may include additional lightweight Courses to exercise cross-Course
-behavior.
-
-Examples might be used to verify:
-
-- multiple Course Cards,
-- unequal Study Task totals,
-- overall progress,
-- mixed Today tasks,
-- different upcoming deadlines.
-
-Do not invent complete quarter-long fake academic histories.
-
-Only include enough data to prove required V1 behavior.
-
----
-
-# 56. Additional Course Data May Be Fictional or Sanitized
-
-PHY 009D is the realistic reference Course.
-
-Additional Course fixtures may use:
-
-- sanitized real Course structure,
-- simple fictional Course data.
-
-The purpose is UI and behavior testing.
-
-Do not introduce unnecessary private academic information simply to make the
-fixture feel realistic.
-
----
-
-# 57. Edge Cases the Fixture Should Eventually Support
-
-The shared fixture should be capable of representing:
+This intentionally proves:
 
 ```text
-Study Task linked to both an Objective and Assignment
-
-Study Task linked to neither
-
-Assignment due today without a Today Study Task
-
-completed Study Task planned today
-
-earlier unfinished Study Task
-
-Course with zero current-week Study Tasks
-
-missing duration estimate
-
-unknown Course route
-
-multiple Courses with unequal task totals
-
-source fact requiring review
-
-missing optional Course metadata
+Assignment due today
+does not imply
+Today Study Task
 ```
 
-These support V1 verification.
-
-Not every edge case must be visually prominent in the primary reference Course.
+The Assignment remains deadline context.
 
 ---
 
-# 58. ALWAYS Rules
+# 46. Earlier Unfinished Study Task
+
+The PHY Study Task:
+
+```text
+Practice Doppler-effect examples
+```
+
+is planned:
+
+```text
+2026-09-24
+```
+
+and remains incomplete.
+
+It stays associated with September 24.
+
+It does not automatically move into September 25 Today.
+
+---
+
+# 47. Completed Study Task Planned Today
+
+The PHY Study Task:
+
+```text
+Sketch a spacetime event example
+```
+
+is planned:
+
+```text
+2026-09-25
+```
+
+and is complete.
+
+Therefore it:
+
+- contributes to weekly progress,
+- may appear in Weekly Plan/Course context,
+- is omitted from actionable Today.
+
+---
+
+# 48. Study Task Linked to Objective and Assignment
+
+The Study Task:
+
+```text
+Begin Problem #1
+```
+
+supports:
+
+```text
+phy9d-objective-relativity
+```
+
+and:
+
+```text
+phy9d-problem-1
+```
+
+It remains one Study Task.
+
+It counts once in progress.
+
+---
+
+# 49. Study Task Linked to Neither
+
+The WRT Study Task:
+
+```text
+Organize class notes
+```
+
+has:
+
+- no Objective,
+- no Assignment.
+
+It remains valid and visible because its planned date requires it.
+
+---
+
+# 50. Lightweight Supporting Courses
+
+Supporting Courses should remain intentionally small.
+
+Do not invent:
+
+- quarter-long schedules,
+- large fake material sets,
+- complete fictional histories
+
+merely to make fixture data appear realistic.
+
+Add only the data needed to test accepted product behavior.
+
+---
+
+# 51. Source References
+
+Static Course Facts may preserve lightweight provenance references where useful.
+
+Conceptually:
+
+```text
+sourceRefs:
+- current-syllabus
+- current-lecture-schedule
+```
+
+Not every UI value requires visible provenance.
+
+The purpose is to preserve enough source distinction that future work can
+separate:
+
+```text
+source-backed Course information
+```
+
+from:
+
+```text
+personal planning
+```
+
+Exact future production provenance representation remains unselected.
+
+---
+
+# 52. SourceArtifact vs CourseMaterial
+
+These concepts may overlap but are not identical.
+
+SourceArtifact means conceptually:
+
+> an artifact provides evidence for information.
+
+CourseMaterial means:
+
+> a resource is useful to the student as Course material.
+
+A textbook may be both.
+
+A syllabus may primarily serve as a source artifact.
+
+Do not collapse the concepts simply because one document could play both roles.
+
+The current runtime fixture does not require a production SourceArtifact model.
+
+---
+
+# 53. Fixture Types Are Not Production Schema
+
+TypeScript types used by Milestone 1 should not automatically become:
+
+- database tables,
+- ORM models,
+- public APIs,
+- storage schemas.
+
+They are evidence about the product model.
+
+Production persistence should be designed during the relevant later Plan.
+
+---
+
+# 54. No Runtime Ingestion
+
+Milestone 1 does NOT perform:
+
+```text
+PDF parsing
+OCR
+document ingestion
+external Course research
+AI extraction
+AI planning
+automatic scheduling
+```
+
+The fixture represents structured output that future systems may eventually
+produce.
+
+---
+
+# 55. Future Ingestion Relationship
+
+Long-term product direction may eventually transform:
+
+```text
+student Course materials
+        ↓
+private source records
+        ↓
+extraction
+        ↓
+candidate Course information
+        ↓
+provenance / uncertainty
+        ↓
+student review when needed
+        ↓
+accepted Course context
+        ↓
+planning suggestions
+        ↓
+student approval
+```
+
+That future pipeline belongs to later milestones.
+
+This document does not define its implementation.
+
+---
+
+# 56. Fixture Validation
+
+Before treating a static fixture as canonical, verify:
+
+```text
+[ ] Every canonical ID is unique.
+
+[ ] Every Study Task references an existing Course.
+
+[ ] Every Learning Objective references an existing Course.
+
+[ ] Every Assignment references an existing Course.
+
+[ ] Every Course Material references an existing Course.
+
+[ ] Study Task relationships do not cross Course boundaries.
+
+[ ] The reference date lies inside the current Academic Week.
+
+[ ] Assignment deadlines remain separate from Study Task planned dates.
+
+[ ] Today can be derived from canonical Study Tasks.
+
+[ ] Next Action can be derived from Today.
+
+[ ] Upcoming Assignments can be derived from Assignments.
+
+[ ] Weekly progress can be derived from Study Tasks.
+
+[ ] No required behavior depends on the machine's live date.
+
+[ ] Missing values remain missing.
+
+[ ] Source ambiguity is not silently normalized.
+
+[ ] Raw private/copyrighted Course documents are not embedded unnecessarily.
+
+[ ] Course Facts remain distinguishable from personal planning.
+```
+
+---
+
+# 57. ALWAYS Rules
 
 ALWAYS:
 
-- use one shared academic fixture;
+- use one canonical fixture;
 - preserve stable identity;
-- keep Course Facts separate from personal planning;
-- preserve Assignment deadlines independently from Study Task planned dates;
+- distinguish Course Facts from personal planning;
+- preserve Assignment due dates independently from Study Task planned dates;
 - preserve authored Study Task order;
 - use the fixed V1 reference date;
 - derive Today from canonical Study Tasks;
+- derive Next Action from Today;
 - derive progress from Study Tasks;
-- preserve source ambiguity when it exists;
-- keep source references lightweight;
-- keep raw copyrighted/private documents out of application fixtures;
-- allow missing information.
+- derive upcoming Assignment ordering from canonical Assignments;
+- preserve missing information;
+- preserve source uncertainty where relevant;
+- keep raw/private Course documents out of application fixtures.
 
 ---
 
-# 59. NEVER Rules
+# 58. NEVER Rules
 
 NEVER:
 
-- dynamically parse Course files during V1;
-- run AI to produce V1 fixture data at runtime;
-- treat mock data as a production database schema;
-- duplicate canonical academic objects per screen;
+- dynamically parse Course files during Milestone 1;
+- run runtime AI to create V1 fixture data;
+- treat fixture types as production database schema;
+- duplicate canonical academic records per screen;
 - fabricate Course Facts;
-- silently repair contradictory source facts;
-- treat student planning as instructor requirements;
+- silently repair ambiguous source facts;
+- present personal planning as instructor requirements;
 - treat Course Materials as Study Tasks;
 - treat Assignment due date as Study Task planned date;
-- infer ClassMeeting times not supplied by sources;
-- use machine current date instead of `referenceDate`;
-- calculate numerical confidence;
-- embed entire textbooks or source documents into the fixture.
+- infer missing meeting times or rooms;
+- use the machine's current date instead of the V1 reference date;
+- fabricate missing durations;
+- calculate unsupported numerical confidence;
+- embed complete textbooks or private source documents into the fixture.
 
 ---
 
-# 60. IF → THEN Rules
+# 59. IF → THEN Rules
 
 IF:
 
 ```text
-the same Study Task appears on several views
+the same Study Task appears in multiple views
 ```
 
 THEN:
 
 ```text
-use the same canonical Study Task identity and state
+use the same canonical identity and state
 ```
 
 ---
@@ -1862,13 +1673,13 @@ use the same canonical Study Task identity and state
 IF:
 
 ```text
-a duration is missing
+a duration is absent
 ```
 
 THEN:
 
 ```text
-leave duration absent
+leave it absent
 ```
 
 ---
@@ -1876,7 +1687,7 @@ leave duration absent
 IF:
 
 ```text
-a Course has no weekly Study Tasks
+a Course has no Study Tasks in the week
 ```
 
 THEN:
@@ -1904,13 +1715,13 @@ keep its original planned date
 IF:
 
 ```text
-an Assignment is due today without a Study Task today
+an Assignment is due today with no Study Task today
 ```
 
 THEN:
 
 ```text
-show it as deadline context only
+show deadline context only
 ```
 
 ---
@@ -1924,7 +1735,7 @@ a source fact is ambiguous
 THEN:
 
 ```text
-preserve the ambiguity / needs-review state
+preserve ambiguity / require review rather than guessing
 ```
 
 ---
@@ -1932,14 +1743,14 @@ preserve the ambiguity / needs-review state
 IF:
 
 ```text
-a specific Assignment deadline conflicts with a general recurring Course policy
+a clearly authoritative specific Assignment deadline differs from a general
+Course pattern
 ```
 
 THEN:
 
 ```text
-use the specific Assignment information for that Assignment when the source is
-clearly authoritative
+use the specific Assignment information for that Assignment
 ```
 
 ---
@@ -1947,254 +1758,148 @@ clearly authoritative
 IF:
 
 ```text
-two comparable current authoritative sources genuinely conflict
+comparable authoritative current sources genuinely conflict
 ```
 
 THEN:
 
 ```text
-do not guess; flag for review
+do not guess
 ```
 
 ---
 
-# 61. Fixture Validation
+# 60. Frozen Fixture Boundary
 
-Before using the fixture as the canonical V1 source, verify:
+Milestone 1 is complete.
 
-```text
-[ ] Every ID is unique.
+Future product work should not keep adding production behavior into this static
+fixture merely because new features need data.
 
-[ ] Every Study Task references an existing Course.
+Examples:
 
-[ ] Every Objective belongs to an existing Course.
+Authentication should use real user identity.
 
-[ ] Every Assignment belongs to an existing Course.
+Persistence should use real persistence.
 
-[ ] Every Material belongs to an existing Course.
+Uploads should use private storage.
 
-[ ] Study Task relationships do not cross Course boundaries.
+Ingestion should use real ingestion models.
 
-[ ] The reference date belongs to the current Academic Week.
+AI planning should create explicit generated proposals.
 
-[ ] Study Task planned dates are preserved independently of Assignment deadlines.
-
-[ ] Today can be derived from canonical Study Tasks.
-
-[ ] Next Action can be derived from Today.
-
-[ ] Weekly progress can be calculated from Study Tasks.
-
-[ ] No required value depends on the machine date.
-
-[ ] Missing optional values remain missing rather than fabricated.
-
-[ ] Source ambiguity is not silently normalized.
-
-[ ] No raw private or copyrighted Course document is embedded unnecessarily.
-
-[ ] Course Facts and personal planning choices remain conceptually distinguishable.
-```
+Do not simulate future production architecture by endlessly expanding
+`academic-context.ts`.
 
 ---
 
-# 62. Future Ingestion Mapping
+# 61. Preserved Product Lessons
 
-The long-term product may eventually automate the pipeline represented manually
-in V1.
+The V1 fixture proved several useful product concepts that future systems should
+retain unless deliberately superseded:
 
-Conceptually:
-
-```text
-Student supplies:
-
-syllabus
-schedule
-Assignments
-textbook
-lecture notes
-other Course Materials
-
-        ↓
-
-source records / provenance
-
-        ↓
-
-candidate structured Course Facts
-
-        ↓
-
-student review of uncertain or conflicting extraction
-
-        ↓
-
-source-grounded Course understanding
-
-        ↓
-
-suggested Course Roadmap
-
-        ↓
-
-suggested weekly Learning Objectives
-
-        ↓
-
-suggested Study Tasks
-
-        ↓
-
-student review / acceptance
-
-        ↓
-
-daily academic plan
-```
-
-V1 begins near the bottom of this future pipeline by manually providing the
-already-structured data.
-
-Do not implement the future pipeline merely because this document describes it.
+1. one conceptual academic item should have one identity;
+2. shared views should derive from shared academic truth;
+3. Course Facts and planning choices are different;
+4. Assignment deadlines and Study Task dates are different;
+5. missing source information should not be invented;
+6. provenance and uncertainty matter;
+7. derived UI state should not become duplicated canonical state;
+8. progress should remain modest in meaning;
+9. a task can exist without an Objective or Assignment;
+10. an Assignment can exist without a same-day Study Task.
 
 ---
 
-# 63. Future Student Review
-
-Future automated extraction or planning should not silently convert uncertain
-information into accepted academic truth.
-
-Examples requiring student review may include:
-
-```text
-conflicting deadline
-
-uncertain lecture date
-
-ambiguous Assignment relationship
-
-generated Learning Objective
-
-generated Study Task
-
-suggested duration
-
-suggested schedule
-```
-
-V1 does not implement these review interfaces.
-
-Its static data simply respects the underlying distinction.
-
----
-
-# 64. Document Ownership
+# 62. Document Ownership
 
 This document owns:
 
-```text
-static fixture semantics
-
-Course source-packet modeling
-
-Course Fact vs personal-plan distinction
-
-fixture identity
-
-source references
-
-fixture derivation rules
-
-source ambiguity handling
-
-fixture validation
-```
+- completed static fixture semantics,
+- canonical Milestone 1 fixture context,
+- source-packet principles,
+- fixture identity,
+- fixture derivation,
+- fixture validation,
+- source ambiguity handling.
 
 `V1_SPEC.md` owns:
 
-```text
-product behavior
-
-academic-domain semantics
-
-Today rules
-
-progress rules
-
-view requirements
-
-current exclusions
-```
+- Milestone 1 product behavior,
+- academic semantics,
+- V1 invariants,
+- historical acceptance criteria.
 
 `UI_SPEC.md` owns:
 
-```text
-presentation
-
-information hierarchy
-
-screen responsibilities
-
-reusable UI concepts
-```
+- presentation,
+- information hierarchy,
+- interaction expectations.
 
 `PRODUCT_VISION.md` owns:
 
-```text
-future product direction
-
-future ingestion
-
-future source grounding
-
-future AI planning
-
-student-control principles
-```
+- future product direction,
+- future ingestion,
+- future AI planning,
+- student-control principles.
 
 `ARCHITECTURE.md` owns:
 
-```text
-technical boundaries
+- technical boundaries,
+- future technical structure.
 
-technical direction
-```
+`IMPLEMENTATION.md` owns:
 
-The implementation task that creates the actual fixture may choose reasonable
-TypeScript shapes.
+- verified current repository/runtime reality.
 
-It must preserve the semantics defined here.
+`TASKS.md` owns:
+
+- roadmap sequence,
+- current task status.
 
 ---
 
-# 65. Current Canonical Fixture Direction
+# 63. Conflict Rule
 
-The current intended reference context is:
+If this document and the implemented canonical fixture disagree:
+
+1. inspect actual repository state;
+2. determine whether the fixture intentionally changed through an accepted task;
+3. inspect the relevant verification artifact;
+4. update stale documentation rather than inventing a reconciliation.
+
+For current implementation truth:
+
+`src/lib/academic-context.ts`
+
+and:
+
+`docs/IMPLEMENTATION.md`
+
+are authoritative.
+
+---
+
+# 64. Final Principle
+
+The Milestone 1 fixture should remain:
+
+> a small, coherent, realistic testbed for the product model.
+
+It should not become:
+
+> a fake version of the future production backend.
+
+Its durable lesson is:
 
 ```text
-Institution:
-UC Davis
-
-Course:
-PHY 009D — Modern Physics
-
-Term:
-Fall Quarter 2026
-
-Reference date:
-Friday, September 25, 2026
-
-Current Academic Week:
-September 21–27, 2026
+source-backed Course context
++
+clearly authored personal planning
++
+one canonical shared state
++
+derived views
+=
+a trustworthy static product prototype
 ```
-
-Course Facts should be grounded only in the available sanitized source packet.
-
-Personal Learning Objectives and Study Tasks are intentionally authored
-prototype planning choices.
-
-Additional lightweight Courses may be introduced only as needed to prove
-cross-Course UI behavior.
-
-This provides enough realism to test the School Dashboard without pretending
-that V1 already contains the future Course-ingestion or planning systems.
