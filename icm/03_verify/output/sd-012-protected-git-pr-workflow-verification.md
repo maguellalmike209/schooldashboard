@@ -2,8 +2,10 @@
 
 ## Human Review Summary
 
-The pre-PR controls and Dependency Review prerequisite are verified below.
-The final result remains pending this task branch's hosted PR checks and merge.
+**PASS for the protected PR controls and hosted checks.** The verified branch
+is ready for protected merge. The merge SHA and final synchronization are
+recorded in the post-merge handoff; they cannot exist before this artifact is
+committed and checked on the PR.
 
 ## Verification Target
 
@@ -24,13 +26,24 @@ the existing Dependabot PR rerun, and this task's protected PR lifecycle.
 - A read-back of the PR requirement, admin enforcement, and force-push/deletion flags provides non-destructive rule evidence. No risky direct-main write or force-push probe was made.
 - Duplicate `CodeQL` check names from GitHub Actions and GitHub Advanced Security were observed. The required check is pinned to GitHub Actions app ID 15368 to disambiguate the source.
 
-## Pending Hosted Evidence
+## Hosted PR Evidence
 
-- SD-012 task PR number and head SHA.
-- CI's locked install, audit, lint, typecheck, Vitest, build, and Playwright results.
-- CodeQL, Dependency Review, required-check/mergeability result, and merge SHA.
-- Final `origin/main` synchronization and Git diff review.
+- [PR #5](https://github.com/maguellalmike209/schooldashboard/pull/5) targets `main` from `codex/sd-012-protected-git-pr-workflow`; its first head was `f917d09afd68d502a8077746d97c4b4788cb54d5`.
+- [CI run 36970779907](https://github.com/maguellalmike209/schooldashboard/actions/runs/36970779907), job `110724102110`, completed successfully. Locked install, `npm audit`, lint, typecheck, Vitest, production build, Chromium installation, and browser tests each report success.
+- [Security run 36970779975](https://github.com/maguellalmike209/schooldashboard/actions/runs/36970779975) completed the GitHub Actions `CodeQL` and `Dependency review` checks successfully. GitHub Advanced Security's separate CodeQL result was also successful.
+- GitHub reported PR #5 `mergeable_state: blocked` while required checks were in progress and `mergeable_state: clean` after their success. Existing PR #2's failed lint check and this transition challenge the assumption that a failed or pending check could simply be ignored.
+
+## Git Diff and Limitations
+
+The task diff contains only the SD-012 Plan, Verify record, and updated
+implementation reality; it contains no application code, dependency, secret,
+or production change. GitHub's rule read-back provides enforcement evidence
+without attempting a potentially successful direct-main write. A malicious
+repository administrator could later change the rule; ongoing governance must
+detect that change. The final documentation commit will trigger fresh hosted
+checks before merge.
 
 ## Final Status
 
-Pending hosted PR validation. This is not yet a Verify PASS.
+**PASS.** Required controls and checks were observed. Merge remains conditional
+on the final PR head satisfying the same protected rule.
