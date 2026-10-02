@@ -202,7 +202,7 @@ The goal is:
 | SD-009 | Automated testing foundation | Done | SD-008 | Establish the minimum useful automated testing architecture for the current application and upcoming secure development. Select appropriate test tooling during Plan rather than preselecting it here. Provide repeatable unit/invariant, integration, and browser/E2E capability proportional to actual needs. Preserve the ability to add authorization/security regression tests as multi-user features arrive. |
 | SD-010 | Continuous integration baseline | Done | SD-009 | Add CI that runs the project's required repeatable checks on repository changes. Initial baseline should include locked dependency installation, lint, typecheck, automated tests, and production build. CI must fail meaningfully when required checks fail rather than becoming ceremonial. |
 | SD-011 | Security and supply-chain automation | Done | SD-010 | Introduce appropriate automated repository security controls such as secret detection, dependency/security scanning, and code/security analysis where supported and useful. Avoid redundant tooling and evaluate actual findings rather than suppressing them for green status. |
-| SD-012 | Protected Git / PR workflow | Not started | SD-011 | Establish the practical task-branch → Verify → PR → CI → merge workflow and enable appropriate GitHub repository protections/rules supported by the account/repository. Required checks and safe main-branch behavior should match the accepted ICM. Do not claim unavailable protections are enabled. |
+| SD-012 | Protected Git / PR workflow | Done | SD-011 | Establish the practical task-branch → Verify → PR → CI → merge workflow and enable appropriate GitHub repository protections/rules supported by the account/repository. Required checks and safe main-branch behavior should match the accepted ICM. Do not claim unavailable protections are enabled. |
 | SD-013 | Secure Automation Foundation audit | Not started | SD-012 | Perform an end-to-end consistency and adversarial audit of AGENTS, root CONTEXT, all four ICM stages, security/privacy/threat/testing documents, task/decision ownership, tests, CI, security tooling, and Git workflow. Remove contradictions, close material gaps, confirm automation boundaries, and record final evidence that the foundation is ready for security-sensitive product work. |
 
 ---
@@ -426,7 +426,7 @@ Do not silence real findings merely to make CI green.
 
 ## Status
 
-`Not started`
+`Done`
 
 ## Objective
 
