@@ -56,14 +56,14 @@ Milestone 1 is intentionally based on static mock/hardcoded academic data.
 
 ## Secure Automation Foundation
 
-`In progress`
+`Done`
 
 SD-008 established and verified the project's security-first autonomous
 engineering documentation foundation.
 
 SD-009 through SD-012 then established automated tests, hosted CI, security
-automation, and the protected PR workflow. SD-013 is auditing their combined
-effect before the foundation is marked complete.
+automation, and the protected PR workflow. SD-013 independently audited their
+combined operation and reconciled current-state documentation.
 
 This work concerns:
 
@@ -1103,11 +1103,10 @@ documents.
 
 # 44. Foundation Closeout Boundary
 
-SD-008 through SD-012 have Verify evidence and are merged. SD-013 independently
-audits their combined operation. `docs/TASKS.md` remains authoritative for
-task status. The next product phase remains directional until separately
-authorized; these process controls do not implement private multi-user
-application behavior.
+SD-008 through SD-013 have Verify evidence. `docs/TASKS.md` remains
+authoritative for task status. The next product phase remains directional until
+separately authorized; these process controls do not implement private
+multi-user application behavior.
 
 ---
 

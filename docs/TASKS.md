@@ -82,15 +82,17 @@ Completed tasks:
 - SD-009
 - SD-010
 - SD-011
+- SD-012
+- SD-013
 
-The project is now completing the:
+The project completed the:
 
 > Secure Automation Foundation Closeout
 
 SD-008 through SD-011 established the policy, testing, CI, and
 security-automation baseline.
 
-SD-012 and SD-013 now close that foundation by:
+SD-012 and SD-013 closed that foundation by:
 
 - establishing an enforced protected repository workflow;
 - validating the intended branch → PR → automated checks → merge path;
@@ -98,9 +100,9 @@ SD-012 and SD-013 now close that foundation by:
 - independently auditing the complete automation foundation;
 - reconciling durable documentation with verified repository reality.
 
-Private multi-user capability work must not begin until this closeout is
-complete unless an explicitly accepted Plan establishes that a missing
-foundation item is genuinely irrelevant.
+Private multi-user capability work requires separate authorization and an
+accepted security-aware Plan. Completion of this foundation does not itself
+authorize that product work.
 
 The purpose of the foundation is to make later autonomous development:
 
@@ -203,7 +205,7 @@ The goal is:
 | SD-010 | Continuous integration baseline | Done | SD-009 | Add CI that runs the project's required repeatable checks on repository changes. Initial baseline should include locked dependency installation, lint, typecheck, automated tests, and production build. CI must fail meaningfully when required checks fail rather than becoming ceremonial. |
 | SD-011 | Security and supply-chain automation | Done | SD-010 | Introduce appropriate automated repository security controls such as secret detection, dependency/security scanning, and code/security analysis where supported and useful. Avoid redundant tooling and evaluate actual findings rather than suppressing them for green status. |
 | SD-012 | Protected Git / PR workflow | Done | SD-011 | Establish the practical task-branch → Verify → PR → CI → merge workflow and enable appropriate GitHub repository protections/rules supported by the account/repository. Required checks and safe main-branch behavior should match the accepted ICM. Do not claim unavailable protections are enabled. |
-| SD-013 | Secure Automation Foundation audit | Not started | SD-012 | Perform an end-to-end consistency and adversarial audit of AGENTS, root CONTEXT, all four ICM stages, security/privacy/threat/testing documents, task/decision ownership, tests, CI, security tooling, and Git workflow. Remove contradictions, close material gaps, confirm automation boundaries, and record final evidence that the foundation is ready for security-sensitive product work. |
+| SD-013 | Secure Automation Foundation audit | Done | SD-012 | Perform an end-to-end consistency and adversarial audit of AGENTS, root CONTEXT, all four ICM stages, security/privacy/threat/testing documents, task/decision ownership, tests, CI, security tooling, and Git workflow. Remove contradictions, close material gaps, confirm automation boundaries, and record final evidence that the foundation is ready for security-sensitive product work. |
 
 ---
 
@@ -463,7 +465,7 @@ Release only when separately authorized
 
 ## Status
 
-`Not started`
+`Done`
 
 ## Objective
 
@@ -797,12 +799,9 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-The current active foundation task is:
-
-`SD-012 — Protected Git / PR workflow`
-
-SD-011 received full Verify PASS. SD-012 remains unauthorized by this batch.
-Do not begin it unless Mike explicitly authorizes that task.
+No later product implementation task is authorized by this closeout. The
+Persistent Multi-User Foundation remains directional in section 14. Mike must
+authorize a separately scoped next phase before its implementation begins.
 
 ---
 
