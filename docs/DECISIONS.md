@@ -1024,12 +1024,13 @@ task branch
 → pull request
 → CI/security checks
 → merge
-→ Release
+→ Release when separately authorized
 ```
 
 Repository/platform enforcement should be used where available.
 
-This direction does not claim current branch protection is already configured.
+Current enforcement state belongs in `docs/IMPLEMENTATION.md` and GitHub, not
+in this durable decision.
 
 Basis:
 

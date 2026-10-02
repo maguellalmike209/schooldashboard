@@ -1270,6 +1270,12 @@ A normal completion sequence is:
 13. confirm local/upstream alignment
 ```
 
+When the target branch is protected, finalization continues through the
+repository's required pull request, hosted checks, and protected merge. A
+successful task-branch push alone does not complete integration. If hosted
+checks fail or the PR head changes, investigate and re-verify the affected
+work before merging. Confirm the merged commit and updated `origin/main`.
+
 Do not ask Mike for a redundant approval checkpoint between these steps when
 the repository instructions authorize autonomous finalization.
 
@@ -1290,6 +1296,10 @@ After a task reaches PASS, Verify MAY automatically:
 - create one task-scoped commit,
 - push the current branch to its configured upstream,
 - confirm synchronization afterward.
+
+For a protected target branch, this authority also covers a normal PR and
+merge after its required checks pass. It never authorizes bypassing or
+weakening the repository's merge rules.
 
 No separate approval is required for these normal operations when the safety
 conditions in this document are satisfied.
@@ -2020,7 +2030,8 @@ Verify must:
 - promote verified current-state documentation,
 - mark the task Done,
 - create one task-scoped commit,
-- perform a normal safe push.
+- perform a normal safe push and, when protection requires it, complete the
+  checked PR/merge path.
 
 One prompt does NOT collapse Plan, Build, and Verify into one undifferentiated
 activity.
