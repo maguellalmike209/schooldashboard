@@ -56,10 +56,14 @@ Milestone 1 is intentionally based on static mock/hardcoded academic data.
 
 ## Secure Automation Foundation
 
-`In progress`
+`Done`
 
 SD-008 established and verified the project's security-first autonomous
 engineering documentation foundation.
+
+SD-009 through SD-012 then established automated tests, hosted CI, security
+automation, and the protected PR workflow. SD-013 independently audited their
+combined operation and reconciled current-state documentation.
 
 This work concerns:
 
@@ -74,17 +78,13 @@ This work concerns:
 - durable decisions,
 - roadmap sequencing.
 
-SD-008 does NOT mean the application runtime currently has:
+These foundation tasks do not mean the application runtime currently has:
 
 - authentication,
 - authorization,
 - tenant isolation,
 - persistence,
 - uploads,
-- security scanning,
-- automated application tests,
-- CI,
-- protected branches,
 - production deployment controls.
 
 Those capabilities must be implemented and verified separately.
@@ -756,8 +756,10 @@ approvals (the current sole-maintainer model), administrator enforcement,
 strict up-to-date checks, resolved conversations, and force-push/deletion
 restrictions. Required GitHub Actions checks are `verify`, `CodeQL`, and
 `Dependency review`, each bound to Actions app ID `15368`. This is repository
-configuration, not a claim that the first complete human task PR has merged;
-that end-to-end observation belongs in SD-012 Verify.
+configuration backed by [SD-012 PR #5](https://github.com/maguellalmike209/schooldashboard/pull/5):
+the required checks passed on the final head, GitHub reported the PR clean,
+and it merged as `648cfc9e65da4a72b1489da44740c18ed5dee716`. This is not
+a production deployment.
 
 ---
 
@@ -789,10 +791,11 @@ From the repository root, use Node.js 20.9 or later and npm.
 | `npm run dev` | Serve the development application at `http://localhost:3000`. |
 | `npm run lint` | Run ESLint. |
 | `npm run typecheck` | Generate Next.js route types, then run TypeScript without emitting files. |
+| `npm test` | Run Vitest unit and rendered-component integration tests. |
+| `npm run test:e2e` | Build and serve the application on loopback, then run Playwright Chromium browser tests. |
+| `npm audit --audit-level=moderate` | Check the locked dependency tree at the CI severity threshold. |
 | `npm run build` | Create the production build. |
 | `npm run start` | Serve the production build after `npm run build`. |
-
-Do not invent a test command until SD-009 establishes an actual test framework.
 
 ---
 
@@ -1019,10 +1022,11 @@ database schema.
 
 # 42. Secure Automation Foundation State
 
-SD-008 is changing the project's engineering operating system, not Milestone 1
-runtime behavior.
+SD-008 established the project's engineering operating model without changing
+Milestone 1 runtime behavior. SD-009 through SD-012 supplied the test, CI,
+security-automation, and protected-Git controls summarized above.
 
-The intended durable ICM structure now includes:
+The durable ICM structure includes:
 
 ```text
 AGENTS.md
@@ -1035,7 +1039,7 @@ icm/
   04_release/
 ```
 
-The School Dashboard security profile includes or is establishing:
+The School Dashboard security profile includes:
 
 ```text
 docs/SECURITY_REQUIREMENTS.md
@@ -1070,8 +1074,13 @@ At the current implementation boundary:
 - lint command,
 - typecheck command,
 - production build command,
-- manually/targeted verified Milestone 1 behavior,
-- security/privacy/threat/testing policy foundation being established.
+- Vitest unit/integration and Playwright browser tests for current behavior,
+- hosted CI with locked install, audit, lint, typecheck, tests, and build,
+- Dependabot version-update PRs and enabled security updates,
+- working CodeQL and PR Dependency Review,
+- enabled dependency graph, vulnerability alerts, secret scanning, and push protection,
+- protected `main` with PR integration and required CI/security checks,
+- security/privacy/threat/testing policy foundation.
 
 ## Does not yet exist as verified runtime/infrastructure
 
@@ -1085,10 +1094,6 @@ At the current implementation boundary:
 - AI integration,
 - external integrations,
 - billing,
-- automated application test framework,
-- CI gate,
-- automated security scanning enforcement,
-- protected PR-based production workflow,
 - verified production Release pipeline.
 
 Future agents must not infer the second group from the existence of policy
@@ -1096,20 +1101,12 @@ documents.
 
 ---
 
-# 44. Next Implementation Foundation Work
+# 44. Foundation Closeout Boundary
 
-According to `docs/TASKS.md`, after SD-008 is completed and verified, the
-Secure Automation Foundation proceeds through:
-
-- SD-009 — Automated testing foundation
-- SD-010 — Continuous integration baseline
-- SD-011 — Security and supply-chain automation
-- SD-012 — Protected Git / PR workflow
-- SD-013 — Secure Automation Foundation audit
-
-These are not implemented merely because they are listed here.
-
-`docs/TASKS.md` remains authoritative for their status.
+SD-008 through SD-013 have Verify evidence. `docs/TASKS.md` remains
+authoritative for task status. The next product phase remains directional until
+separately authorized; these process controls do not implement private
+multi-user application behavior.
 
 ---
 
