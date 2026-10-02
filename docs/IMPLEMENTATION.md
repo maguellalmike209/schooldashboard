@@ -695,10 +695,11 @@ The job runs:
 5. Playwright Chromium installation,
 6. browser tests.
 
-The same commands passed locally during SD-010 verification. The workflow
-requires no repository secret and performs no deployment. Branch protection
-and required status checks are not configured by this workflow; those remain
-SD-012 repository-governance work. Security automation is described in section 30.
+The same commands passed locally during SD-010 verification. Hosted `main` and
+PR runs have since exercised the job; failing Dependabot PRs demonstrate that
+lint failure stops later steps. The workflow requires no repository secret and
+performs no deployment. Repository-level required checks are described in
+section 31. Security automation is described in section 30.
 
 ---
 
@@ -710,21 +711,25 @@ and pull requests to `main`. The audit returned zero vulnerabilities during
 local verification. Hosted CI run status is recorded in the SD-011 Verify artifact.
 
 `.github/dependabot.yml` configures weekly npm and GitHub Actions version
-update pull requests. The file is valid repository configuration; actual
-Dependabot scheduling and PR creation have not yet been observed.
+update pull requests. Four Dependabot PRs were observed after SD-011, so
+version-update scheduling and PR creation are active. GitHub's dependency
+graph and vulnerability alerts were enabled during SD-012, and its SBOM export
+contained 490 packages at verification. Dependabot security updates were also
+enabled; no security-update PR is claimed.
 
 `.github/workflows/security.yml` configures CodeQL JavaScript/TypeScript
 analysis on pushes and pull requests to `main`, and GitHub dependency review
 on pull requests. The CodeQL job has `security-events: write` only for findings
-upload. The dependency-review job has read-only contents permission and fails
-on newly introduced moderate-or-higher vulnerabilities. The PR-only job has
-not yet been exercised by a pull request.
+upload. Hosted CodeQL completed successfully on `main` and Dependabot PRs.
+The dependency-review job has read-only contents permission and a moderate
+severity threshold. Its first four PR runs failed before assessment because
+the dependency graph was unavailable. After enabling the graph, rerun job
+`110723380908` on PR #1 succeeded and listed the changed Actions dependency.
 
-GitHub secret scanning, push protection, Dependabot alert settings, and
-required-check/branch rules could not be inspected through this session's
-available repository permissions. They are not claimed active. SD-012 must
-inspect those repository settings and decide which controls are available and
-appropriate before private multi-user work.
+GitHub reports secret scanning and push protection enabled. Code-scanning and
+secret-scanning alert endpoints returned empty lists at SD-012 inspection;
+that is not proof that future findings cannot occur. `npm audit` remains a
+separate CI gate from GitHub's dependency graph and review.
 
 ---
 
@@ -732,7 +737,7 @@ appropriate before private multi-user work.
 
 The project currently uses Git and GitHub for source control.
 
-The desired mature workflow includes:
+The protected workflow is:
 
 ```text
 task branch
@@ -745,12 +750,14 @@ task branch
 → separately authorized Release
 ```
 
-That mature protected workflow must not be assumed active until its repository
-controls are explicitly implemented and verified.
-
-Repository-protection work is planned under:
-
-`SD-012`.
+SD-012 configured GitHub branch protection for `main` on this public
+repository. GitHub's read-back reports required pull requests with zero human
+approvals (the current sole-maintainer model), administrator enforcement,
+strict up-to-date checks, resolved conversations, and force-push/deletion
+restrictions. Required GitHub Actions checks are `verify`, `CodeQL`, and
+`Dependency review`, each bound to Actions app ID `15368`. This is repository
+configuration, not a claim that the first complete human task PR has merged;
+that end-to-end observation belongs in SD-012 Verify.
 
 ---
 
