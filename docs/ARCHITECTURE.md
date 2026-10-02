@@ -416,13 +416,10 @@ Conceptual responsibilities include storing:
 - integration metadata,
 - AI usage metadata where appropriate.
 
-The following remain unselected:
-
-- database provider,
-- ORM/query layer,
-- exact schema,
-- migration framework,
-- ID strategy.
+For Milestone 2, Supabase-hosted PostgreSQL is the selected authoritative
+store. Supabase JS behind a server-only Data Access Layer (DAL) and
+version-controlled Supabase CLI SQL migrations are the selected access and
+migration direction. An ORM, exact schema, and ID strategy remain unselected.
 
 Milestone 1 TypeScript fixture shapes are product-model evidence.
 
@@ -471,7 +468,10 @@ Authentication will establish:
 
 Authentication is not yet implemented.
 
-Provider selection remains unselected.
+Supabase Auth is selected for initial Milestone 2 email/password signup,
+sign-in, logout, email confirmation, and password recovery. The accepted
+Next.js 16 direction uses `@supabase/ssr` cookie sessions and a Proxy for token
+refresh. Implementation must follow then-current official guidance.
 
 When introduced, architecture should use an established authentication mechanism
 rather than custom authentication protocols.
@@ -489,6 +489,23 @@ Authentication does not itself answer:
 > Is this user allowed to access this resource?
 
 That belongs to authorization.
+
+Server-side protected operations must verify identity using provider-validated
+claims or a fresh Auth user lookup. A cookie-derived `getSession()` user object,
+browser-supplied identity, or Proxy redirect alone is not authorization. Private
+responses and session-refresh responses must avoid shared caching.
+
+The server-only DAL authorizes every private operation and uses a request-scoped
+Supabase client carrying the user's session. Normal user operations use the
+publishable key under RLS, never an RLS-bypassing secret/service credential.
+PostgreSQL grants and explicit RLS policies provide a second isolation layer.
+Each private row has an authoritative owner; `USING` and `WITH CHECK` policies
+must cover relevant SELECT, INSERT, UPDATE, and DELETE behavior. Related rows
+must preserve owner consistency.
+
+Validate untrusted action/route input with Zod at the server boundary.
+TypeScript types and PostgreSQL constraints serve distinct compile-time and
+durable-integrity roles. The Milestone 1 fixture is not a table blueprint.
 
 ---
 
@@ -1223,7 +1240,9 @@ Architecture should support reasoning about:
 
 Destructive production migrations are high-risk operations.
 
-Exact migration technology remains unselected.
+For Milestone 2, Supabase CLI SQL migrations in version control are selected.
+Local replay and database tests must establish reproducibility before remote
+application. No production migration is authorized by SD-014.
 
 ---
 
@@ -1473,10 +1492,10 @@ Do not let a Build task select them incidentally.
 
 # 57. Currently Unselected Major Technologies
 
-The architecture currently does NOT establish a provider for:
+After SD-014, Auth and PostgreSQL are selected for Milestone 2. This does not
+mean their runtime exists. The architecture does not yet establish a provider
+for:
 
-- authentication,
-- database,
 - ORM,
 - object storage,
 - document extraction,
@@ -1499,14 +1518,17 @@ Do not scaffold them merely because they appear in this list.
 
 # 58. Supabase Status
 
-Supabase has previously been considered as a possible persistence option.
+SD-014 selects one Supabase provider for initial Milestone 2 Auth and hosted
+PostgreSQL. This is an accepted direction, not an implemented capability or
+authorization to create a hosted project. SQL and data are substantially
+portable; Auth, session behavior, `auth.uid()`, client APIs, and project config
+are provider-specific. Keep those calls behind narrow server auth and DAL
+boundaries. Reevaluate exact package guidance and pricing when implementing or
+launching, without casually reopening the provider decision.
 
-It is not selected by this architecture document.
-
-If persistence planning later evaluates Supabase, it should be compared against
-the actual accepted requirements at that time.
-
-Do not treat prior consideration as provider approval.
+Local email-flow proof can use the Supabase CLI's captured mail. The hosted
+default email sender is unsuitable for external-user signup/recovery; a later
+beta/release decision must configure suitable SMTP before inviting users.
 
 ---
 
@@ -1746,7 +1768,8 @@ Until deliberately superseded, preserve these principles:
 9. product fixture shapes do not automatically become production schema;
 10. Verify PASS does not authorize Release;
 11. security policy documents do not imply runtime security implementation;
-12. providers remain unselected until explicitly planned and accepted.
+12. providers remain unselected until explicitly planned and accepted; SD-014
+    selected only Milestone 2 Auth and database.
 
 ---
 

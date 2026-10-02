@@ -84,6 +84,7 @@ Completed tasks:
 - SD-011
 - SD-012
 - SD-013
+- SD-014
 
 The project completed the:
 
@@ -534,6 +535,38 @@ faster than its ability to verify and protect them.
 
 ---
 
+# 13A. SD-014 — Persistent Multi-User Architecture and Provider Selection
+
+## Status
+
+Done. Architecture/decision documentation only; no private-data runtime.
+
+## Completion condition
+
+Accept the Auth/PostgreSQL provider strategy, trusted server and RLS boundaries,
+validation/migration/secrets approach, cost/privacy/lock-in review, and a
+falsifiable SD-015 vertical-slice contract. Independent Verify must PASS before
+Done; required hosted checks and protected PR merge finalize the task.
+
+---
+
+# 13B. SD-015 — Authenticated Academic Term and Course Vertical Slice
+
+## Status
+
+Not started. Requires separate authorization after SD-014.
+
+## Required proof
+
+Implement only the accepted User → Academic Term → Course slice. Reproduce the
+schema from committed migrations; prove sign-in/logout, server-trusted
+identity, own Course CRUD, cross-user and anonymous denial, owner-spoof denial,
+collection isolation, input/relationship validation, and no privileged-key or
+token exposure. The full test matrix is in the SD-014 Plan and D-065. Any
+cross-user isolation failure is FAIL.
+
+---
+
 # 14. Future Capability Roadmap — Direction Only
 
 The following milestone-level descriptions are non-authorizing product
@@ -576,7 +609,8 @@ Possible capabilities:
 - validation,
 - basic user-controlled CRUD.
 
-The architecture/provider choices are not established by this roadmap entry.
+This roadmap entry did not select providers. SD-014 records the accepted
+Milestone 2 Auth/PostgreSQL architecture; SD-015 remains unstarted.
 
 Before real beta users store private data, the accepted security/privacy
 requirements must be satisfied.
@@ -799,9 +833,8 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-No later product implementation task is authorized by this closeout. The
-Persistent Multi-User Foundation remains directional in section 14. Mike must
-authorize a separately scoped next phase before its implementation begins.
+SD-014 is Done. SD-015 is Not started and requires separate authorization.
+Later milestone capabilities remain directional.
 
 ---
 
