@@ -1322,7 +1322,87 @@ Basis:
 
 ---
 
-# 16. Decision Maintenance
+# 16. Milestone 2 Identity and Persistence Decisions
+
+## D-060 — One Supabase Provider for Initial Auth and PostgreSQL
+
+Milestone 2 selects Supabase Auth and Supabase-hosted PostgreSQL as one provider
+for initial private multi-user data. Initial Auth is email/password signup,
+sign-in, logout, email confirmation, and provider password recovery. No social
+or phone auth, custom credential/session protocol, or MFA requirement is
+selected. The relational domain needs database constraints and transactional
+relationships; a second provider adds an avoidable identity boundary. This is
+an architecture choice, not evidence of implemented runtime capability.
+
+Basis: SD-014 Plan and official Supabase/Next.js guidance reviewed there.
+
+---
+
+## D-061 — Verified Identity and Server-Only DAL
+
+Next.js uses provider-supported cookie SSR and server-verified identity for
+protected operations. A server-only DAL centralizes authorization, minimizes
+returned data, and contains provider-specific queries. A request-scoped user
+client carries the authenticated session. Browser state, route IDs, and
+unverified session payloads never establish ownership. Normal user operations
+must not use an RLS-bypassing secret/service credential.
+
+Basis: `SEC-AUTHN-002`, `SEC-AUTHZ-003`, `SEC-DB-001`, SD-014 Plan.
+
+---
+
+## D-062 — Owner Isolation at Application and Database Layers
+
+Every private record has authoritative ownership. The DAL checks actor,
+operation, and owned resource; PostgreSQL grants and RLS independently restrict
+rows for SELECT, INSERT, UPDATE, and DELETE. Owner checks must cover both old
+and proposed update rows and preserve ownership across relationships. Anonymous
+and cross-user operations deny by default. IDs are not access grants.
+
+Basis: `SEC-AUTHZ-002`–`SEC-AUTHZ-006`, `SEC-DB-002`, SD-014 Plan.
+
+---
+
+## D-063 — Runtime Validation and SQL Migration Source of Truth
+
+Use Zod at trusted server input boundaries, TypeScript for development-time
+typing, and PostgreSQL constraints for durable integrity. Version-controlled
+Supabase CLI SQL migrations and database tests, replayable in a local
+Docker-compatible stack, are the schema source of truth. The dashboard is not.
+An ORM is not selected for the initial slice.
+
+Basis: `SEC-INPUT-003`, `SEC-DB-003`, `SEC-DB-004`, SD-014 Plan.
+
+---
+
+## D-064 — Development Configuration and Secret Boundary
+
+Use a committed placeholder-only `.env.example` when runtime work begins and
+an ignored `.env.local` for development values. The public Supabase URL and
+publishable key may be client-visible; they do not authorize a user. Secret
+keys, database credentials, and session tokens must never reach client bundles,
+Git, or logs. Choose a specific US region when a hosted project is later
+approved. SD-014 creates no hosted project or credential.
+
+Basis: `SEC-SECRET-001`–`SEC-SECRET-004`, `PRIV-ACADEMIC-001`, SD-014 Plan.
+
+---
+
+## D-065 — SD-015 Must Falsify Cross-User Isolation
+
+The first runtime slice must reproduce User, Academic Term, and Course from
+committed migrations and prove own-row Course CRUD, cross-user direct-ID
+read/update/delete denial, anonymous denial, owner-spoof insert denial, and
+collection isolation in both database/RLS and application paths. It must test
+server identity, validation failures, logout, and secret exposure. Any
+cross-user isolation failure is SD-015 FAIL; compilation or UI filtering alone
+cannot establish PASS. The complete evidence matrix is in the SD-014 Plan.
+
+Basis: `SEC-AUTHZ-004`, `SEC-AUTHZ-005`, `docs/SECURITY_TESTING.md`, SD-014 Plan.
+
+---
+
+# 17. Decision Maintenance
 
 Add a new decision only when the choice is durable enough to constrain future
 work.
@@ -1347,7 +1427,7 @@ accepted.
 
 ---
 
-# 17. Final Principle
+# 18. Final Principle
 
 This document should remain small enough to answer:
 
