@@ -86,39 +86,47 @@ Completed tasks:
 - SD-013
 - SD-014
 
-The project completed the:
+The project has completed the:
 
-> Secure Automation Foundation Closeout
+> Secure Automation Foundation
 
-SD-008 through SD-011 established the policy, testing, CI, and
-security-automation baseline.
+The foundation now includes:
 
-SD-012 and SD-013 closed that foundation by:
+- security-aware ICM lifecycle;
+- risk-aware Plan / Build / Verify / Release boundaries;
+- automated unit/integration testing;
+- browser/E2E testing;
+- hosted CI;
+- dependency auditing;
+- Dependabot;
+- CodeQL;
+- Dependency Review;
+- secret scanning and push protection;
+- protected PR-based integration to `main`;
+- independent foundation closeout verification.
 
-- establishing an enforced protected repository workflow;
-- validating the intended branch → PR → automated checks → merge path;
-- resolving known repository-enforcement gaps;
-- independently auditing the complete automation foundation;
-- reconciling durable documentation with verified repository reality.
+The current product remains the static/read-only Milestone 1 application.
 
-Private multi-user capability work requires separate authorization and an
-accepted security-aware Plan. Completion of this foundation does not itself
-authorize that product work.
+The project is now entering:
 
-The purpose of the foundation is to make later autonomous development:
+> Milestone 2 — Persistent Multi-User Foundation
 
-- safer,
-- more testable,
-- more repeatable,
-- more secure,
-- less dependent on Mike manually supervising routine implementation.
+Milestone 2 is the first phase that introduces real authenticated user identity,
+persistent private academic data, server-side authorization, and cross-user
+isolation.
 
-The roadmap is phase-gated.
+The milestone must preserve the established Milestone 1 product distinctions
+while replacing repository fixture data with authoritative user-owned data.
 
-Fully define the current engineering phase.
+Provider, schema, authentication, and persistence choices must be established
+through the accepted Milestone 2 architecture task rather than inferred from
+earlier prototype structures.
 
-Keep later phases directional until verified implementation evidence justifies
-decomposing them into implementation tasks.
+The roadmap remains phase-gated.
+
+Later Course Materials, ingestion, AI, adaptive planning, integrations,
+production Release, and billing work remain directional until their own phases
+are reached.
 
 ---
 
@@ -510,28 +518,41 @@ observable evidence
 
 # 13. Gate Before Persistent Multi-User Product Work
 
-Security-sensitive multi-user product development should not begin until:
+The Secure Automation Foundation gate has been satisfied.
 
-- SD-008 is Done,
-- SD-009 is Done,
-- SD-010 is Done,
-- SD-011 is Done,
-- SD-012 is Done,
-- SD-013 is Done.
+The following tasks are Done:
 
-Exceptions require an explicit Plan explaining why the missing foundation is
-genuinely irrelevant to the proposed work.
+- SD-008
+- SD-009
+- SD-010
+- SD-011
+- SD-012
+- SD-013
 
-The purpose of this gate is not bureaucracy.
+Their completion permits the project to begin separately authorized
+security-sensitive multi-user development.
 
-It prevents the project from creating:
+It does NOT mean multi-user runtime security already exists.
 
-- persistent private data,
-- authentication,
-- uploads,
-- AI processing
+Milestone 2 activates previously dormant requirements involving:
 
-faster than its ability to verify and protect them.
+- authentication;
+- server-trusted user identity;
+- persistence;
+- private user-owned academic data;
+- server-side authorization;
+- tenant/user isolation;
+- runtime input validation;
+- privacy-aware data handling;
+- cross-user negative security tests.
+
+Each Milestone 2 task must implement and verify the requirements relevant to the
+capability it actually introduces.
+
+Security documentation alone is not evidence that runtime protection exists.
+
+The project must not jump directly from foundation completion to storing private
+data without an accepted Milestone 2 architecture and security Plan.
 
 ---
 
