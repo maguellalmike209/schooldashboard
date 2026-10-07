@@ -1,0 +1,15 @@
+{
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "package-manager": "npm",
+  "moderate": true,
+  "show-found": true,
+  "allowlist": [
+    {
+      "GHSA-vfj7-8cjw-p6xm|eslint-config-next>@next/eslint-plugin-next>fast-glob>micromatch>braces": {
+        "active": true,
+        "expiry": "2026-11-06T00:00:00-08:00",
+        "notes": "CVE-2026-93687. Mike approved this exact development-only ESLint path because no supported upstream patch exists. Residual risk: malicious or pathological lint glob/configuration can terminate the lint Node process through stack exhaustion. No runtime or user-request path is accepted; a production occurrence or different dependency chain must fail. Remove sooner if a supported patched upstream path becomes available. Review by 2026-11-06."
+      }
+    }
+  ]
+}

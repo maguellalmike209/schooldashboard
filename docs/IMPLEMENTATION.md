@@ -688,12 +688,13 @@ SD-010 added `.github/workflows/ci.yml` for pushes and pull requests targeting
 Node.js 24, read-only repository contents permission, and one `npm ci` install.
 The job runs:
 
-1. lint,
-2. typecheck,
-3. Vitest unit/integration tests,
-4. production build,
-5. Playwright Chromium installation,
-6. browser tests.
+1. the dependency audit and audit-policy regression check,
+2. lint,
+3. typecheck,
+4. Vitest unit/integration tests,
+5. production build,
+6. Playwright Chromium installation,
+7. browser tests.
 
 The same commands passed locally during SD-010 verification. Hosted `main` and
 PR runs have since exercised the job; failing Dependabot PRs demonstrate that
@@ -705,10 +706,16 @@ section 31. Security automation is described in section 30.
 
 # 30. Current Security Automation State
 
-SD-011 added a required `npm audit --audit-level=moderate` step to the CI job.
-It evaluates the locked production and development dependency tree on pushes
-and pull requests to `main`. The audit returned zero vulnerabilities during
-local verification. Hosted CI run status is recorded in the SD-011 Verify artifact.
+SD-011 established a required moderate-or-higher audit of the locked production
+and development dependency tree. CI now runs exact-pinned `audit-ci@7.1.0`
+through `npm run audit:ci`, using `audit-ci.jsonc`. The only exception is
+GHSA-vfj7-8cjw-p6xm on the full development-only
+`eslint-config-next > @next/eslint-plugin-next > fast-glob > micromatch > braces`
+path. It expires on 2026-11-06 and must be removed earlier when a supported
+patched upstream path exists. The config records the accepted residual risk.
+CI also runs a synthetic audit-policy test proving unrelated moderate, high,
+and critical findings still fail. The raw `npm audit --audit-level=moderate`
+continues to report the accepted finding; the replacement gate displays it.
 
 `.github/dependabot.yml` configures weekly npm and GitHub Actions version
 update pull requests. Four Dependabot PRs were observed after SD-011, so
@@ -793,7 +800,9 @@ From the repository root, use Node.js 20.9 or later and npm.
 | `npm run typecheck` | Generate Next.js route types, then run TypeScript without emitting files. |
 | `npm test` | Run Vitest unit and rendered-component integration tests. |
 | `npm run test:e2e` | Build and serve the application on loopback, then run Playwright Chromium browser tests. |
-| `npm audit --audit-level=moderate` | Check the locked dependency tree at the CI severity threshold. |
+| `npm audit --audit-level=moderate` | View all current findings without the temporary exception. |
+| `npm run audit:ci` | Run the required moderate-or-higher audit with the exact-path temporary exception. |
+| `npm run test:audit-policy` | Check that unrelated moderate, high, and critical advisories still fail the audit. |
 | `npm run build` | Create the production build. |
 | `npm run start` | Serve the production build after `npm run build`. |
 
