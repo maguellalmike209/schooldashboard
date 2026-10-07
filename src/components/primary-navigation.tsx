@@ -8,6 +8,7 @@ const destinations = [
   { href: "/courses", label: "Courses" },
   { href: "/weekly-plan", label: "Weekly Plan" },
   { href: "/today", label: "Today" },
+  { href: "/academic", label: "My workspace" },
 ] as const;
 
 export function PrimaryNavigation() {
@@ -24,6 +25,7 @@ export function PrimaryNavigation() {
           <Link
             key={href}
             href={href}
+            prefetch={href === "/academic" ? false : undefined}
             aria-current={active ? "page" : undefined}
             className={`rounded-xl px-3 py-2.5 text-center text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 lg:text-left ${
               active

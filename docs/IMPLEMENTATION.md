@@ -78,16 +78,9 @@ This work concerns:
 - durable decisions,
 - roadmap sequencing.
 
-These foundation tasks do not mean the application runtime currently has:
-
-- authentication,
-- authorization,
-- tenant isolation,
-- persistence,
-- uploads,
-- production deployment controls.
-
-Those capabilities must be implemented and verified separately.
+SD-015 subsequently added and locally verified the first authenticated private
+Academic Term/Course slice. Uploads and production deployment controls remain
+outside that implementation.
 
 Documentation describing a security control is not evidence that the runtime
 control exists.
@@ -104,6 +97,10 @@ The verified direct framework/application versions are:
 | React | 19.3.0 |
 | TypeScript | 6.0.3 |
 | Tailwind CSS | 4.3.3 |
+| `@supabase/ssr` | 0.12.7 |
+| `@supabase/supabase-js` | 2.117.2 |
+| Zod | 4.6.5 |
+| Supabase CLI (development) | 2.120.0 |
 
 The project uses:
 
@@ -164,6 +161,13 @@ The verified routes are:
 | `/courses/[courseId]` | Course Page |
 | `/weekly-plan` | Weekly Plan |
 | `/today` | Today |
+| `/signup` | Email/password signup |
+| `/login` | Sign-in |
+| `/auth/confirm` | Local email confirmation callback |
+| `/auth/recover` | Password recovery request |
+| `/auth/update-password` | Password update |
+| `/academic` | Authenticated Academic Terms and Courses |
+| `/academic/courses/[courseId]` | Authenticated Course detail/edit/delete |
 
 Dashboard is the root view.
 
@@ -500,83 +504,55 @@ All displayed academic state comes from the static repository fixture.
 
 # 20. Current Persistence State
 
-No application persistence layer exists.
-
-There is currently no production:
-
-- relational database,
-- document database,
-- user data store,
-- object storage,
-- persistent task state.
-
-Refreshing/restarting the application does not preserve user-created changes
-because user-created changes do not yet exist.
-
-Milestone 1 fixture structure must not be treated automatically as the future
-database schema.
+SD-015 added local Supabase PostgreSQL persistence for authenticated
+`academic_terms` and `courses` only. `supabase/migrations/` is the schema source
+of truth; an explicit local reset replayed the migration. Both tables use UUID
+identifiers, required owner IDs, bounded nonblank text, scoped uniqueness, and
+foreign keys. A composite Course/Term FK requires the same owner. Course delete
+removes its row; Term deletion with Courses and Auth User deletion with academic
+rows are restricted. The application can create/select Terms and create, read,
+update, and delete database-backed Courses. No hosted Supabase
+project, production database, object storage, or persistence of other Milestone
+1 fixture entities exists. The fixture is still separate from this schema.
 
 ---
 
 # 21. Current Authentication State
 
-Authentication is NOT implemented.
-
-There are currently no:
-
-- user accounts,
-- login flow,
-- logout flow,
-- sessions,
-- authenticated identities,
-- OAuth providers,
-- password flows.
-
-The security requirements describing authentication are future/runtime
-requirements, not statements of current implementation.
+SD-015 implements Supabase Auth email/password signup, local email confirmation,
+sign-in, global sign-out, and password recovery/update flows. `@supabase/ssr`
+uses browser/server clients and a Next.js proxy for supported cookie refresh.
+Protected DAL operations verify claims server-side; client-supplied identity and
+cookie-derived `getSession()` user data are not authorization inputs. The
+synthetic two-user browser flow passed against local Auth/Mailpit. There is no
+OAuth provider. Global sign-out removes the browser's protected access and
+revokes refresh sessions; an already copied access JWT can remain valid until
+its configured one-hour expiry under the provider contract.
 
 ---
 
 # 22. Current Authorization State
 
-Multi-user authorization is NOT implemented because the application does not yet
-have persistent users/private user resources.
-
-There is currently no:
-
-- owner-based Course authorization,
-- tenant isolation,
-- role-based access,
-- admin role,
-- cross-user database filtering.
-
-Future private multi-user work must implement these controls before relying on
-them.
-
-Security-policy documentation does not itself provide authorization.
+SD-015 implements owner-based Academic Term/Course authorization in a
+`server-only` DAL and PostgreSQL RLS. The DAL derives the actor from verified
+claims and scopes all private reads/writes. The tables grant no operations to
+`anon`, enable RLS, and define separate owner policies for SELECT, INSERT,
+UPDATE, and DELETE. UPDATE protects old and new owner values. The composite FK
+prevents a Course from referencing another owner's Term. Local pgTAP (40
+assertions) and synthetic two-user browser/Data API/server-action attacks passed
+anonymous, cross-user, owner-spoof, and collection-isolation checks. No admin or
+organization role exists.
 
 ---
 
 # 23. Current Privacy / Real User Data State
 
-The application does not currently persist real private user academic data.
-
-The current fixture is static project data.
-
-The application currently has no implemented data flows for:
-
-- account email storage,
-- personal Course storage,
-- private notes,
-- real schedules,
-- private Assignments,
-- uploaded documents,
-- AI prompts,
-- model-provider transfer.
-
-`docs/DATA_PRIVACY.md` defines requirements for future data handling.
-
-It does not imply those data flows already exist.
+The authenticated slice stores account email in Supabase Auth and private Term
+names and Course codes/names in local PostgreSQL. It has been tested with only
+synthetic accounts/data; no real user data or hosted project was introduced.
+The Milestone 1 fixture remains static project data. Private notes, real
+schedules, Assignments, uploads, AI prompts, and model-provider transfer are not
+implemented.
 
 ---
 
@@ -661,8 +637,8 @@ SD-009 added Vitest 5.0.3 for TypeScript unit/invariant and synchronous
 presentation integration tests, and Playwright 1.63.0 with Chromium for browser
 tests. These are development dependencies in the npm lockfile.
 
-`npm test` runs nine selector, fixture, and component integration tests. They
-cover Today filtering/order, Dashboard Next Action, due-date ordering,
+`npm test` runs thirteen selector, fixture, component, and SD-015 validation
+tests. They cover Today filtering/order, Dashboard Next Action, due-date ordering,
 Assignment/Study Task separation, Course-scoped relationships, missing duration,
 raw weekly progress, and zero-task presentation.
 
@@ -676,8 +652,15 @@ The test runner starts and stops its own loopback server on port 3100. It
 rejects a preexisting server on that port so results are not attributed to an
 unrelated process. Browser artifacts are ignored by Git.
 
-No authentication, authorization, multi-user isolation, or upload tests exist
-because those runtime features have not been built.
+SD-015 adds `npm run supabase:db:reset` for explicit local migration replay,
+`npm run supabase:test:db` for 40 PostgreSQL/RLS assertions, and
+`npm run test:e2e:security` for a synthetic two-user Auth, browser, Data API,
+and server-action attack suite. The suite checks own Course CRUD, anonymous and
+cross-user denial, owner/Term spoofing, collection isolation, validation,
+private responses, and logout. `npm run test:client-bundle-secrets` scans the
+production client bundle; the security browser runner scans captured app logs.
+These local checks passed after a clean local database reset. No upload tests
+exist because uploads are not implemented.
 
 ---
 
@@ -688,19 +671,17 @@ SD-010 added `.github/workflows/ci.yml` for pushes and pull requests targeting
 Node.js 24, read-only repository contents permission, and one `npm ci` install.
 The job runs:
 
-1. the dependency audit and audit-policy regression check,
-2. lint,
-3. typecheck,
-4. Vitest unit/integration tests,
-5. production build,
-6. Playwright Chromium installation,
-7. browser tests.
+1. pinned local Supabase startup, local migration replay, and database/RLS tests,
+2. the dependency audit and audit-policy regression check,
+3. lint, typecheck, and Vitest tests,
+4. production build and client-bundle credential scan,
+5. Playwright Chromium installation and existing browser tests,
+6. authenticated two-user security browser tests.
 
-The same commands passed locally during SD-010 verification. Hosted `main` and
-PR runs have since exercised the job; failing Dependabot PRs demonstrate that
-lint failure stops later steps. The workflow requires no repository secret and
-performs no deployment. Repository-level required checks are described in
-section 31. Security automation is described in section 30.
+The SD-015 additions passed locally; their hosted PR result is recorded in the
+SD-015 Verify/PR evidence when available. The workflow requires no repository
+secret and performs no deployment. Repository-level required checks are
+described in section 31. Security automation is described in section 30.
 
 ---
 
@@ -1089,15 +1070,13 @@ At the current implementation boundary:
 - working CodeQL and PR Dependency Review,
 - enabled dependency graph, vulnerability alerts, secret scanning, and push protection,
 - protected `main` with PR integration and required CI/security checks,
-- security/privacy/threat/testing policy foundation.
+- security/privacy/threat/testing policy foundation,
+- locally verified email/password Auth, server-only owner-scoped Term/Course DAL,
+- local PostgreSQL migration, constraints, and RLS for Terms/Courses,
+- local database and two-user application isolation tests.
 
 ## Does not yet exist as verified runtime/infrastructure
 
-- authentication,
-- sessions,
-- authorization,
-- tenant isolation,
-- persistence,
 - private object storage,
 - uploads,
 - AI integration,
@@ -1105,17 +1084,17 @@ At the current implementation boundary:
 - billing,
 - verified production Release pipeline.
 
-Future agents must not infer the second group from the existence of policy
-documents.
+The implemented Auth/persistence boundary covers only SD-015's Term/Course
+slice. Future agents must not infer broader capability from policy documents.
 
 ---
 
 # 44. Foundation Closeout Boundary
 
 SD-008 through SD-013 have Verify evidence. `docs/TASKS.md` remains
-authoritative for task status. The next product phase remains directional until
-separately authorized; these process controls do not implement private
-multi-user application behavior.
+authoritative for task status. SD-015 separately implements the first private
+Term/Course slice; later product capabilities remain directional until
+authorized.
 
 ---
 
