@@ -12,7 +12,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
@@ -27,6 +27,15 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Start local Supabase for SD-015 security checks
+        run: npm run supabase:ci:start
+
+      - name: Replay local migrations from a clean database
+        run: npm run supabase:db:reset
+
+      - name: Test database constraints and RLS
+        run: npm run supabase:test:db
 
       - name: Audit dependencies
         run: npm run audit:ci
@@ -46,8 +55,14 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Check client bundle for credential patterns
+        run: npm run test:client-bundle-secrets
+
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
       - name: Browser tests
         run: npm run test:e2e
+
+      - name: Authenticated Course security browser tests
+        run: npm run test:e2e:security

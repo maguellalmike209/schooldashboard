@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { PrimaryNavigation } from "@/components/primary-navigation";
+import { MainContextLabel, SidebarContextLabel } from "@/components/context-label";
 import { academicContext, formatReferenceDate } from "@/lib/academic-context";
 import "./globals.css";
 
@@ -21,7 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
               <div className="min-w-0">
                 <p className="text-base font-semibold leading-tight">School Dashboard</p>
-                <p className="mt-0.5 text-xs text-slate-300">{academicContext.term}</p>
+                <SidebarContextLabel term={academicContext.term} />
               </div>
             </div>
             <PrimaryNavigation />
@@ -29,12 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
           <main id="main-content" className="min-w-0 px-5 py-8 sm:px-8 lg:px-10 lg:py-11">
             <div className="mx-auto w-full max-w-5xl">
-              <div className="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-slate-600">
-                <span>{academicContext.term}</span>
-                <span aria-hidden="true">·</span>
-                <span>Reference day:</span>
-                <time dateTime={academicContext.referenceDate}>{formatReferenceDate()}</time>
-              </div>
+              <MainContextLabel term={academicContext.term} referenceDate={academicContext.referenceDate} formattedDate={formatReferenceDate()} />
               {children}
             </div>
           </main>

@@ -575,7 +575,9 @@ Done; required hosted checks and protected PR merge finalize the task.
 
 ## Status
 
-Not started. Requires separate authorization after SD-014.
+Done. Local R3 Verify PASS established migration replay, 40 PostgreSQL/RLS
+assertions, and real two-user Auth/application attacks. Required hosted checks
+and protected PR merge govern repository integration.
 
 ## Required proof
 
@@ -631,7 +633,8 @@ Possible capabilities:
 - basic user-controlled CRUD.
 
 This roadmap entry did not select providers. SD-014 records the accepted
-Milestone 2 Auth/PostgreSQL architecture; SD-015 remains unstarted.
+Milestone 2 Auth/PostgreSQL architecture; SD-015's Term/Course slice passed
+security Verify and is integrated only through the protected PR workflow.
 
 Before real beta users store private data, the accepted security/privacy
 requirements must be satisfied.
@@ -854,8 +857,8 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014 is Done. SD-015 is Not started and requires separate authorization.
-Later milestone capabilities remain directional.
+SD-014 and SD-015 are Done. Later milestone capabilities remain directional and
+require separate authorization. No next implementation task is started here.
 
 ---
 
