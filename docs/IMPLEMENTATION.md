@@ -93,7 +93,7 @@ The verified direct framework/application versions are:
 
 | Technology | Verified version |
 | --- | --- |
-| Next.js | 16.3.6 |
+| Next.js | 16.3.8 |
 | React | 19.3.0 |
 | TypeScript | 6.0.3 |
 | Tailwind CSS | 4.3.3 |

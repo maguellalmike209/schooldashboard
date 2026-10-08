@@ -590,6 +590,25 @@ cross-user isolation failure is FAIL.
 
 ---
 
+# 13D. SEC-2026-10-NEXTJS — Next.js Security Maintenance
+
+## Status
+
+Done upon protected PR integration. Independent technical Verify passed the
+patched dependency set and the candidate's hosted CI/Security checks. The
+final PR head must pass required checks before merge. This separate task does
+not change SD-016's accepted documentation-only scope.
+
+## Completion condition
+
+Patch `next` and matching `eslint-config-next` to 16.3.8 with a reviewed
+lockfile; preserve the approved narrow audit exception; independently verify
+the dependency and authenticated regression checks; pass required hosted CI
+and Security checks; merge through the protected PR workflow. Only then resume
+SD-016 PR #12 against patched `main`.
+
+---
+
 # 14. Future Capability Roadmap — Direction Only
 
 The following milestone-level descriptions are non-authorizing product
