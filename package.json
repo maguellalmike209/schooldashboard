@@ -10,7 +10,7 @@
     "audit:ci": "audit-ci --config audit-ci.jsonc",
     "test:audit-policy": "node scripts/verify-audit-policy.mjs",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:icm-automation",
     "test:icm-automation": "node --test tests/icm-automation/automation.test.mjs tests/icm-automation/review.test.mjs",
     "test:e2e": "node scripts/run-e2e.mjs",
     "test:e2e:security": "node scripts/run-security-e2e.mjs",

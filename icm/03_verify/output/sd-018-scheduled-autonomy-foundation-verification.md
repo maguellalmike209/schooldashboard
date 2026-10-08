@@ -89,3 +89,13 @@ production action is authorized by this Verify result.
 - Durable documentation promotion: pending protected integration.
 - Git finalization: not performed by this reviewer; the implementing agent
   owns the protected PR workflow after this independent review.
+
+## CI test-gate recheck
+
+After PR #18 was created, the implementing agent changed only the `package.json`
+`test` script from `vitest run` to
+`vitest run && npm run test:icm-automation`. I independently inspected that
+single-line change and ran `npm test`: the existing Vitest suite passed
+**13/13**, and the SD-018 Node adversarial suite passed **66/66** through the
+same command. The scoped technical **PASS remains valid**. Hosted PR checks and
+protected integration still require observation before SD-018 becomes Done.
