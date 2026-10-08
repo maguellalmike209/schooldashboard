@@ -87,6 +87,12 @@ Do not duplicate those rules here.
 
 # 4. Execution Authorization
 
+For scheduled or manager-delegated invocations, load
+`icm/automation/CONTEXT.md` for bounded external authority, cross-run recovery,
+exclusive execution, and the daily Manager Review. The read-only pilot has no
+trusted write gate. The automation contract supplements, but does not replace,
+Plan → Build → independent Verify → optional authorized Release.
+
 Context is not authorization.
 
 A task appearing in:

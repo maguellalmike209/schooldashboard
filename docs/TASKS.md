@@ -63,6 +63,31 @@ Task IDs remain stable after establishment.
 
 Do not renumber completed tasks merely because roadmap structure later changes.
 
+## Future accepted task metadata
+
+Meaningful new accepted tasks should include a compact `icm-task` JSON block.
+The block is the machine-readable accepted definition; its `status` is current
+registry state. Required fields are `id`, `accepted`, `result`, `priority`
+(positive integer, lower first), `dependencies` (IDs), `scope`, `exclusions`,
+`risk`, `acceptance`, `verification`, `status`, and `completion`. The approved
+Plan may provide details behind concise fields. `accepted: false` means a
+proposal only. Do not convert historical entries merely for formatting.
+
+An external Mike-controlled grant must bind the accepted task definition and
+name its exact permitted IDs before scheduled selection. Editing this registry
+cannot expand that grant. Task status changes do not change the accepted
+definition. See `icm/automation/CONTEXT.md` for the separate grant contract.
+
+An authorized batch of many tasks (including 20 or more) can persist across
+multiple days and scheduled invocations without reapproval at every daily report,
+so long as the grant remains valid and safety/verification/dependency gates pass.
+The Manager Review is advisory: no response means no change to an existing valid
+grant, **not** approval for further task IDs or a new phase. Proposed next-day
+work stays visibly `PROPOSED` until accepted. Use `icm-task` definitions only
+for independently accepted tasks; agents may refine implementation steps inside
+an approved outcome without manufacturing separate permanent IDs.
+
+
 ---
 
 # 4. Current Project State
@@ -638,6 +663,20 @@ SD-016 PR #12 against patched `main`.
 
 ---
 
+# 13E. SD-018 — Scheduled Autonomy Foundation & Manager Mode
+
+## Status
+
+In progress. Mike authorized Plan, Build, scoped testing, independent Verify,
+and protected PR finalization for this process task. SD-017 remains Product &
+Business Assurance and is outside this task.
+
+```icm-task
+{"id":"SD-018","accepted":true,"result":"Read-only recovery-first ICM inspection and daily Manager Review foundation","priority":1,"dependencies":["SD-016"],"scope":"Automation contract, deterministic inspection, synthetic grant/recovery validation, reporting, adversarial tests, read-only pilot","exclusions":["Unattended repository writing","live recurring schedule","Release","application behavior","ReviewTap"],"risk":"R3","acceptance":["24 adversarial scenarios pass","Real read-only pilot produces evidence-based report","Unattended writer remains disabled","Independent Verify passes","Protected PR checks pass"],"verification":["Independent code and scenario challenge","Scoped tests and repository diff review","Hosted CI and protected integration"],"status":"In progress","completion":"Independent PASS and protected PR integration with no unattended writer enabled"}
+```
+
+---
+
 # 14. Future Capability Roadmap — Direction Only
 
 The following milestone-level descriptions are non-authorizing product
@@ -907,9 +946,9 @@ Those responsibilities belong to their owning documents.
 
 SD-014, SD-015, SD-016, and SEC-2026-10-NEXTJS are Done. SD-017's prerequisite
 is satisfied; its Product & Business Assurance work uses its separately
-authorized contract and is not started here. Later milestone capabilities
-remain directional and require separate authorization. No next product
-implementation task is started here.
+authorized contract and is not started here. SD-018 is the active authorized
+process task. Later milestone capabilities remain directional and require
+separate authorization. No next product implementation task is started here.
 
 ---
 
