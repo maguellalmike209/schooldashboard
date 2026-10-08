@@ -369,8 +369,13 @@ Use the smallest amount of detail necessary to remove material uncertainty.
 State:
 
 - what problem is being solved,
+- which user need or operational problem it addresses,
 - which user/system behavior changes,
+- what observable outcome would demonstrate progress,
 - what successful completion means.
+
+Start from accepted product direction and actual repository state. Product
+vision helps explain why a task matters; it does not authorize a feature.
 
 Avoid vague goals.
 
@@ -397,6 +402,18 @@ Determine:
 - existing tests,
 - existing security boundaries,
 - prior verified behavior that must remain intact.
+
+Separate verified facts from inferences, untested assumptions, proposals,
+accepted decisions, and authorized tasks. Challenge assumptions that could
+materially change the approach or acceptance criteria. Research an unfamiliar
+product or engineering question when its answer matters; prefer authoritative,
+current sources, cite them in the Plan, and state their limits. External
+research informs a recommendation but does not replace accepted project
+requirements or Mike's execution authority.
+
+Compare credible alternatives when the choice has meaningful consequences.
+Do not manufacture options or research for a routine local implementation
+detail.
 
 ---
 
@@ -1073,6 +1090,12 @@ Provide:
 
 Keep it concise.
 
+Use a short option-and-tradeoff brief for a material choice. Explain relevant
+technical, operational, security, financial, privacy, or legal implications,
+including uncertainty and the recommended option's reason. Mark the choice as
+a proposal until Mike accepts it; a recommendation is not implementation
+authorization.
+
 ---
 
 # 39. Decisions Agents May Resolve
@@ -1289,6 +1312,21 @@ A meaningful Plan is ready when:
 11. unresolved material decisions are surfaced;
 12. no blocker remains.
 
+For the actual task, identify execution and verification dependencies and
+confirm required capabilities before substantial Build. These may include a
+specific environment, repository access, local tooling, test data, services,
+or permissions. Record each relevant dependency as `READY`, `READY WITH
+VERIFIED FALLBACK`, or `BLOCKED`, with the observed evidence and fallback when
+used. Recheck stale evidence. A dependency needed only in Verify can remain an
+explicit verification target, but Build must not promise a check that cannot
+be run or safely handed off. Do not require Docker, browsers, network services,
+or elevated permissions when the task does not need them.
+
+Before any potentially destructive command, verify the exact environment and
+target identity. Do not install or reconfigure host infrastructure without
+appropriate authorization. If a required capability has no safe authorized
+path, state `BLOCKED`; do not weaken acceptance criteria to obtain readiness.
+
 Then state:
 
 `READY FOR BUILD — NO MATERIAL HUMAN DECISION REQUIRED`
@@ -1492,6 +1530,25 @@ Use:
 `icm/04_release/CONTEXT.md`
 
 when deployment is later authorized.
+
+---
+
+# 54A. Optional Strategic Phase Transition Review
+
+After a meaningful engineering checkpoint, Plan may use its existing output
+artifact to review the next bounded direction. For an undeployed milestone,
+wait for verified protected integration. For a deployed milestone, wait for
+authorized Release and relevant post-release evidence. This is a Plan activity,
+not another lifecycle stage or an automatic gate after every task.
+
+Use `docs/PRODUCT_VISION.md`, accepted specifications and decisions,
+`docs/TASKS.md`, `docs/IMPLEMENTATION.md`, relevant Verify/Release evidence,
+and current repository reality as needed. Evaluate what was actually delivered,
+progress toward the user outcome, assumptions disproved, remaining risks and
+dependencies, and the smallest coherent next phase. Present material choices
+through the existing human-decision brief. Recommend bounded task candidates
+without assigning future task IDs prematurely or authorizing their execution.
+Promote only accepted durable conclusions to their owning documents.
 
 ---
 

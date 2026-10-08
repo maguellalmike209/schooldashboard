@@ -337,6 +337,11 @@ Each stage must:
 - produce required evidence,
 - and respect its own stop conditions.
 
+Plan guidance also covers conditional research, task-specific infrastructure
+readiness, and optional strategic phase review. Build consumes relevant
+readiness evidence; Verify independently tests accepted outcomes and preserves
+useful learning. These refinements do not expand task or Release authorization.
+
 ---
 
 # 8. One-Task Automation

@@ -85,6 +85,8 @@ Completed tasks:
 - SD-012
 - SD-013
 - SD-014
+- SD-015
+- SEC-2026-10-NEXTJS
 
 The project has completed the:
 
@@ -105,9 +107,10 @@ The foundation now includes:
 - protected PR-based integration to `main`;
 - independent foundation closeout verification.
 
-The current product remains the static/read-only Milestone 1 application.
+The current product includes the static/read-only Milestone 1 views and the
+verified SD-015 authenticated Academic Term/Course slice.
 
-The project is now entering:
+The project has entered:
 
 > Milestone 2 — Persistent Multi-User Foundation
 
@@ -118,9 +121,9 @@ isolation.
 The milestone must preserve the established Milestone 1 product distinctions
 while replacing repository fixture data with authoritative user-owned data.
 
-Provider, schema, authentication, and persistence choices must be established
-through the accepted Milestone 2 architecture task rather than inferred from
-earlier prototype structures.
+Provider, schema, authentication, and persistence choices for the first slice
+were established through SD-014 rather than inferred from earlier prototype
+structures. Later capability still requires its own accepted scope.
 
 The roadmap remains phase-gated.
 
@@ -590,14 +593,39 @@ cross-user isolation failure is FAIL.
 
 ---
 
+# 13C. SD-016 — Secure Autonomy Upgrade
+
+## Status
+
+Done upon protected PR integration. Independent Verify passed the bounded ICM
+documentation upgrade; the protected merge is the completion boundary.
+
+## Objective and scope
+
+Improve the existing Plan, Build, Verify, root context routing, and minimal
+global guidance for task-grounded research, execution readiness, independent
+evidence, and reusable learning. Inspect Release for compatibility and edit it
+only for a concrete gap. This process task depends on the SD-015 verified PR #10
+merge and does not authorize the next product phase.
+
+## Acceptance and boundaries
+
+The changed documents must assign clear ownership and triggers for each new
+capability, preserve existing risk, approval, security, Git, batch, repair, and
+Release boundaries, and form one coherent task-scoped diff. No application code,
+tests, infrastructure, security requirements, product specifications, or
+accepted decisions change. Scoped Build checks prepare the diff; only fresh
+independent Verify and protected integration may complete this task.
+
+---
+
 # 13D. SEC-2026-10-NEXTJS — Next.js Security Maintenance
 
 ## Status
 
-Done upon protected PR integration. Independent technical Verify passed the
-patched dependency set and the candidate's hosted CI/Security checks. The
-final PR head must pass required checks before merge. This separate task does
-not change SD-016's accepted documentation-only scope.
+Done. Independent technical Verify and final-head hosted CI/Security checks
+passed; protected PR #16 merged into canonical `main` at `2f4d25c`. This
+separate task did not change SD-016's accepted documentation-only scope.
 
 ## Completion condition
 
@@ -876,8 +904,11 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014 and SD-015 are Done. Later milestone capabilities remain directional and
-require separate authorization. No next implementation task is started here.
+SD-014, SD-015, and SEC-2026-10-NEXTJS are Done. SD-016 passed independent
+Verify and is complete when its protected PR is merged. SD-017 requires its
+separately authorized Product & Business Assurance contract. Later milestone
+capabilities remain directional and require separate authorization. No next
+product implementation task is started here.
 
 ---
 
