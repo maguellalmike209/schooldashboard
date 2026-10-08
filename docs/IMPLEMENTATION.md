@@ -1052,6 +1052,32 @@ They do not themselves implement application security.
 
 ---
 
+# 42A. SD-018 Read-Only Scheduled Autonomy Foundation
+
+SD-018 added `icm/automation/CONTEXT.md` as an operating contract alongside the
+existing four ICM stages. `scripts/icm-automation/cli.mjs inspect|report` reads
+local Git/task/artifact state and produces a daily Manager Review. It does not
+accept an execution grant or write to the repository. Without an external
+grant it reports `NO AUTHORIZED WORK`; unavailable live GitHub, CI, usage, and
+cost evidence is labeled unknown or unavailable.
+
+The standard-library selector strictly validates synthetic grant, accepted
+task, and checkpoint records and exercises recovery-first selection,
+dependency/integration gates, time and budget bounds, and fixture-only lock
+contention. The Node test suites contain 67 adversarial and review cases and
+run under `npm test` alongside the existing Vitest suite. Build repaired five
+fail-closed/reporting defects found and reprobed by independent Verify. Protected PR #18
+passed required verify, CodeQL, and Dependency Review checks on head `ca3c6b2`
+and merged to `main` at `16cfb7e`.
+
+The selector's synthetic evidence flags are not live trusted authorization or
+exact-head CI proof. The fixture lock has not been validated in an unattended
+Windows runtime. There is no trusted external grant loader, persistent writer
+journal, unattended repository writer, or active recurring schedule. Production
+Release remains separate.
+
+---
+
 # 43. Current Security Posture Summary
 
 At the current implementation boundary:

@@ -112,6 +112,7 @@ Completed tasks:
 - SD-014
 - SD-015
 - SD-016
+- SD-018
 - SEC-2026-10-NEXTJS
 
 The project has completed the:
@@ -667,12 +668,14 @@ SD-016 PR #12 against patched `main`.
 
 ## Status
 
-In progress. Mike authorized Plan, Build, scoped testing, independent Verify,
-and protected PR finalization for this process task. SD-017 remains Product &
-Business Assurance and is outside this task.
+Done. Independent Verify passed after five adversarial findings were repaired.
+Required verify, CodeQL, and Dependency Review checks passed on PR #18 head
+`ca3c6b2`; protected PR #18 merged into canonical `main` at `16cfb7e`.
+No unattended writer, live schedule, or Release was enabled. SD-017 remains
+Product & Business Assurance and is outside this task.
 
 ```icm-task
-{"id":"SD-018","accepted":true,"result":"Read-only recovery-first ICM inspection and daily Manager Review foundation","priority":1,"dependencies":["SD-016"],"scope":"Automation contract, deterministic inspection, synthetic grant/recovery validation, reporting, adversarial tests, read-only pilot","exclusions":["Unattended repository writing","live recurring schedule","Release","application behavior","ReviewTap"],"risk":"R3","acceptance":["24 adversarial scenarios pass","Real read-only pilot produces evidence-based report","Unattended writer remains disabled","Independent Verify passes","Protected PR checks pass"],"verification":["Independent code and scenario challenge","Scoped tests and repository diff review","Hosted CI and protected integration"],"status":"In progress","completion":"Independent PASS and protected PR integration with no unattended writer enabled"}
+{"id":"SD-018","accepted":true,"result":"Read-only recovery-first ICM inspection and daily Manager Review foundation","priority":1,"dependencies":["SD-016"],"scope":"Automation contract, deterministic inspection, synthetic grant/recovery validation, reporting, adversarial tests, read-only pilot","exclusions":["Unattended repository writing","live recurring schedule","Release","application behavior","ReviewTap"],"risk":"R3","acceptance":["24 adversarial scenarios pass","Real read-only pilot produces evidence-based report","Unattended writer remains disabled","Independent Verify passes","Protected PR checks pass"],"verification":["Independent code and scenario challenge","Scoped tests and repository diff review","Hosted CI and protected integration"],"status":"Done","completion":"Independent PASS and protected PR integration with no unattended writer enabled"}
 ```
 
 ---
@@ -944,11 +947,11 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014, SD-015, SD-016, and SEC-2026-10-NEXTJS are Done. SD-017's prerequisite
+SD-014, SD-015, SD-016, SD-018, and SEC-2026-10-NEXTJS are Done. SD-017's prerequisite
 is satisfied; its Product & Business Assurance work uses its separately
-authorized contract and is not started here. SD-018 is the active authorized
-process task. Later milestone capabilities remain directional and require
-separate authorization. No next product implementation task is started here.
+authorized contract and is not started here. Later milestone capabilities
+remain directional and require separate authorization. No next product
+implementation task is started here.
 
 ---
 
