@@ -87,11 +87,18 @@ Do not duplicate those rules here.
 
 # 4. Execution Authorization
 
-For scheduled or manager-delegated invocations, load
+For scheduled or unattended cross-invocation execution, load
 `icm/automation/CONTEXT.md` for bounded external authority, cross-run recovery,
 exclusive execution, and the daily Manager Review. The read-only pilot has no
 trusted write gate. The automation contract supplements, but does not replace,
 Plan → Build → independent Verify → optional authorized Release.
+
+A manually started, continuous foreground Codex session performing an explicitly
+authorized bounded batch follows `AGENTS.md` sections 8–9 and the existing stage
+contracts. It does not require an external scheduled-runner grant merely because
+the batch contains multiple tasks or is manager-delegated. If a later scheduled
+invocation is expected to resume writing, that distinct unattended invocation
+must satisfy the externally enforced grant and runtime safety requirements.
 
 Context is not authorization.
 
@@ -105,7 +112,10 @@ A task appearing in:
 
 does not authorize execution.
 
-Execution authority comes from Mike's active instruction.
+For a foreground session, execution authority comes from Mike's current
+explicit instruction. For unattended scheduled repository writes, a separate
+Mike-controlled, externally validated grant is required; the agent cannot
+convert an old prompt, task list, or Manager Review into such a grant.
 
 For an authorized task that raises customer, market, pricing, finance, legal,
 tax, IP, accessibility, subscription, real-user pilot, production-operations,
