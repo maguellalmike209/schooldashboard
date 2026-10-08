@@ -86,6 +86,7 @@ Completed tasks:
 - SD-013
 - SD-014
 - SD-015
+- SD-016
 - SEC-2026-10-NEXTJS
 
 The project has completed the:
@@ -597,8 +598,8 @@ cross-user isolation failure is FAIL.
 
 ## Status
 
-Done upon protected PR integration. Independent Verify passed the bounded ICM
-documentation upgrade; the protected merge is the completion boundary.
+Done. Independent Verify passed the bounded ICM documentation upgrade; final
+hosted CI/Security checks passed, and protected PR #12 merged at `fb134c5`.
 
 ## Objective and scope
 
@@ -904,11 +905,11 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014, SD-015, and SEC-2026-10-NEXTJS are Done. SD-016 passed independent
-Verify and is complete when its protected PR is merged. SD-017 requires its
-separately authorized Product & Business Assurance contract. Later milestone
-capabilities remain directional and require separate authorization. No next
-product implementation task is started here.
+SD-014, SD-015, SD-016, and SEC-2026-10-NEXTJS are Done. SD-017's prerequisite
+is satisfied; its Product & Business Assurance work uses its separately
+authorized contract and is not started here. Later milestone capabilities
+remain directional and require separate authorization. No next product
+implementation task is started here.
 
 ---
 
