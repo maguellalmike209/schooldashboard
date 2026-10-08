@@ -2,11 +2,12 @@
 
 ## Current status
 
-**READY FOR HOSTED VERIFY; overall BLOCKED from final PASS until hosted checks
-complete on the final PR head.** A separate reviewer context reconstructed the
-maintenance acceptance criteria and reviewed the package/lockfile diff.
-Candidate branch publication is solely to obtain the required disposable
-Supabase and full CI evidence. `docs/TASKS.md` remains In progress.
+**PASS for technical content at candidate head `fad851b`; protected
+integration pending.** A separate reviewer context reconstructed the
+maintenance acceptance criteria, reviewed the narrowed dependency diff, and
+independently inspected hosted CI/Security evidence. This result permits
+verified documentation promotion; task completion still requires required
+checks on the final PR head and protected merge.
 
 ## Independent local findings
 
@@ -29,13 +30,27 @@ Supabase and full CI evidence. `docs/TASKS.md` remains In progress.
   tests. The later lockfile narrowing did not change any package version;
   the fresh clean install validated that state.
 
+## Independent hosted evidence on candidate head
+
+PR #16 head `fad851bdc32cdff79f9c22fbe4e5640df1d5f3e7` targeted canonical
+`main` at `4c3eaad`. The reviewer inspected completed successful
+[CI run](https://github.com/maguellalmike209/schooldashboard/actions/runs/37820767268)
+and
+[Security run](https://github.com/maguellalmike209/schooldashboard/actions/runs/37820767445).
+CI's locked install, local-only Supabase start, `supabase db reset --local`
+against `127.0.0.1:54321`, 40/40 database/RLS assertions, unchanged audit
+gate, audit-policy regression, lint, typecheck, 13 unit/integration tests,
+production build, 12 client-bundle file checks, four standard Playwright
+tests, and one authenticated two-user security browser spec all passed. The
+security spec challenged cross-user and anonymous access, RLS read/write, and
+tampered actions using synthetic users. Dependency review and CodeQL passed.
+The audit reported no Next.js advisory; the remaining reported high nodes
+were confined to the previously approved braces dependency path.
+
 ## Required final evidence
 
-On the final PR head, independently inspect hosted CI and Security job results,
-including the unchanged dependency audit, audit-policy test, migration replay,
-40 database/RLS assertions, authenticated two-user security browser tests,
-lint, typecheck, unit/integration tests, build, client-bundle scan, and
-Playwright tests. Confirm the Supabase target is CI's disposable local service.
-Then promote `docs/IMPLEMENTATION.md` to the verified framework version and
-`docs/TASKS.md` to Done, rerun affected checks on the final PR head, and merge
-only through branch protection. No production Release is included.
+`docs/IMPLEMENTATION.md` was promoted to the verified 16.3.8 framework
+version. `docs/TASKS.md` records Done conditional on protected integration.
+On the final PR head, independently confirm hosted CI and Security still pass
+with unchanged package and test state, then merge only through branch
+protection and verify canonical `main`. No production Release is included.

@@ -594,8 +594,10 @@ cross-user isolation failure is FAIL.
 
 ## Status
 
-In progress. This separately authorized maintenance task starts from canonical
-`main` and does not change SD-016's accepted documentation-only scope.
+Done upon protected PR integration. Independent technical Verify passed the
+patched dependency set and the candidate's hosted CI/Security checks. The
+final PR head must pass required checks before merge. This separate task does
+not change SD-016's accepted documentation-only scope.
 
 ## Completion condition
 
