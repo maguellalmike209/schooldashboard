@@ -411,6 +411,12 @@ current sources, cite them in the Plan, and state their limits. External
 research informs a recommendation but does not replace accepted project
 requirements or Mike's execution authority.
 
+Use `icm/guides/PRODUCT_AND_BUSINESS_ASSURANCE.md` only when the authorized
+scope encounters a real product, customer, commercial, legal, pilot, or
+operational readiness question. Produce a concise applicability and evidence
+brief for an actual real-user or commercial gate; routine coding does not
+require unrelated business research.
+
 Compare credible alternatives when the choice has meaningful consequences.
 Do not manufacture options or research for a routine local implementation
 detail.

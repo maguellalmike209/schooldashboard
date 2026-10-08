@@ -107,6 +107,12 @@ does not authorize execution.
 
 Execution authority comes from Mike's active instruction.
 
+For an authorized task that raises customer, market, pricing, finance, legal,
+tax, IP, accessibility, subscription, real-user pilot, production-operations,
+or launch questions, use `icm/guides/PRODUCT_AND_BUSINESS_ASSURANCE.md` as a
+conditional Plan research procedure and `docs/PRODUCT_READINESS.md` for
+SchoolDashboard-specific evidence. Research does not authorize work or Release.
+
 An instruction may authorize:
 
 - analysis only,

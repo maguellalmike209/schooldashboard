@@ -215,6 +215,10 @@ Release should not begin unless:
 - no known blocking security defect exists,
 - no unresolved release-critical blocker exists.
 
+For an authorized real-user or paid launch, also inspect the applicable
+evidence and unresolved gates in `docs/PRODUCT_READINESS.md`; this check does
+not expand Release authority or declare legal compliance.
+
 If any are missing:
 
 return:

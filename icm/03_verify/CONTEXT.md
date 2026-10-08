@@ -931,6 +931,11 @@ version or repository state, and limitations. Reuse evidence only while its
 relevant state remains unchanged and independent Verify does not require a
 fresh check. A command or test that was not executed cannot support PASS.
 
+When an authorized task makes market, legal, financial, or commercial-readiness
+claims, challenge their applicability, source, jurisdiction, date, and scope
+using the conditional assurance guide. A technical Verify PASS is not legal
+certification or production launch approval.
+
 Useful evidence includes:
 
 ```text
