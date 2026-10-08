@@ -445,6 +445,25 @@ use this rule to declare PASS while a material gap remains.
 
 ---
 
+# 9D. Scheduled Autonomy and Manager Delegation
+
+Scheduled execution follows `icm/automation/CONTEXT.md`. A schedule, task entry,
+proposal, model conversation, or checkpoint is not a founder-controlled execution
+grant. A valid separately protected, bounded grant may persist across multiple
+runs and daily reports; silence neither renews an expired grant nor expands an
+active one. Recover unfinished authorized work before new work; require one
+trusted writer per checkout and independently verified completion evidence.
+
+During an approved batch, agents may make ordinary engineering decisions and
+propose future work; they may not self-approve a new milestone, broaden risk or
+operations, or bypass separate Release authority. Defer nonurgent material
+questions to the Manager Review while stopping only affected work. Stop unsafe
+work immediately; report urgent incidents promptly where supported. The
+read-only SD-018 pilot is not evidence that a trusted unattended writer exists.
+
+
+---
+
 # 10. Risk Classification
 
 Every meaningful task must be assigned a risk tier during Plan.
