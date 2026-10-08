@@ -680,6 +680,20 @@ Product & Business Assurance and is outside this task.
 
 ---
 
+# 13F. SD-017 — Product & Business Assurance ICM
+
+## Status
+
+In progress. Mike authorized Plan, Build, independent Verify, and protected
+GitHub integration. The two assurance documents and minimal ICM routing are
+the scoped deliverable; they do not authorize product features or Release.
+
+```icm-task
+{"id":"SD-017","accepted":true,"result":"Conditional Product & Business Assurance procedure and SchoolDashboard evidence register integrated into ICM","priority":1,"dependencies":["SD-016","SD-018"],"scope":"Review supplied assurance baseline, integrate two documents, add minimal routing, independently verify scenarios and protected checks","exclusions":["Application features","ReviewTap changes","scheduled writer or live schedule","payments or providers","production Release","new roadmap tasks"],"risk":"R0","acceptance":["Conditional assurance covers product, commercial, legal, pilot, operations, and retirement decisions","Facts, assumptions, proposals, decisions, authorization, and unknowns stay distinct","SD-018 controls and separate Release authority remain intact","Independent Verify passes","Protected PR checks pass and canonical main contains SD-017"],"verification":["Adoption matrix scenario challenge and full diff review","Relevant repository checks","Hosted CI and Security checks on final PR head","Post-merge main confirmation"],"status":"In progress","completion":"Independent PASS followed by protected PR integration and canonical main confirmation"}
+```
+
+---
+
 # 14. Future Capability Roadmap — Direction Only
 
 The following milestone-level descriptions are non-authorizing product
@@ -947,9 +961,8 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014, SD-015, SD-016, SD-018, and SEC-2026-10-NEXTJS are Done. SD-017's prerequisite
-is satisfied; its Product & Business Assurance work uses its separately
-authorized contract and is not started here. Later milestone capabilities
+SD-014, SD-015, SD-016, SD-018, and SEC-2026-10-NEXTJS are Done. SD-017 is
+in progress under Mike's separate authorization. Later milestone capabilities
 remain directional and require separate authorization. No next product
 implementation task is started here.
 
