@@ -2,7 +2,7 @@
 
 ## Human review summary
 
-**Result: PASS for local SD-017 content and ICM integration.** Protected PR checks, merge, and canonical-main confirmation remain pending; `docs/TASKS.md` must remain In progress until they finish. No product, legal, tax, financial, accessibility, operational, or production-launch certification is implied.
+**Result: PASS for local SD-017 content and ICM integration.** At the time of local Verify, protected PR checks, merge, and canonical-main confirmation were pending; the integration addendum below records their completion. No product, legal, tax, financial, accessibility, operational, or production-launch certification is implied.
 
 No material decision is required to integrate this documentation. Future real-user, commercial, provider, pricing, jurisdiction, and Release decisions remain separate.
 
@@ -48,4 +48,8 @@ The new guide owns a conditional research procedure; `docs/PRODUCT_READINESS.md`
 
 ## Limitations and next action
 
-This checkout could not connect to GitHub over HTTPS during my independent `ls-remote` attempt; hosted state was therefore not proven by this Verify run. Before Done, a dedicated PR must receive required hosted `verify`, CodeQL, and Dependency Review results on its final head, merge through protected rules, and be confirmed on canonical main. Recheck this local PASS if the content changes materially. Do not use this artifact as legal sign-off or real-user/paid-launch readiness evidence.
+At the time of independent local Verify, this checkout could not connect to GitHub over HTTPS, so hosted state was not part of that PASS. The integration addendum below records subsequent hosted evidence. Recheck this local PASS if the content changes materially. Do not use this artifact as legal sign-off or real-user/paid-launch readiness evidence.
+
+## Protected integration addendum (2026-10-08)
+
+After the independent local PASS, PR #20 ran hosted `verify`, CodeQL, and Dependency Review successfully on final head `7a2ecefd7ef63faadd9da6bb91c21ead125f7f12`. GitHub merged the PR through the protected workflow at `6812e71b293134bc69b8fee1def71dd391bdf433`; an HTTPS canonical-main read returned that same SHA. This addendum records integration evidence, not additional legal or launch validation. This status-only follow-up records Done after the content merge.
