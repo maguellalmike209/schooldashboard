@@ -2,6 +2,7 @@ function value(v) { return v === null || v === undefined ? 'UNKNOWN' : String(v)
 export function renderReport({ observation, decision = null, activity = null, proposals = [] }) {
   const tasks = observation.acceptedTasks ?? [];
   const done = tasks.filter(t => t.status === 'Done').map(t => t.id);
+  const completed = [...new Set([...(observation.historicalCompletedIds ?? []), ...done])];
   const active = tasks.filter(t => ['In progress', 'Ready for verification', 'Blocked'].includes(t.status)).map(t => `${t.id} (${t.status})`);
   const lines = [
     '# Daily Manager Review',
@@ -10,13 +11,13 @@ export function renderReport({ observation, decision = null, activity = null, pr
     '',
     '## A. Executive Summary',
     `- Accepted phase outcome: ${value(activity?.outcome ?? 'UNKNOWN — no active batch grant supplied')}.`,
-    `- Overall progress: ${observation.historicalCompletedIds?.length ?? 0} historical completed IDs listed; ${done.length} structured accepted tasks Done; ${active.length} structured active.`,
+    `- Overall progress: ${completed.length} registry-completed IDs (${done.length} with structured entries); ${active.length} structured active.`,
     `- Completed today: ${value(activity?.completedToday ?? 'UNKNOWN — no run journal supplied')}.`,
     `- Active work: ${active.length ? active.join(', ') : 'none observed in structured entries'}.`,
     `- Blocking issues: ${value(['STOP', 'INTEGRATION BLOCKED', 'INTEGRATION PENDING'].includes(decision?.state) ? decision.reason : activity?.blockers ?? 'none verified; execution authorization may be absent')}.`,
     '',
     '## B. Verified Delivery',
-    `- Completed task IDs: ${[...(observation.historicalCompletedIds ?? []), ...done].join(', ') || 'none observed'} (registry claims; not independently reverified today).`,
+    `- Completed task IDs: ${completed.join(', ') || 'none observed'} (registry claims; not independently reverified today).`,
     `- Local Git: ${value(observation.branch)} at ${value(observation.head)}; dirty=${value(observation.dirty)} (${value(observation.changedEntries)} entries).`,
     `- GitHub/hosted CI/protected integration: UNKNOWN — no live canonical observation was made. Local upstream ${value(observation.upstream)} is cached evidence only.`,
     `- Verification artifact names observed: ${observation.verificationArtifacts?.length ?? 0}; contents and freshness were not established by this report.`,
