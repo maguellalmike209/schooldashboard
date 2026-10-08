@@ -684,12 +684,13 @@ Product & Business Assurance and is outside this task.
 
 ## Status
 
-In progress. Mike authorized Plan, Build, independent Verify, and protected
-GitHub integration. The two assurance documents and minimal ICM routing are
-the scoped deliverable; they do not authorize product features or Release.
+Done. Independent local Verify passed, hosted `verify`, CodeQL, and Dependency
+Review passed on PR #20 head `7a2ecef`, and protected PR #20 merged into
+canonical `main` at `6812e71`. This process task did not authorize product
+features, a scheduled writer, or Release.
 
 ```icm-task
-{"id":"SD-017","accepted":true,"result":"Conditional Product & Business Assurance procedure and SchoolDashboard evidence register integrated into ICM","priority":1,"dependencies":["SD-016","SD-018"],"scope":"Review supplied assurance baseline, integrate two documents, add minimal routing, independently verify scenarios and protected checks","exclusions":["Application features","ReviewTap changes","scheduled writer or live schedule","payments or providers","production Release","new roadmap tasks"],"risk":"R0","acceptance":["Conditional assurance covers product, commercial, legal, pilot, operations, and retirement decisions","Facts, assumptions, proposals, decisions, authorization, and unknowns stay distinct","SD-018 controls and separate Release authority remain intact","Independent Verify passes","Protected PR checks pass and canonical main contains SD-017"],"verification":["Adoption matrix scenario challenge and full diff review","Relevant repository checks","Hosted CI and Security checks on final PR head","Post-merge main confirmation"],"status":"In progress","completion":"Independent PASS followed by protected PR integration and canonical main confirmation"}
+{"id":"SD-017","accepted":true,"result":"Conditional Product & Business Assurance procedure and SchoolDashboard evidence register integrated into ICM","priority":1,"dependencies":["SD-016","SD-018"],"scope":"Review supplied assurance baseline, integrate two documents, add minimal routing, independently verify scenarios and protected checks","exclusions":["Application features","ReviewTap changes","scheduled writer or live schedule","payments or providers","production Release","new roadmap tasks"],"risk":"R0","acceptance":["Conditional assurance covers product, commercial, legal, pilot, operations, and retirement decisions","Facts, assumptions, proposals, decisions, authorization, and unknowns stay distinct","SD-018 controls and separate Release authority remain intact","Independent Verify passes","Protected PR checks pass and canonical main contains SD-017"],"verification":["Adoption matrix scenario challenge and full diff review","Relevant repository checks","Hosted CI and Security checks on final PR head","Post-merge main confirmation"],"status":"Done","completion":"Independent PASS; hosted verify, CodeQL, and Dependency Review passed on PR #20 head 7a2ecef; protected merge 6812e71 confirmed on canonical main"}
 ```
 
 ---
@@ -961,9 +962,8 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014, SD-015, SD-016, SD-018, and SEC-2026-10-NEXTJS are Done. SD-017 is
-in progress under Mike's separate authorization. Later milestone capabilities
-remain directional and require separate authorization. No next product
+SD-014, SD-015, SD-016, SD-017, SD-018, and SEC-2026-10-NEXTJS are Done.
+Later milestone capabilities remain directional and require separate authorization. No next product
 implementation task is started here.
 
 ---
