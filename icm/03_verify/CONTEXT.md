@@ -73,6 +73,12 @@ Stop only when human judgment is materially useful.
 
 Treat Build claims as orientation, not proof.
 
+Reconstruct the relevant verification targets from accepted requirements and
+current repository reality before relying on Build's handoff or Build-authored
+tests. Use fresh reviewer context where available. An agent continuing from
+Build must deliberately challenge its own assumptions and document the
+independent evidence it gathered.
+
 Build may say:
 
 > The Today page works.
@@ -682,13 +688,18 @@ When relevant, explicitly inspect:
 - external APIs,
 - user-controlled input.
 
-For the current static milestone specifically check that:
+For the legacy static Milestone 1 scope specifically check that:
 
 - real secrets were not committed,
 - raw private Course files were not accidentally added,
 - large restricted materials were not copied unnecessarily into source.
 
 Do not claim security from appearance alone.
+
+For a material trust boundary, attempt relevant negative or adversarial checks
+against project-owned or explicitly authorized systems. Use the accepted
+security requirements and `docs/SECURITY_TESTING.md` when applicable. A test
+file's existence is not evidence that its protection ran or held.
 
 ---
 
@@ -731,6 +742,10 @@ and:
 Passing tests increase confidence.
 
 They do not automatically prove correctness.
+
+Treat Build-authored tests as hypotheses about the requirement. Inspect
+important assertions and independently exercise or challenge the behavior
+when risk warrants it.
 
 A test may:
 
@@ -790,7 +805,8 @@ simple test typo that conflicts with the accepted implementation intent
 After repairing:
 
 1. rerun the relevant Build checks,
-2. rerun the affected Verify checks,
+2. invalidate prior evidence affected by the repair or another meaningful
+   implementation/configuration change, then rerun the affected Verify checks,
 3. inspect the resulting diff,
 4. report the repair.
 
@@ -909,6 +925,11 @@ Use when verification cannot meaningfully proceed.
 # 30. Evidence Standard
 
 Every final Verify conclusion should be traceable to evidence.
+
+For material claims, record the evidence source, tested environment, relevant
+version or repository state, and limitations. Reuse evidence only while its
+relevant state remains unchanged and independent Verify does not require a
+fresh check. A command or test that was not executed cannot support PASS.
 
 Useful evidence includes:
 
@@ -1686,6 +1707,9 @@ Meaningful Verify work may surface:
 
 Potential durable product or technical choices that deserve later acceptance.
 
+Promote a candidate to `docs/DECISIONS.md` only after acceptance and only if it
+records a useful durable choice. Do not make that document a development diary.
+
 ## ICM Improvement Candidates
 
 Potential improvements to:
@@ -1708,6 +1732,11 @@ None.
 ```
 
 Do not invent retrospective items merely to populate a section.
+
+Retain learning only when it yields a useful durable decision, process lesson,
+falsified assumption, or next-phase dependency. Route each accepted conclusion
+to its owning document; task-specific observations can remain in the Verify
+artifact without becoming global policy.
 
 ---
 

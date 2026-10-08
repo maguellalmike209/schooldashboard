@@ -75,6 +75,14 @@ Before meaningful implementation, Build should have:
 - verification targets,
 - no unresolved material blocker.
 
+Consume the Plan's relevant execution and verification readiness evidence.
+Confirm that required capabilities still match the actual task, environment,
+and target; a `READY WITH VERIFIED FALLBACK` path must itself be authorized and
+usable. If evidence is missing, stale, or unsafe, investigate an already
+authorized alternative before substantial implementation. Return to Plan for
+a material change or report `BLOCKED` when no safe path exists. Do not install
+or reconfigure host infrastructure by treating readiness as implicit approval.
+
 For substantial work, Build should be able to answer:
 
 > What am I implementing?
@@ -1616,6 +1624,11 @@ State:
 - blocker,
 - evidence,
 - smallest next action.
+
+Do not claim that a check succeeded when required infrastructure prevented its
+execution. Record what actually ran, the environment and target, and the
+unverified acceptance criteria. Never weaken acceptance criteria merely to
+make Build proceed.
 
 Do not use Blocked simply because implementation is difficult.
 

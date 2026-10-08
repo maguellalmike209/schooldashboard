@@ -132,6 +132,7 @@ Plan owns:
 
 - scope definition,
 - current-state understanding,
+- product/engineering research when needed,
 - risk classification,
 - product invariants,
 - architecture reasoning,
@@ -141,6 +142,11 @@ Plan owns:
 - acceptance criteria,
 - verification design,
 - human-decision identification.
+
+Plan also owns task-specific execution readiness and any optional Strategic
+Phase Transition Review. Route those reviews to `docs/PRODUCT_VISION.md`,
+accepted specifications/decisions, `docs/TASKS.md`, `docs/IMPLEMENTATION.md`,
+and relevant Verify or Release evidence as the question requires.
 
 Plan produces the execution contract.
 
@@ -155,6 +161,7 @@ Load:
 Build owns:
 
 - implementation,
+- consumption of relevant Plan readiness evidence,
 - secure coding,
 - task-local engineering decisions,
 - tests,
@@ -177,6 +184,7 @@ Load:
 Verify owns:
 
 - independent functional verification,
+- reconstruction of verification targets from accepted requirements,
 - regression verification,
 - test validation,
 - negative testing,
@@ -186,6 +194,10 @@ Verify owns:
 - PASS / FAIL determination,
 - verified documentation promotion,
 - repository finalization.
+
+Route reusable Verify learning to the owning durable source only when it
+establishes a useful accepted conclusion; retain task-local observations in
+the Verify artifact.
 
 Verify attempts to prove Build wrong before granting trust.
 
@@ -949,6 +961,11 @@ For environment-specific work inspect relevant:
 
 Never expose secret values unnecessarily.
 
+For execution or verification infrastructure readiness, use
+`icm/01_plan/CONTEXT.md` to identify task-specific dependencies and
+`icm/02_build/CONTEXT.md` to consume and recheck their evidence. Use Git and
+the relevant environment configuration for exact target identity.
+
 ---
 
 # 26. External Research
@@ -963,6 +980,12 @@ Use it when needed for:
 - security standards,
 - current framework behavior,
 - current platform capabilities.
+
+Plan may also need product strategy or conditional business, legal, and
+financial research when a material task choice depends on it. Start with
+accepted product direction and repository reality, then use authoritative
+external sources for the unresolved question. Route decision briefs and
+source/evidence distinctions to `icm/01_plan/CONTEXT.md`.
 
 External information may inform planning.
 
