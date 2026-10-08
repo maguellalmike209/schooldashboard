@@ -47,3 +47,25 @@ Verify the canonical remote ref and branch identity, push this task-scoped
 commit, open a PR, require hosted checks to pass, merge through protection, and
 confirm canonical `main` contains this change. A local PASS alone does not
 authorize SD-017 implementation.
+
+## Security-maintenance blocker and final PR evidence
+
+The separate SEC-2026-10-NEXTJS task patched `next` and matching
+`eslint-config-next` from locked 16.3.6 to 16.3.8. Its independent Verify and
+final-head hosted checks passed, and PR #16 merged into canonical `main` at
+`2f4d25c`. SD-016 retains its documentation-only scope. Patched `main` was
+merged non-destructively into the SD-016 branch; the only content conflict was
+the adjacent SD-016 and maintenance entries in `docs/TASKS.md`, which were
+combined without dropping either task. Final PR #12 diff and hosted checks
+remain the integration gate.
+
+## ICM improvement candidate for SD-017
+
+When an authorized task encounters a conventional, reversible
+dependency-security blocker, ICM should distinguish routine maintenance repair
+from a material security-policy decision. It should support separately scoped,
+independently verified maintenance work without repeatedly requesting approval
+for an already explicitly authorized change. SD-017 should assess whether the
+existing Small Repair Lane, failure handling, and automation boundaries need
+the smallest compatible clarification. This is a candidate, not a change to
+global ICM repair rules or to implementation, Verify, or Release authority.

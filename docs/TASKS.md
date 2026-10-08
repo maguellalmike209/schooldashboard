@@ -86,6 +86,7 @@ Completed tasks:
 - SD-013
 - SD-014
 - SD-015
+- SEC-2026-10-NEXTJS
 
 The project has completed the:
 
@@ -618,6 +619,24 @@ independent Verify and protected integration may complete this task.
 
 ---
 
+# 13D. SEC-2026-10-NEXTJS — Next.js Security Maintenance
+
+## Status
+
+Done. Independent technical Verify and final-head hosted CI/Security checks
+passed; protected PR #16 merged into canonical `main` at `2f4d25c`. This
+separate task did not change SD-016's accepted documentation-only scope.
+
+## Completion condition
+
+Patch `next` and matching `eslint-config-next` to 16.3.8 with a reviewed
+lockfile; preserve the approved narrow audit exception; independently verify
+the dependency and authenticated regression checks; pass required hosted CI
+and Security checks; merge through the protected PR workflow. Only then resume
+SD-016 PR #12 against patched `main`.
+
+---
+
 # 14. Future Capability Roadmap — Direction Only
 
 The following milestone-level descriptions are non-authorizing product
@@ -885,10 +904,11 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014 and SD-015 are Done. SD-016 passed independent Verify and is complete
-when its protected PR is merged. Later milestone capabilities remain
-directional and require separate authorization. No next product
-implementation task is started here.
+SD-014, SD-015, and SEC-2026-10-NEXTJS are Done. SD-016 passed independent
+Verify and is complete when its protected PR is merged. SD-017 requires its
+separately authorized Product & Business Assurance contract. Later milestone
+capabilities remain directional and require separate authorization. No next
+product implementation task is started here.
 
 ---
 
