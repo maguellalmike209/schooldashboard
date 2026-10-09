@@ -2,7 +2,7 @@
 
 ## Status
 
-**Local policy PASS; protected PR/CI integration pending.** This is not an integrated-task PASS until required hosted checks pass on the exact final PR head and canonical `main` is confirmed. Risk R0; no executable or production behavior changed.
+**PASS, integrated.** Required hosted `verify`, CodeQL, and Dependency Review checks passed on PR #23 head `35ab3fb6ed12273c5470b99f7418b8e8469ebfd7`. GitHub merged the protected PR as `7a68da20abb69bd872883a35fedefde3418b0f4d`, and live canonical `main` plus local fast-forward reconciliation confirmed that exact commit. Risk R0; no executable or production behavior changed.
 
 ## Independent packet-to-repository challenge
 
@@ -23,6 +23,6 @@
 - `node scripts/icm-automation/cli.mjs inspect`: parsed SD-019 and reported `NO AUTHORIZED WORK` / `No active grant` with dirty task checkout; it did not write.
 - Direct source review of `scripts/icm-automation/core.mjs`: strict grant `taskIds`/`taskDigests`, paused/revoked/expiry/budget checks, recovery-first selection and exact integration evidence remain in place. No runtime files were modified.
 
-## Remaining integration gate
+## Protected integration evidence
 
-Push the verified task branch, open a PR, confirm required hosted `verify`, `CodeQL`, and `Dependency review` checks on the final PR head, merge only when protected policy permits, and reconcile canonical `main`. Then finalize the SD-019 task record as Done through the same protected workflow. Scheduled writing remains disabled.
+PR [#23](https://github.com/maguellalmike209/schooldashboard/pull/23) passed all three required checks on the exact head above and merged with no force or history rewrite. A separate protected bookkeeping PR records this final evidence and marks SD-019 Done. Scheduled writing remains disabled.

@@ -710,12 +710,13 @@ features, a scheduled writer, or Release.
 
 ## Status
 
-Ready for verification. Local independent Verify passed the packet and policy
-checks; protected PR checks and canonical-main integration remain required
-before completion. Scheduled writing and Release remain disabled.
+Done. Local independent Verify passed the packet and policy checks. Required
+`verify`, CodeQL, and Dependency Review passed on PR #23 head `35ab3fb`;
+protected PR #23 merged into canonical `main` at `7a68da2`. Scheduled writing
+and Release remain disabled.
 
 ```icm-task
-{"id":"SD-019","accepted":true,"result":"Founder steering and bounded outcome delegation policy integrated into the four-stage ICM","priority":1,"dependencies":["SD-017","SD-018"],"scope":"Integrate the supplied founder steering packet into its owning ICM documents, independently verify policy boundaries, and use protected PR integration","exclusions":["Unattended writer or grant changes","live schedule","application functionality","production Release","new product milestone"],"risk":"R0","acceptance":["Every packet provision is placed in its owning document","Current exact-task scheduled grant and foreground batch boundaries remain distinct","Independent Verify passes the required policy scenarios and applicable checks","Required hosted PR checks pass on the final head and canonical main contains SD-019"],"verification":["Packet-to-diff and audit-scenario challenge","Documentation consistency and applicable repository checks","Hosted verify, CodeQL, and Dependency Review on exact PR head","Post-merge canonical main confirmation"],"status":"Ready for verification","completion":"Local independent Verify PASS; protected PR/CI integration pending"}
+{"id":"SD-019","accepted":true,"result":"Founder steering and bounded outcome delegation policy integrated into the four-stage ICM","priority":1,"dependencies":["SD-017","SD-018"],"scope":"Integrate the supplied founder steering packet into its owning ICM documents, independently verify policy boundaries, and use protected PR integration","exclusions":["Unattended writer or grant changes","live schedule","application functionality","production Release","new product milestone"],"risk":"R0","acceptance":["Every packet provision is placed in its owning document","Current exact-task scheduled grant and foreground batch boundaries remain distinct","Independent Verify passes the required policy scenarios and applicable checks","Required hosted PR checks pass on the final head and canonical main contains SD-019"],"verification":["Packet-to-diff and audit-scenario challenge","Documentation consistency and applicable repository checks","Hosted verify, CodeQL, and Dependency Review on exact PR head","Post-merge canonical main confirmation"],"status":"Done","completion":"Independent PASS; hosted verify, CodeQL, and Dependency Review passed on PR #23 head 35ab3fb; protected merge 7a68da2 confirmed on canonical main"}
 ```
 
 ---
@@ -987,7 +988,7 @@ Those responsibilities belong to their owning documents.
 
 # 19. Current Next Task
 
-SD-014, SD-015, SD-016, SD-017, SD-018, and SEC-2026-10-NEXTJS are Done.
+SD-014, SD-015, SD-016, SD-017, SD-018, SD-019, and SEC-2026-10-NEXTJS are Done.
 Later milestone capabilities remain directional and require separate authorization. No next product
 implementation task is started here.
 
