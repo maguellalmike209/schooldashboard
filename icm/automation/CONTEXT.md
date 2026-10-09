@@ -57,6 +57,16 @@ The future launcher must acquire an exclusive OS filesystem lock in a trusted pa
 
 ## Bounded delegation and manager steering
 
+**Delegation source:** `icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md`
+defines founder input classification, outcome contracts and candidate child-task
+planning. This document remains authoritative for *executable* scheduled
+grants, recovery, permission enforcement and trust boundaries. The current
+SD-018 grant schema binds exact task IDs/digests. A generated child task,
+changed status, accepted outcome description or completed milestone cannot
+enlarge that grant. Future dynamically executable child tasks require a distinct
+founder-approved grant capability and independent trusted-launcher enforcement;
+until then they remain proposals and the runner must fail closed.
+
 A founder-approved batch may contain multiple accepted tasks (for example, 20)
 with a shared measurable outcome. It remains executable across days without a
 required response to each report, but only while its **externally enforced**
@@ -117,4 +127,7 @@ Use progressive context loading, code-based deterministic checks, valid evidence
 
 > Inspect the SchoolDashboard checkout using `node scripts/icm-automation/cli.mjs inspect` and generate `node scripts/icm-automation/cli.mjs report`. Report observed local Git/task facts, explicitly UNKNOWN remote and usage evidence, and any material decision. Do not modify repository files, task status, grant, journal, schedule, or production. Do not execute an unattended writer. A missed invocation creates no report. This prompt grants no execution authority.
 
-No cadence is accepted yet, so no recurring schedule is created by this task.
+The founder has proposed a daily 20:00 `America/Los_Angeles` manager cadence.
+This preference is **not** evidence of a saved or enabled native Codex schedule.
+Neither a read-only schedule nor an unattended writer is activated by this
+policy update.

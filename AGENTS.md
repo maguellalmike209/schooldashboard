@@ -461,6 +461,17 @@ questions to the Manager Review while stopping only affected work. Stop unsafe
 work immediately; report urgent incidents promptly where supported. The
 read-only SD-018 pilot is not evidence that a trusted unattended writer exists.
 
+**Founder-steered outcomes.** The founder owns product direction and measurable
+outcome approval; Codex may plan, implement, test and propose tasks in support
+of that outcome within existing authority. Read
+`icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md` when interpreting founder
+feedback, preparing an outcome phase, proposing work after a milestone, or
+managing a delegated batch. Brainstorming, proposed tasks and manager reports
+are not execution grants. Current unattended grants remain exact-task-bound;
+dynamic executable child tasks require separately implemented and verified
+external enforcement. Preserve independent Verify, protected Git, separate
+Release and the risk/stop rules above.
+
 
 ---
 

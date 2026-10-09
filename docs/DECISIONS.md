@@ -1402,6 +1402,28 @@ Basis: `SEC-AUTHZ-004`, `SEC-AUTHZ-005`, `docs/SECURITY_TESTING.md`, SD-014 Plan
 
 ---
 
+## D-066 — Founder-Steered Outcome Autonomy and Explicit Execution Boundaries
+
+The founder sets product direction and approves bounded, measurable outcomes.
+Codex owns routine engineering planning, implementation, independent verification
+support, recovery and recommendations inside accepted constraints. Founder
+feedback must be interpreted as brainstorming, observation, preference,
+correction, decision, accepted outcome or pause/revocation; none becomes an
+unattended write grant solely by appearing in a chat or repository file. Codex
+may generate internal steps and candidate child tasks, but **current**
+unattended grants authorize only externally bound exact task IDs/digests.
+Dynamically executable children require a separately accepted and technically
+enforced delegation extension. On completion of the approved endpoint, Codex may
+recommend the next outcome but must not self-approve a new one. Existing Plan →
+Build → independent Verify, protected Git, separate Release, security/privacy
+and conditional Product & Business Assurance remain binding.
+
+Basis: founder's 2026-10-08 operating-model direction;
+`icm/automation/CONTEXT.md`;
+`icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md`.
+
+---
+
 # 17. Decision Maintenance
 
 Add a new decision only when the choice is durable enough to constrain future
