@@ -131,3 +131,11 @@ The founder has proposed a daily 20:00 `America/Los_Angeles` manager cadence.
 This preference is **not** evidence of a saved or enabled native Codex schedule.
 Neither a read-only schedule nor an unattended writer is activated by this
 policy update.
+
+## Disabled trusted writer foundation
+
+SD-020 adds fixture-only broker, grant, lock, journal, worker and GitHub evidence
+modules under `scripts/icm-automation/`. The existing `inspect|report` CLI remains
+read-only. See `TRUSTED_WRITER_INSTALLATION.md` for the later operator sequence and
+G1–G8 proof gates. No installed broker, live grant, Scheduled trigger or real
+worker is enabled by repository code.

@@ -721,6 +721,18 @@ and Release remain disabled.
 
 ---
 
+# 13H. SD-020 — Disabled Trusted Autonomous Engineering Foundation
+
+## Status
+
+In progress. The 2026-10-09 founder packet authorizes one R3 foreground process task for a disabled foundation. No unattended writer, live grant or schedule is authorized. Protected PR integration and hosted checks are required before Done.
+
+```icm-task
+{"id":"SD-020","accepted":true,"result":"Disabled, independently testable fixed-task trusted engineering foundation and Windows/GitHub installation runbook","priority":1,"dependencies":["SD-018","SD-019"],"scope":"Implement protected-grant binding, exclusive broker lock and journal, recovery-first exact-task policy, disabled Codex worker adapter, read-only GitHub reconciliation, adversarial tests and protected PR integration","exclusions":["Live unattended writer","active schedule or real founder grant","privileged Windows installation","GitHub credential or rule changes","automatic merge or Release","dynamic executable child tasks","product features"],"risk":"R3","acceptance":["Disabled foundation fails closed on untrusted grant, identity, budget, lock, recovery and stale GitHub evidence","Packet T01–T22 have truthful applicable test and host-proof results","Existing inspect/report semantics and automation tests remain intact","Manual Windows and GitHub installation runbook states G1–G8 proof and no activation","Independent Verify and protected exact-head PR/CI integration pass"],"verification":["Adversarial unit and independent-process fixture tests","Independent source/diff and legacy regression review","Applicable lint, typecheck, unit and build checks","Hosted verify, CodeQL and Dependency Review on exact PR head; post-merge main confirmation"],"status":"In progress","completion":"Pending independent Verify and protected PR integration; no unattended writer enabled"}
+```
+
+---
+
 # 14. Future Capability Roadmap — Direction Only
 
 The following milestone-level descriptions are non-authorizing product
