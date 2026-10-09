@@ -8,6 +8,29 @@ This contract routes scheduled invocations through the existing Plan → Build �
 
 The initial trigger, inspection CLI, and Manager Review are read-only. No unattended repository writer or live schedule is enabled by SD-018. The eventual writer needs a separate task, runtime-specific lock proof, and explicit authorization. Release always needs its own authorization under `icm/04_release/CONTEXT.md`.
 
+## Foreground batches versus unattended schedules
+
+- **Foreground/manual continuous session:** An explicit current instruction may
+  authorize one named task or a bounded batch (including 10 or more accepted
+  tasks). Existing Plan → Build → independent Verify → protected integration,
+  risk limits, and stop conditions govern each task. No external scheduled-runner
+  grant is needed for this *foreground* execution path. It cannot restart itself
+  after the session stops or usage runs out.
+- **Unattended scheduled write invocation:** A prior chat instruction or
+  foreground batch authorization must not be reused as a standing grant.
+  Before any write, a trusted launcher outside the agent-writable checkout must
+  validate the current Mike-controlled grant and enforce its task/operation/risk
+  bounds, expiry/revocation, workspace lock, and recovery checks. This path is
+  **not yet implemented or enabled**.
+- **Scheduled read-only Manager Review:** May inspect and report without a write
+  grant but cannot modify tasks, source, Git, schedules, grants, or production,
+  nor launch a coding task. A schedule or a daily report never grants authority.
+
+The mode is determined by how the invocation starts and what authority is
+independently available, **not** by whether the user calls it a batch, Manager
+Mode, or automation. Never interpret foreground work as approval to enable
+future scheduled repository writes.
+
 ## Each invocation
 
 1. Verify exact repository and checkout identity. Observe Git branch, HEAD, clean/dirty working tree, upstream, and canonical remote evidence. A cached remote-tracking ref is local evidence, not current GitHub truth; unavailable live evidence is UNKNOWN.
