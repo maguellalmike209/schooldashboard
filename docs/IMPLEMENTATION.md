@@ -1216,8 +1216,9 @@ recovery-first policy, read-only exact-head GitHub evidence, draft PR proposals,
 negative Verify contracts and a fake Codex process adapter. The existing
 `inspect|report` CLI stays read-only. Local adversarial and process tests,
 lint/typecheck/build and primary-view browser checks passed, as recorded in the
-SD-020 Verify artifact. The dependency audit and protected PR hosted checks are
-pending, so SD-020 remains In progress until integration is confirmed.
+SD-020 Verify artifact. The local dependency audit was unavailable; the hosted
+audit and required PR checks are evaluated on the exact PR head. SD-020 remains
+In progress until independent review and protected integration are confirmed.
 
 This source is **not an installed trusted broker**. It has no authenticated
 Windows code/ACL attestation, native Scheduled trigger isolation, real worker
