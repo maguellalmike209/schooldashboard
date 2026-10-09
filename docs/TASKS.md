@@ -73,6 +73,17 @@ registry state. Required fields are `id`, `accepted`, `result`, `priority`
 Plan may provide details behind concise fields. `accepted: false` means a
 proposal only. Do not convert historical entries merely for formatting.
 
+**Generated work versus authorization:** An agent may write a proposed task as
+planning output, but it may not make that task executable merely by assigning a
+task ID, changing `accepted`, or moving its status. Current scheduled execution
+is limited to the exact task IDs and digests in an independently authenticated
+founder grant. Unreviewed subtasks should stay ephemeral beneath accepted tasks
+or be visibly `PROPOSED`. A future outcome-delegation writer may execute bounded
+generated child tasks only after independently enforced grant semantics and
+negative runtime tests are implemented. Do not add new status literals without
+updating and verifying the runtime parser. See
+`icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md`.
+
 An external Mike-controlled grant must bind the accepted task definition and
 name its exact permitted IDs before scheduled selection. Editing this registry
 cannot expand that grant. Task status changes do not change the accepted
@@ -691,6 +702,20 @@ features, a scheduled writer, or Release.
 
 ```icm-task
 {"id":"SD-017","accepted":true,"result":"Conditional Product & Business Assurance procedure and SchoolDashboard evidence register integrated into ICM","priority":1,"dependencies":["SD-016","SD-018"],"scope":"Review supplied assurance baseline, integrate two documents, add minimal routing, independently verify scenarios and protected checks","exclusions":["Application features","ReviewTap changes","scheduled writer or live schedule","payments or providers","production Release","new roadmap tasks"],"risk":"R0","acceptance":["Conditional assurance covers product, commercial, legal, pilot, operations, and retirement decisions","Facts, assumptions, proposals, decisions, authorization, and unknowns stay distinct","SD-018 controls and separate Release authority remain intact","Independent Verify passes","Protected PR checks pass and canonical main contains SD-017"],"verification":["Adoption matrix scenario challenge and full diff review","Relevant repository checks","Hosted CI and Security checks on final PR head","Post-merge main confirmation"],"status":"Done","completion":"Independent PASS; hosted verify, CodeQL, and Dependency Review passed on PR #20 head 7a2ecef; protected merge 6812e71 confirmed on canonical main"}
+```
+
+---
+
+# 13G. SD-019 — Founder Steering ICM Integration
+
+## Status
+
+Ready for verification. Local independent Verify passed the packet and policy
+checks; protected PR checks and canonical-main integration remain required
+before completion. Scheduled writing and Release remain disabled.
+
+```icm-task
+{"id":"SD-019","accepted":true,"result":"Founder steering and bounded outcome delegation policy integrated into the four-stage ICM","priority":1,"dependencies":["SD-017","SD-018"],"scope":"Integrate the supplied founder steering packet into its owning ICM documents, independently verify policy boundaries, and use protected PR integration","exclusions":["Unattended writer or grant changes","live schedule","application functionality","production Release","new product milestone"],"risk":"R0","acceptance":["Every packet provision is placed in its owning document","Current exact-task scheduled grant and foreground batch boundaries remain distinct","Independent Verify passes the required policy scenarios and applicable checks","Required hosted PR checks pass on the final head and canonical main contains SD-019"],"verification":["Packet-to-diff and audit-scenario challenge","Documentation consistency and applicable repository checks","Hosted verify, CodeQL, and Dependency Review on exact PR head","Post-merge canonical main confirmation"],"status":"Ready for verification","completion":"Local independent Verify PASS; protected PR/CI integration pending"}
 ```
 
 ---

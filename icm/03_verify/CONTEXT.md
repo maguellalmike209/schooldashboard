@@ -936,6 +936,16 @@ claims, challenge their applicability, source, jurisdiction, date, and scope
 using the conditional assurance guide. A technical Verify PASS is not legal
 certification or production launch approval.
 
+For outcome-driven tasks, Verify must independently determine whether the
+**observable student result** and accepted outcome criterion are satisfied, not
+merely whether code and tests exist. Challenge action feedback,
+usability/accessibility proportional to risk, failure/empty states, privacy and
+ownership, negative tests and regressions. A task PASS does not establish a
+whole-milestone PASS; the milestone requires separate criterion-by-criterion
+evidence and protected integration where required. Founder communication and
+new proposals are not Verify evidence or authorization. Apply the conditional
+business-assurance guide when the actual scope triggers it.
+
 Useful evidence includes:
 
 ```text

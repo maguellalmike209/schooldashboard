@@ -8,6 +8,15 @@ Support the full responsible-product lifecycle: discover an actual customer prob
 
 This guide is **cross-project research and decision procedure**, not a fifth ICM stage, a blanket checklist, or permission to implement features. Plan owns research and options; Build executes only an approved scope; independent Verify challenges the evidence; authorized Release owns deployment. `docs/PRODUCT_VISION.md` owns strategy, product specs own behavior, `docs/DECISIONS.md` owns accepted material choices, security/privacy/threat documents own their respective controls, and `docs/TASKS.md` owns accepted task registry/status. This guide does not replace them.
 
+For founder-steered outcome work,
+`icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md` controls how
+brainstorming, accepted objectives, milestone proposals and daily feedback are
+interpreted. This guide controls **conditional** product, financial, legal,
+accessibility and operational assurance research. An outcome is not
+market-validated, compliant or launch-ready merely because engineering Verify
+passed. Do not force a paid-launch checklist onto routine internal prototype
+tasks.
+
 Use this guide when the current authorized work affects product positioning, user adoption, monetization, real-user pilots, regulated or contractual obligations, operations, or a major strategy transition. Do **not** require a full commercial review for a routine styling fix or internal prototype without new users/data/claims.
 
 ## Evidence vocabulary

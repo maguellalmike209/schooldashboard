@@ -417,6 +417,15 @@ operational readiness question. Produce a concise applicability and evidence
 brief for an actual real-user or commercial gate; routine coding does not
 require unrelated business research.
 
+For an approved-outcome phase, trace each material task to a specific still-unmet
+outcome criterion or necessary security/regression dependency. Separate founder
+brainstorming and proposed child work from currently accepted task authority
+using `icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md`. Planning may refine
+the necessary work; it must not treat a newly generated permanent task as an
+executable scheduled task when the external grant does not cover it. Record the
+smallest coherent user-value increment and relevant lifecycle-quality checks,
+not arbitrary work to consume remaining capacity.
+
 Compare credible alternatives when the choice has meaningful consequences.
 Do not manufacture options or research for a routine local implementation
 detail.

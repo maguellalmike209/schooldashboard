@@ -123,6 +123,16 @@ or launch questions, use `icm/guides/PRODUCT_AND_BUSINESS_ASSURANCE.md` as a
 conditional Plan research procedure and `docs/PRODUCT_READINESS.md` for
 SchoolDashboard-specific evidence. Research does not authorize work or Release.
 
+For founder brainstorming, product steering, approved outcome planning,
+delegated task decomposition, or phase transition recommendations, load
+`icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md`. It owns the
+communication/outcome procedure; `icm/automation/CONTEXT.md` still owns the
+distinct **unattended execution authority**. Current runtime requires exact
+accepted task IDs and digests. Neither an approved product direction nor an
+agent-generated child task creates a scheduled write grant. Use
+`icm/guides/PRODUCT_AND_BUSINESS_ASSURANCE.md` only when its lifecycle triggers
+are applicable.
+
 An instruction may authorize:
 
 - analysis only,

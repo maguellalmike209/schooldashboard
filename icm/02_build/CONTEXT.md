@@ -103,6 +103,14 @@ return to Plan.
 
 ---
 
+**Outcome fidelity:** Build implements the accepted task's observable
+contribution to the approved outcome. It may decide local steps and safe
+in-scope repairs; it must not implement a newly imagined child task, business
+idea, provider, trust boundary or expanded product behavior without actual
+authority. Return to Plan for changed material risk or acceptance. Refer to
+`icm/guides/FOUNDER_STEERING_AND_OUTCOME_DELEGATION.md` only when interpreting
+founder steering/delegation, not for every routine edit.
+
 # 4. Required Entry Context
 
 Before implementing:
