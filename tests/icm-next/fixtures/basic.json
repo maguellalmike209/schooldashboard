@@ -1,0 +1,213 @@
+{
+  "fixtureKind": "SYNTHETIC_ICM_NEXT",
+  "fixtureId": "synthetic:basic",
+  "snapshot": {
+    "schemaVersion": 1,
+    "now": "2026-10-09T18:00:00Z",
+    "source": {
+      "repository": "synthetic/schooldashboard",
+      "branch": "synthetic/m2-m4",
+      "canonicalBranch": "main",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "portfolio": [
+      {
+        "schemaVersion": 1,
+        "id": "OUT-001",
+        "kind": "Outcome",
+        "parentId": null,
+        "revision": 1,
+        "state": "ACTIVE",
+        "criteriaDigest": "f33c0e94f05c5ca22d745fa22a576716783dcb6737811ace7f97bf56bb57f3b3",
+        "sourceRef": "synthetic:founder-accepted-v1",
+        "createdAt": "2026-10-01T00:00:00Z",
+        "updatedAt": "2026-10-09T18:00:00Z",
+        "riskTier": "R1",
+        "scope": [
+          "scripts/icm-next"
+        ],
+        "exclusions": [
+          "Release"
+        ],
+        "evidenceRefs": [],
+        "observedActorRef": "synthetic:actor",
+        "note": "",
+        "productResult": "Course persistence works",
+        "studentPersona": "Student",
+        "milestoneIds": [
+          "MS-001"
+        ],
+        "acceptance": [
+          {
+            "id": "C1",
+            "test": "A student can save a Course",
+            "negative": false
+          },
+          {
+            "id": "C2",
+            "test": "A second student cannot read it",
+            "negative": true
+          }
+        ],
+        "expiresAt": "2026-12-01T00:00:00Z",
+        "decisionBoundaries": [
+          "Release"
+        ]
+      }
+    ],
+    "milestones": [
+      {
+        "schemaVersion": 1,
+        "id": "MS-001",
+        "kind": "Milestone",
+        "parentId": "OUT-001",
+        "revision": 1,
+        "state": "ACTIVE",
+        "criteriaDigest": "f33c0e94f05c5ca22d745fa22a576716783dcb6737811ace7f97bf56bb57f3b3",
+        "sourceRef": "synthetic:founder-accepted-v1",
+        "createdAt": "2026-10-01T00:00:00Z",
+        "updatedAt": "2026-10-09T18:00:00Z",
+        "riskTier": "R1",
+        "scope": [
+          "scripts/icm-next"
+        ],
+        "exclusions": [
+          "Release"
+        ],
+        "evidenceRefs": [],
+        "observedActorRef": "synthetic:actor",
+        "note": "",
+        "result": "Course persistence",
+        "outcomeId": "OUT-001",
+        "acceptance": [
+          {
+            "id": "C1",
+            "test": "A student can save a Course",
+            "negative": false
+          },
+          {
+            "id": "C2",
+            "test": "A second student cannot read it",
+            "negative": true
+          }
+        ],
+        "workItemIds": [
+          "WI-001"
+        ],
+        "dependsOn": [],
+        "masterVerifyRef": null
+      }
+    ],
+    "workItems": [
+      {
+        "schemaVersion": 1,
+        "id": "WI-001",
+        "kind": "WorkItem",
+        "parentId": "MS-001",
+        "revision": 1,
+        "state": "CANDIDATE",
+        "criteriaDigest": "f33c0e94f05c5ca22d745fa22a576716783dcb6737811ace7f97bf56bb57f3b3",
+        "sourceRef": "synthetic:founder-accepted-v1",
+        "createdAt": "2026-10-01T00:00:00Z",
+        "updatedAt": "2026-10-09T18:00:00Z",
+        "riskTier": "R1",
+        "scope": [
+          "scripts/icm-next"
+        ],
+        "exclusions": [
+          "Release"
+        ],
+        "evidenceRefs": [],
+        "observedActorRef": "synthetic:actor",
+        "note": "",
+        "result": "Synthetic task 1",
+        "milestoneId": "MS-001",
+        "necessityEvidence": [
+          "synthetic:criterion:C1"
+        ],
+        "notCoveredByExisting": "Requires a distinct implementation",
+        "acceptance": [
+          {
+            "id": "C1",
+            "test": "A student can save a Course",
+            "negative": false
+          },
+          {
+            "id": "C2",
+            "test": "A second student cannot read it",
+            "negative": true
+          }
+        ],
+        "dependsOn": [],
+        "legacyId": null,
+        "planDepth": "CURRENT_FULL",
+        "immutableTaskDigest": "4005c4fb1ba0b64947f2b7b604a9c4d7109cc06cdcca08cac5c46ca00e75d7d1"
+      }
+    ],
+    "legacy": null,
+    "events": [],
+    "workspace": {
+      "repository": "synthetic/schooldashboard",
+      "branch": "synthetic/m2-m4",
+      "head": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "dirty": false,
+      "remoteStatus": "CURRENT",
+      "lock": "HELD",
+      "child": "STOPPED",
+      "hostPermission": "VERIFIED_FIXTURE"
+    },
+    "externalAdmissionFixture": {
+      "kind": "SYNTHETIC_EXTERNAL_ADMISSION",
+      "id": "synthetic:grant",
+      "revision": 1,
+      "repository": "synthetic/schooldashboard",
+      "branch": "synthetic/m2-m4",
+      "outcomeId": "OUT-001",
+      "milestoneId": "MS-001",
+      "workItemId": "WI-001",
+      "taskDigest": "4005c4fb1ba0b64947f2b7b604a9c4d7109cc06cdcca08cac5c46ca00e75d7d1",
+      "criteriaDigest": "f33c0e94f05c5ca22d745fa22a576716783dcb6737811ace7f97bf56bb57f3b3",
+      "maxRisk": "R1",
+      "operations": [
+        "plan"
+      ],
+      "scope": [
+        "scripts/icm-next"
+      ],
+      "startsAt": "2026-10-01T00:00:00Z",
+      "expiresAt": "2026-11-01T00:00:00Z",
+      "paused": false,
+      "revoked": false,
+      "budgets": {
+        "maxRuns": 10,
+        "maxRetries": 2,
+        "maxTasksPerRun": 1
+      }
+    },
+    "githubFixture": {
+      "requiredChecks": [
+        {
+          "name": "verify",
+          "appId": 15368
+        },
+        {
+          "name": "CodeQL",
+          "appId": 15368
+        },
+        {
+          "name": "Dependency review",
+          "appId": 15368
+        }
+      ],
+      "items": {}
+    },
+    "resources": {
+      "runs": 0,
+      "retries": 0,
+      "tasksThisRun": 0,
+      "allowance": "available"
+    },
+    "proposedFeedback": [],
+    "masterVerifyFixture": null
+  }
+}

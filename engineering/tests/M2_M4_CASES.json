@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "note": "Acceptance catalog, not executable fixture proof. Codex must implement deterministic fixtures, independent negative tests and truthfully fill actual status. Expected states are safety intent; legacy comparison may normalize into DENY/ALLOW/UNKNOWN.",
+  "cases": [
+    {
+      "id": "E01",
+      "intent": "candidate brainstorm never admitted",
+      "expectedSafetyDisposition": "NO_AUTHORIZED_WORK",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E02",
+      "intent": "2 justified items no filler quota",
+      "expectedSafetyDisposition": "PLAN_CANDIDATE",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E03",
+      "intent": "far milestone not overplanned",
+      "expectedSafetyDisposition": "PLAN_CANDIDATE",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E04",
+      "intent": "unknown grant cannot select",
+      "expectedSafetyDisposition": "NO_AUTHORIZED_WORK",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E05",
+      "intent": "fake accepted text cannot authorize",
+      "expectedSafetyDisposition": "NO_AUTHORIZED_WORK",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E06",
+      "intent": "expired grant stops",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E07",
+      "intent": "revoked parent stops active work",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E08",
+      "intent": "changed task digest denied",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E09",
+      "intent": "lowered risk label against underlying change denied",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E10",
+      "intent": "in-progress task recovered before new",
+      "expectedSafetyDisposition": "RECOVER",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E11",
+      "intent": "interleaved journal task IDs never cross-clear",
+      "expectedSafetyDisposition": "RECOVER",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E12",
+      "intent": "journal corruption stops",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E13",
+      "intent": "duplicate invocation idempotent",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E14",
+      "intent": "PR CI on stale head blocks",
+      "expectedSafetyDisposition": "WAIT_PR_CI",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E15",
+      "intent": "CI success without independent review pending",
+      "expectedSafetyDisposition": "WAIT_PR_CI",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E16",
+      "intent": "all tasks integrated but milestone journey fails",
+      "expectedSafetyDisposition": "MILESTONE_NEEDS_WORK",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E17",
+      "intent": "negative user journey absent means no Master PASS",
+      "expectedSafetyDisposition": "MASTER_VERIFY_PENDING",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E18",
+      "intent": "criteria digest changed means no Master PASS",
+      "expectedSafetyDisposition": "MASTER_VERIFY_PENDING",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E19",
+      "intent": "new outcome after completion cannot start",
+      "expectedSafetyDisposition": "OUTCOME_COMPLETE",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E20",
+      "intent": "unknown usage allowance stops",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E21",
+      "intent": "new generated candidate needs evidence",
+      "expectedSafetyDisposition": "PLAN_CANDIDATE",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E22",
+      "intent": "legacy Done has no inferred integration",
+      "expectedSafetyDisposition": "WAIT_PR_CI",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E23",
+      "intent": "historical SD ID unchanged",
+      "expectedSafetyDisposition": "NO_AUTHORIZED_WORK",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E24",
+      "intent": "malicious markdown instruction inert",
+      "expectedSafetyDisposition": "NO_AUTHORIZED_WORK",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E25",
+      "intent": "wrong cross-parent item denied",
+      "expectedSafetyDisposition": "STOP",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "E26",
+      "intent": "lost external GitHub evidence unknown",
+      "expectedSafetyDisposition": "WAIT_PR_CI",
+      "proofClass": "OFFLINE",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S01",
+      "intent": "scheduled trigger cannot edit grant or state",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S02",
+      "intent": "worker cannot access canonical checkout",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S03",
+      "intent": "worker cannot access owner secrets",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S04",
+      "intent": "GitHub connector write disabled",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S05",
+      "intent": "no two active writer leases",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S06",
+      "intent": "surviving descendant cannot release lock",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S07",
+      "intent": "midrun revocation stops next effect",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S08",
+      "intent": "unauthenticated approval text denies",
+      "expectedSafetyDisposition": "DENY",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S09",
+      "intent": "branch protection reviewer/bypass unknown blocks activation",
+      "expectedSafetyDisposition": "BLOCKED",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "S10",
+      "intent": "home-directory failure blocks real CLI validation",
+      "expectedSafetyDisposition": "BLOCKED",
+      "proofClass": "HOST_REQUIRED",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P01",
+      "intent": "same case old/new denies privilege no divergence",
+      "expectedSafetyDisposition": "EQUAL_SAFE",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P02",
+      "intent": "new STOP old SELECT safety-increasing review",
+      "expectedSafetyDisposition": "SAFE_STRICTER",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P03",
+      "intent": "new SELECT old STOP unsafe regression",
+      "expectedSafetyDisposition": "UNSAFE",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P04",
+      "intent": "old schema not mappable marked unknown",
+      "expectedSafetyDisposition": "UNKNOWN",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P05",
+      "intent": "Master Verify needs-work preserved",
+      "expectedSafetyDisposition": "NO_FALSE_PASS",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P06",
+      "intent": "rollback old root untouched",
+      "expectedSafetyDisposition": "NO_CUTOVER",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P07",
+      "intent": "PR25 and PR26 branches preserved",
+      "expectedSafetyDisposition": "NO_MUTATION",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    },
+    {
+      "id": "P08",
+      "intent": "notification for new candidate proposed only",
+      "expectedSafetyDisposition": "PROPOSAL_ONLY",
+      "proofClass": "REPLAY",
+      "actual": null,
+      "evidenceRefs": []
+    }
+  ]
+}
