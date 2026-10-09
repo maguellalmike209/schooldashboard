@@ -1,0 +1,595 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schooldashboard/icm-next/records-v1.schema.json",
+  "title": "ICM Next M2 Shadow Candidate Records",
+  "description": "Data-shape validation only. NEVER treat passing schema validation as owner authorization or a runnable grant. Cross-record invariants and actor identity require separate validation.",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "id",
+        "kind",
+        "parentId",
+        "revision",
+        "state",
+        "criteriaDigest",
+        "sourceRef",
+        "createdAt",
+        "updatedAt",
+        "riskTier",
+        "scope",
+        "exclusions",
+        "evidenceRefs",
+        "observedActorRef",
+        "note",
+        "productResult",
+        "studentPersona",
+        "milestoneIds",
+        "acceptance",
+        "expiresAt",
+        "decisionBoundaries"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "id": {
+          "pattern": "^OUT-[0-9]{3,6}$"
+        },
+        "kind": {
+          "const": "Outcome"
+        },
+        "parentId": {
+          "type": "null"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "state": {
+          "enum": [
+            "PROPOSED",
+            "APPROVED",
+            "ACTIVE",
+            "MASTER_VERIFY",
+            "VERIFIED_COMPLETE",
+            "PAUSED",
+            "BLOCKED",
+            "REVOKED"
+          ]
+        },
+        "criteriaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "riskTier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "scope": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "exclusions": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "observedActorRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "productResult": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "studentPersona": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "milestoneIds": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 25,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^MS-[0-9]{3,6}$"
+          }
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "test",
+              "negative"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+              },
+              "test": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "negative": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "decisionBoundaries": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "id",
+        "kind",
+        "parentId",
+        "revision",
+        "state",
+        "criteriaDigest",
+        "sourceRef",
+        "createdAt",
+        "updatedAt",
+        "riskTier",
+        "scope",
+        "exclusions",
+        "evidenceRefs",
+        "observedActorRef",
+        "note",
+        "result",
+        "outcomeId",
+        "acceptance",
+        "workItemIds",
+        "dependsOn",
+        "masterVerifyRef"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "id": {
+          "pattern": "^MS-[0-9]{3,6}$"
+        },
+        "kind": {
+          "const": "Milestone"
+        },
+        "parentId": {
+          "pattern": "^OUT-[0-9]{3,6}$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "state": {
+          "enum": [
+            "CANDIDATE",
+            "ACCEPTED",
+            "ACTIVE",
+            "MASTER_VERIFY",
+            "NEEDS_WORK",
+            "COMPLETE",
+            "BLOCKED"
+          ]
+        },
+        "criteriaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "riskTier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "scope": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "exclusions": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "observedActorRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "result": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "outcomeId": {
+          "type": "string",
+          "pattern": "^OUT-[0-9]{3,6}$"
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "test",
+              "negative"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+              },
+              "test": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "negative": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "workItemIds": {
+          "type": "array",
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^WI-[0-9]{3,6}$"
+          }
+        },
+        "dependsOn": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^MS-[0-9]{3,6}$"
+          }
+        },
+        "masterVerifyRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 500
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "id",
+        "kind",
+        "parentId",
+        "revision",
+        "state",
+        "criteriaDigest",
+        "sourceRef",
+        "createdAt",
+        "updatedAt",
+        "riskTier",
+        "scope",
+        "exclusions",
+        "evidenceRefs",
+        "observedActorRef",
+        "note",
+        "result",
+        "milestoneId",
+        "necessityEvidence",
+        "notCoveredByExisting",
+        "acceptance",
+        "dependsOn",
+        "legacyId",
+        "planDepth",
+        "immutableTaskDigest"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "id": {
+          "pattern": "^WI-[0-9]{3,6}$"
+        },
+        "kind": {
+          "const": "WorkItem"
+        },
+        "parentId": {
+          "pattern": "^MS-[0-9]{3,6}$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "state": {
+          "enum": [
+            "CANDIDATE",
+            "ELIGIBLE",
+            "PLAN",
+            "BUILD",
+            "VERIFY",
+            "PR_CI_PENDING",
+            "INTEGRATED",
+            "BLOCKED",
+            "CANCELLED"
+          ]
+        },
+        "criteriaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "riskTier": {
+          "enum": [
+            "R0",
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        "scope": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "exclusions": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "maxItems": 30,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "observedActorRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "result": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "milestoneId": {
+          "type": "string",
+          "pattern": "^MS-[0-9]{3,6}$"
+        },
+        "necessityEvidence": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        },
+        "notCoveredByExisting": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "test",
+              "negative"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+              },
+              "test": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "negative": {
+                "type": "boolean"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "dependsOn": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^WI-[0-9]{3,6}$"
+          }
+        },
+        "legacyId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^SD-[0-9]{3}$"
+        },
+        "planDepth": {
+          "enum": [
+            "CURRENT_FULL",
+            "NEXT_PROVISIONAL",
+            "FUTURE_OUTCOME_ONLY"
+          ]
+        },
+        "immutableTaskDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
