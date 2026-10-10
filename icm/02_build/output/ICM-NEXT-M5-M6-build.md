@@ -1,0 +1,9 @@
+# ICM Next M5/M6 Build handoff — 2026-10-09
+
+**Scope:** disabled M5 cutover mechanics and offline M6 delegation model on `codex/icm-next-m5-m6`, stacked after the unmerged M2–M4 branch. The supplied 12 founder `engineering/**` contract files were copied under their target paths; the always-on host addendum made narrow clarifications in `engineering/OPERATIONS.md`, `engineering/runtime/M6_MANAGEMENT_LOOP.md` and `engineering/migration/M5_CUTOVER_CONTRACT.md`.
+
+M5 adds `cutover-audit.mjs`, `cutover-plan.mjs`, `rollback-plan.mjs` and `legacy-compat.mjs`. They read or transform source in memory and emit proposals. There is no root-file apply API. The proposed replacement and reverse hashes are in `engineering/migration/M5_SOURCE_MANIFEST.json` and `M5_ROUTER_PROPOSAL.md`. The old root files, ICM manuals and V1 automation code remain unchanged.
+
+M6 adds `delegation-v2.mjs`, `delegation-ledger.mjs` and `management-review.mjs`. Admission uses a closed schema plus semantic/parent/fixture provenance checks and always returns `OFFLINE_ONLY`; all results say `launchCapability: false`. The ledger is a deterministic fixture, not a durable atomic broker. The manager report is read-only. No live worker, grant, schedule, OS permission or GitHub publisher was installed.
+
+The named test files cover M5-01..24 and M6-01..50, plus always-on outage, overlap, restart, silence and report cases. Build checks found and repaired unknown rollback inputs, misleading simulated cutover eligibility, retained lease on revocation, extra protected path classes and candidate input bounds. The final Verify must rerun the full suite after these source repairs and inspect the complete diff. Local `audit:ci` and Supabase-backed security E2E are unavailable in this shell; hosted exact-head evidence remains required.
