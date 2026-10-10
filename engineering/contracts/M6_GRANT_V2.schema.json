@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ICM Next M6 founder outcome envelope V2 \u2014 structure only, not issuer authentication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "envelopeId",
+    "revision",
+    "founderApprovalRef",
+    "sourceKind",
+    "repository",
+    "canonicalBranch",
+    "outcomeId",
+    "outcomeCriteriaDigest",
+    "approvedMilestones",
+    "allowedTaskKinds",
+    "allowedPaths",
+    "deniedPaths",
+    "allowedOperations",
+    "maxRisk",
+    "maxTasksTotal",
+    "maxTasksPerRun",
+    "maxDepth",
+    "maxConcurrentWriters",
+    "maxRetriesTotal",
+    "maxWallSecondsTotal",
+    "startsAt",
+    "expiresAt",
+    "paused",
+    "revoked",
+    "reviewPolicyRef",
+    "requiredChecks",
+    "publisherMode",
+    "releaseAllowed",
+    "grantKeyId"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "envelopeId": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]{8,100}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "founderApprovalRef": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256
+    },
+    "sourceKind": {
+      "const": "OWNER_AUTHENTICATED_EXTERNAL"
+    },
+    "repository": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+    },
+    "canonicalBranch": {
+      "const": "main"
+    },
+    "outcomeId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{3,100}$"
+    },
+    "outcomeCriteriaDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "approvedMilestones": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "milestoneId",
+          "criteriaDigest"
+        ],
+        "properties": {
+          "milestoneId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{3,100}$"
+          },
+          "criteriaDigest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "allowedTaskKinds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "DOCS_LOCAL",
+          "TEST_LOCAL",
+          "REFACTOR_WITHOUT_BEHAVIOR_CHANGE",
+          "FIX_REGRESSION_WITHIN_SCOPE"
+        ]
+      }
+    },
+    "allowedPaths": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 30,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    },
+    "deniedPaths": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 40,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    },
+    "allowedOperations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "plan",
+          "build",
+          "verify",
+          "prepare-draft-pr",
+          "read-ci"
+        ]
+      }
+    },
+    "maxRisk": {
+      "enum": [
+        "R0",
+        "R1"
+      ]
+    },
+    "maxTasksTotal": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20
+    },
+    "maxTasksPerRun": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "maxDepth": {
+      "const": 1
+    },
+    "maxConcurrentWriters": {
+      "const": 1
+    },
+    "maxRetriesTotal": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "maxWallSecondsTotal": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 86400
+    },
+    "startsAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "paused": {
+      "type": "boolean"
+    },
+    "revoked": {
+      "type": "boolean"
+    },
+    "reviewPolicyRef": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 256
+    },
+    "requiredChecks": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "appId"
+        ],
+        "properties": {
+          "name": {
+            "enum": [
+              "verify",
+              "CodeQL",
+              "Dependency review"
+            ]
+          },
+          "appId": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "publisherMode": {
+      "enum": [
+        "NONE",
+        "DRAFT_ONLY"
+      ]
+    },
+    "releaseAllowed": {
+      "const": false
+    },
+    "grantKeyId": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 120
+    }
+  }
+}

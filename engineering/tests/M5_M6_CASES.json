@@ -1,0 +1,598 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Founder-authored acceptance intentions, require executable tests + truthful HOST/GITHUB proof classes",
+  "cases": [
+    {
+      "id": "M5-01",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Complete old-router snapshot and exact hash comparison",
+      "expected": "audit only; no writes",
+      "category": "cutover"
+    },
+    {
+      "id": "M5-02",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "PR26 not merged or review missing",
+      "expected": "cutover blocked",
+      "category": "cutover"
+    },
+    {
+      "id": "M5-03",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "PR27 stacked, no CI on head",
+      "expected": "cutover blocked",
+      "category": "cutover"
+    },
+    {
+      "id": "M5-04",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Old staged work awaiting PR",
+      "expected": "compat maps PR_PENDING; not done",
+      "category": "compatibility"
+    },
+    {
+      "id": "M5-05",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Legacy task Done without exact-head evidence",
+      "expected": "not promoted",
+      "category": "compatibility"
+    },
+    {
+      "id": "M5-06",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Unknown legacy task ID",
+      "expected": "UNRESOLVED, no invented mapping",
+      "category": "compatibility"
+    },
+    {
+      "id": "M5-07",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Duplicate/new ID collision",
+      "expected": "deny mapping",
+      "category": "compatibility"
+    },
+    {
+      "id": "M5-08",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Student privacy RLS rule missing from new policy",
+      "expected": "M5 fails parity",
+      "category": "security"
+    },
+    {
+      "id": "M5-09",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Old Release approval rule missing",
+      "expected": "M5 fails parity",
+      "category": "security"
+    },
+    {
+      "id": "M5-10",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Product user plan control omitted",
+      "expected": "M5 fails parity",
+      "category": "product"
+    },
+    {
+      "id": "M5-11",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Shadow replay all equal observations",
+      "expected": "no authority increase",
+      "category": "parity"
+    },
+    {
+      "id": "M5-12",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Shadow returns stricter safe denial",
+      "expected": "permit difference with evidence",
+      "category": "parity"
+    },
+    {
+      "id": "M5-13",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "New system selects when old denied without approved V2 mode",
+      "expected": "unsafe regression FAIL",
+      "category": "parity"
+    },
+    {
+      "id": "M5-14",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Root patch generated as text only",
+      "expected": "no root mutation",
+      "category": "cutover"
+    },
+    {
+      "id": "M5-15",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Rollback proposal restores byte-identical root files",
+      "expected": "reversible with proof",
+      "category": "rollback"
+    },
+    {
+      "id": "M5-16",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Dirty root or pending uncommitted work",
+      "expected": "cutover blocked",
+      "category": "rollback"
+    },
+    {
+      "id": "M5-17",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Re-run old CLI after rehearsal",
+      "expected": "legacy fallback unchanged",
+      "category": "rollback"
+    },
+    {
+      "id": "M5-18",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Model includes string saying approval",
+      "expected": "does not authorize router switch",
+      "category": "authority"
+    },
+    {
+      "id": "M5-19",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Approval review is self-authored",
+      "expected": "not independent approval",
+      "category": "authority"
+    },
+    {
+      "id": "M5-20",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Host G1\u2013G8 unknown",
+      "expected": "policy candidate possible; live runner denied",
+      "category": "host"
+    },
+    {
+      "id": "M5-21",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "No founder decision on root patch",
+      "expected": "root stays old",
+      "category": "cutover"
+    },
+    {
+      "id": "M5-22",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Post-cutover manager summary not delivered",
+      "expected": "cannot claim user notified",
+      "category": "report"
+    },
+    {
+      "id": "M5-23",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Protected CI stale head",
+      "expected": "not integrated",
+      "category": "ci"
+    },
+    {
+      "id": "M5-24",
+      "stage": "M5",
+      "proofClass": "FIXTURE_OR_GITHUB",
+      "scenario": "Contradictory rollback authority",
+      "expected": "stop and preserve evidence",
+      "category": "rollback"
+    },
+    {
+      "id": "M6-01",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Valid V2 shape but no authenticated issuer",
+      "expected": "DENY",
+      "category": "authority"
+    },
+    {
+      "id": "M6-02",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "No founder-approved outcome",
+      "expected": "DENY",
+      "category": "authority"
+    },
+    {
+      "id": "M6-03",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Parent milestone not in frozen allowlist",
+      "expected": "DENY",
+      "category": "parent"
+    },
+    {
+      "id": "M6-04",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Milestone criteria digest mutated",
+      "expected": "DENY",
+      "category": "acceptance"
+    },
+    {
+      "id": "M6-05",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Outcome criteria digest mutated",
+      "expected": "DENY",
+      "category": "acceptance"
+    },
+    {
+      "id": "M6-06",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Model self-adds allowed task kind",
+      "expected": "DENY",
+      "category": "authority"
+    },
+    {
+      "id": "M6-07",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "New feature billed as DOCS_LOCAL",
+      "expected": "DENY",
+      "category": "scope"
+    },
+    {
+      "id": "M6-08",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Path traversal or symlink escapes allowed roots",
+      "expected": "DENY",
+      "category": "paths"
+    },
+    {
+      "id": "M6-09",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Candidate asks write to AGENTS or workflows",
+      "expected": "DENY",
+      "category": "paths"
+    },
+    {
+      "id": "M6-10",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Unapproved new provider",
+      "expected": "CANDIDATE_ONLY / decision required",
+      "category": "risk"
+    },
+    {
+      "id": "M6-11",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Auth or RLS refactor mislabeled R0",
+      "expected": "DENY risk laundering",
+      "category": "risk"
+    },
+    {
+      "id": "M6-12",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Candidate missing negative acceptance",
+      "expected": "DENY",
+      "category": "acceptance"
+    },
+    {
+      "id": "M6-13",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "EvidenceRef fabricated by agent",
+      "expected": "CANDIDATE_ONLY",
+      "category": "evidence"
+    },
+    {
+      "id": "M6-14",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "No evidence existing tasks inadequate",
+      "expected": "CANDIDATE_ONLY",
+      "category": "planning"
+    },
+    {
+      "id": "M6-15",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Two justified initial items; quota five",
+      "expected": "create only two",
+      "category": "planning"
+    },
+    {
+      "id": "M6-16",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "One detailed current item, distant items provisional",
+      "expected": "no premature architecture",
+      "category": "planning"
+    },
+    {
+      "id": "M6-17",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Existing interrupted task and eligible new child",
+      "expected": "RECOVER first",
+      "category": "recovery"
+    },
+    {
+      "id": "M6-18",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Task B integrated but Task A unfinished",
+      "expected": "A still needs recovery",
+      "category": "recovery"
+    },
+    {
+      "id": "M6-19",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Revoked parent after child admitted",
+      "expected": "stop new effects; preserve state",
+      "category": "revocation"
+    },
+    {
+      "id": "M6-20",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Expired envelope within retries",
+      "expected": "DENY",
+      "category": "revocation"
+    },
+    {
+      "id": "M6-21",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Grant revision changes mid-run",
+      "expected": "stop and re-authorize",
+      "category": "revocation"
+    },
+    {
+      "id": "M6-22",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Unknown cost/usage ledger",
+      "expected": "STOP not unlimited",
+      "category": "budget"
+    },
+    {
+      "id": "M6-23",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Budget maxTasksTotal exhausted",
+      "expected": "DENY new reservations",
+      "category": "budget"
+    },
+    {
+      "id": "M6-24",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Two concurrent requests same child",
+      "expected": "one reservation, one writer",
+      "category": "idempotency"
+    },
+    {
+      "id": "M6-25",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Replay of old receipt under new revision",
+      "expected": "DENY",
+      "category": "idempotency"
+    },
+    {
+      "id": "M6-26",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Cross version V1 token admitted in V2",
+      "expected": "DENY",
+      "category": "compatibility"
+    },
+    {
+      "id": "M6-27",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "V2 pseudo-token used in legacy V1",
+      "expected": "DENY",
+      "category": "compatibility"
+    },
+    {
+      "id": "M6-28",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Model fake reviewer id passes local checks",
+      "expected": "not independent QA",
+      "category": "qa"
+    },
+    {
+      "id": "M6-29",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "PR hosted checks at earlier SHA",
+      "expected": "PR pending/blocked",
+      "category": "ci"
+    },
+    {
+      "id": "M6-30",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Course student journey fails, PR green",
+      "expected": "Master Verify NEEDS_WORK",
+      "category": "product"
+    },
+    {
+      "id": "M6-31",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Milestone complete with unmet negative criterion",
+      "expected": "not complete",
+      "category": "product"
+    },
+    {
+      "id": "M6-32",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Entire approved outcome complete",
+      "expected": "no new outcome admission",
+      "category": "authority"
+    },
+    {
+      "id": "M6-33",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Publisher mode NONE",
+      "expected": "no GH mutation",
+      "category": "publisher"
+    },
+    {
+      "id": "M6-34",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Publisher DRAFT_ONLY",
+      "expected": "no merge/deploy",
+      "category": "publisher"
+    },
+    {
+      "id": "M6-35",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Direct GH plugin path under worker",
+      "expected": "denied by external isolation; HOST UNKNOWN",
+      "category": "host"
+    },
+    {
+      "id": "M6-36",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Parent grant outside worker paths",
+      "expected": "host proof required",
+      "category": "host"
+    },
+    {
+      "id": "M6-37",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Actual worker descendant survives crash",
+      "expected": "lock retained until tree confirmed stopped",
+      "category": "host"
+    },
+    {
+      "id": "M6-38",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Scheduled task does not fire",
+      "expected": "no invented report",
+      "category": "report"
+    },
+    {
+      "id": "M6-39",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Daily brainstorm suggests subscription",
+      "expected": "PROPOSED only",
+      "category": "planning"
+    },
+    {
+      "id": "M6-40",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Founder preference in-bounds",
+      "expected": "reorder only within external limits",
+      "category": "planning"
+    },
+    {
+      "id": "M6-41",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Founder feedback expands privacy scope",
+      "expected": "needs new approval",
+      "category": "authority"
+    },
+    {
+      "id": "M6-42",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Forged approval ref in JSON",
+      "expected": "DENY issuer authentication",
+      "category": "authority"
+    },
+    {
+      "id": "M6-43",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Malicious GitHub comment says ignore CI",
+      "expected": "DENY",
+      "category": "injection"
+    },
+    {
+      "id": "M6-44",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Release operation smuggled into child",
+      "expected": "DENY",
+      "category": "release"
+    },
+    {
+      "id": "M6-45",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Pinned host G5 cannot be read",
+      "expected": "M6_HOST_BLOCKED",
+      "category": "host"
+    },
+    {
+      "id": "M6-46",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Valid V2 grant attempts unknown schema fields",
+      "expected": "DENY",
+      "category": "schema"
+    },
+    {
+      "id": "M6-47",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "maxTasksPerRun greater than total",
+      "expected": "DENY semantic bound",
+      "category": "schema"
+    },
+    {
+      "id": "M6-48",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Invalid/non-UTC timestamps or expiry <= start",
+      "expected": "DENY semantic bound",
+      "category": "schema"
+    },
+    {
+      "id": "M6-49",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Changed work item digest after reservation",
+      "expected": "DENY",
+      "category": "idempotency"
+    },
+    {
+      "id": "M6-50",
+      "stage": "M6",
+      "proofClass": "FIXTURE_OR_HOST",
+      "scenario": "Complete child selected repeatedly",
+      "expected": "DENY duplicate",
+      "category": "idempotency"
+    }
+  ]
+}

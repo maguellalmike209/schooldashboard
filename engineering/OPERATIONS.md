@@ -47,6 +47,8 @@ Status can only progress with actual named evidence. Do not skip from `DESIGN_ON
 
 Source run IDs, clocks, real permission/identity evidence, lock state, exact SHAs, CI links, count of actual attempts/retries and enforceable budgets from trusted runtime. If unobservable, report `UNKNOWN`. A management report is not execution authority. The proposed 20:00 `America/Los_Angeles` daily Manager Review cadence is a preference until a real schedule is created after M3–M5 gates.
 
+The initial intended deployment is one continuously powered-on Windows host. That is an availability assumption, not a substitute for restart/crash recovery or G1–G8 proof. A missed trigger creates no synthetic invocation and no catch-up batch; the next actual invocation reconciles existing state before new selection. Network loss or unknown permission/budget state stops unsupported writes. There is no offline-first production mode or multi-host failover requirement in this design.
+
 ## 8. Unverified host facts that must be resolved later
 
 On the previous SchoolDashboard development environment, `codex exec` under one read-only profile reported `Could not find home directory`, the existing checkout had a writable sandbox group ACE, and GitHub plugin write access had been enabled; detailed protected-main governance was not available through the connected read-only GitHub API. Revalidate live on the target host; M0/M1 must not infer those conditions were repaired. SD-020 PR #25 is a draft disabled fixture foundation at the recorded baseline, not an installed broker.
