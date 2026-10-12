@@ -86,15 +86,16 @@ requires a GitHub `APPROVED` event unconditionally. The first three were
 repaired and the 83-test automation suite and lint rerun. On immutable live
 commit `cdabd742ad79ab2f47fa2ee53eac2fc53d2e673b`, that reviewer found
 **no remaining actionable source finding** and independently ran the committed
-GV fixture (16/16). The shadow runtime discrepancy is now an explicit
+GV fixture (16/16). After this record was updated, the reviewer inspected the
+final local commit `ddd6f217210a60c45f80df5e2845c629ed7b91b4` and its
+documentation-only delta and again found no actionable source finding. The
+shadow runtime discrepancy is now an explicit
 M5 cutover/reuse blocker in the local shadow contract; 143/143 offline tests
 pass. Policy-only integration cannot claim runtime enforcement is fixed. This
 review is advisory from a separate agent using the shared workspace, not an
 externally protected attestation or GitHub review.
 
 Required hosted `verify`, `CodeQL` and `Dependency review` on the new
-main-based PR's **final exact head** remain pending. This record update changes
-that head after the separate source review, so its final text and diff need a
-fresh scoped review before a technical review verdict can cover the final PR.
+main-based PR's **final exact head** must be observed before integration.
 No `AI_REVIEW_PASS`, GitHub `APPROVED`, G1–G8 PASS, root cutover, autonomous
 publisher, Master Verify completion or Release is asserted by this record.
