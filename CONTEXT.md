@@ -133,6 +133,11 @@ agent-generated child task creates a scheduled write grant. Use
 `icm/guides/PRODUCT_AND_BUSINESS_ASSURANCE.md` only when its lifecycle triggers
 are applicable.
 
+For ChatGPT-assisted product strategy, interpretation of a Daily Manager Review,
+or preparation of an engineering handoff, load
+`icm/guides/PRODUCT_DIRECTOR_COLLABORATION.md`. It guides collaboration and
+does not add execution authority or another ICM stage.
+
 An instruction may authorize:
 
 - analysis only,
