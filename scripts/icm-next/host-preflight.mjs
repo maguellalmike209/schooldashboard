@@ -12,7 +12,9 @@ function canonical(path) {
       path.startsWith('\\\\?\\') || path.startsWith('\\\\.\\') ||
       path.includes('\0') || path.trim() !== path) return null;
   const normalized = win32.normalize(path);
-  if (normalized !== path || normalized.endsWith(' ') || normalized.endsWith('.')) return null;
+  if (normalized !== path || normalized.startsWith('\\\\')) return null;
+  const parts = normalized.slice(win32.parse(normalized).root.length).split(win32.sep);
+  if (parts.some(part => !part || /[. ]$/.test(part) || part.includes(':') || part.includes('~'))) return null;
   return normalized.toLowerCase();
 }
 

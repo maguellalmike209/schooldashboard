@@ -27,6 +27,8 @@ test('OP04: broad scheduled GitHub capability blocks the request-only trigger', 
 test('uncertain, alias and overlapping paths never become host PASS', () => {
   assert.equal(assess({}, 'UNKNOWN').status, 'UNKNOWN');
   assert.equal(assess({ grantPath: 'C:\\ICMNext\\owner\\..\\state\\grant.json' }).status, 'BLOCKED');
+  assert.equal(assess({ grantPath: 'C:\\ICMNext\\state.\\grant.json' }).status, 'BLOCKED');
+  assert.equal(assess({ grantPath: 'C:\\ICMNEX~1\\state\\grant.json' }).status, 'BLOCKED');
   assert.equal(assess({ brokerCodeRoot: 'C:\\ICMNext\\workspace\\broker' }).status, 'BLOCKED');
   assert.equal(assess().status, 'HOST_PROOF_REQUIRED');
   assert.equal(assess().proofClass, 'OFFLINE_ONLY');
