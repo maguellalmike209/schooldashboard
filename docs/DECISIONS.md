@@ -1424,6 +1424,34 @@ Basis: founder's 2026-10-08 operating-model direction;
 
 ---
 
+## D-067 — AI-First Review With Effective GitHub Rules
+
+**Accepted 2026-10-11; effective after protected integration of this decision.**
+The founder is Product Director/Manager, not the routine technical code
+reviewer. A separate adversarial technical Verify against frozen acceptance
+and the exact PR head is required. AI review is advisory unless a separately
+protected verifier/check host authenticates it; it is never a GitHub human
+`APPROVED` review. Required hosted `verify`, `CodeQL` and `Dependency review`
+checks remain exact-head gates. GitHub-native approval is required when the
+actual effective branch rule or a separate accepted high-risk policy requires
+it, not as a blanket condition on every ordinary PR. Until a trusted merge
+gate is built, installed, verified and separately authorized, integration is
+founder-controlled and manual. This governance-sensitive decision cannot
+authorize its own merge.
+
+Risk follows the effect of changes. Security/privacy, grant, CI, reviewer,
+authorization, root-policy and Release boundaries still escalate. Preserve
+work-item independent Verify, protected integration, milestone Master Verify
+and separate Release. This decision does not activate ICM Next, unattended
+writes, an owner grant, a broker, auto-merge or root cutover. Historical
+evidence remains historical; reconcile shadow contracts prospectively.
+
+Basis: founder-approved
+`SchoolDashboard_ICM_AI_First_Review_Governance_2026-10-11.md`; see
+`icm/guides/AI_FIRST_REVIEW_GOVERNANCE.md`.
+
+---
+
 # 17. Decision Maintenance
 
 Add a new decision only when the choice is durable enough to constrain future

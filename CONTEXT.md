@@ -93,6 +93,11 @@ exclusive execution, and the daily Manager Review. The read-only pilot has no
 trusted write gate. The automation contract supplements, but does not replace,
 Plan → Build → independent Verify → optional authorized Release.
 
+For PR review or integration decisions, load
+`icm/guides/AI_FIRST_REVIEW_GOVERNANCE.md`. It separates technical Verify,
+effective GitHub approval rules, founder-controlled manual integration and
+future trusted automation. It grants no scheduled write, merge or Release power.
+
 A manually started, continuous foreground Codex session performing an explicitly
 authorized bounded batch follows `AGENTS.md` sections 8–9 and the existing stage
 contracts. It does not require an external scheduled-runner grant merely because
