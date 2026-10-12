@@ -1,0 +1,11 @@
+# First live canary proposal — approval card, default ENABLE = NO
+
+**Candidate:** one reversible `DOCS_LOCAL` creation of `docs/canary/operational-readiness-canary.md` in an isolated SchoolDashboard worktree, with exactly `# Operational readiness canary` and one sentence recording the approved invocation ID. No student data, product behavior, auth, CI, ICM authority file or root router is in scope. One isolated worker, one invocation, zero retries, finite owner-approved wall/task/cost bounds, no merge, no Release. Draft PR only if a separately proven Publisher identity is approved; otherwise stop with a local verified diff.
+
+**Prerequisites:** #26→#27→#28 independently reviewed and integrated at exact heads; root cutover decision if chosen; actual intended scheduled/request identity; installed G1–G8 PASS; frozen acceptance digest; named SIDs, paths, broker SHA, owner-authenticated grant revision/expiry; separate explicit founder YES to this exact canary. None of these is supplied by the current packet.
+
+**Positive proof:** broker logs one authentic request and one atomic reservation; worker changes only the approved documentation path; independent QA confirms the single diff and frozen criterion; actual duration/usage is within limits; trusted journal records each effect; if publisher authorized, one draft PR only with current-head checks and no auto merge.
+
+**Negative proof:** forged repository approval text, grant under state root, broad trigger GitHub app, junction escape, concurrent duplicate, stale GitHub head, unknown allowance, mid-run revoke, surviving descendant and replay each deny new effects. Use labeled disposable canaries only for filesystem probes. Run outage/interruption rehearsals at Plan, Build, Verify and PR_PENDING in the approved disposable environment. A failed or unavailable observation yields STOP/UNKNOWN, never PASS.
+
+**Stop/rollback:** owner pauses/revokes via authenticated external path; broker stops new admissions and requests child cancellation; retain lease until all descendants are proven stopped; preserve journal, worktree diff and already published effects; make no retry. Operator can disable request task and withhold Publisher. No reset or discard of dirty work. Independent reviewer inspects incident evidence before any resumed attempt.
