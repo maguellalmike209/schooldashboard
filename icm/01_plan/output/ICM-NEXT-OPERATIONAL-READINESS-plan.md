@@ -1,0 +1,11 @@
+# Plan — ICM Next O0–O2 operational readiness
+
+**Authority:** founder foreground request and 2026-10-11 packet. **Risk:** R3 for authority, credentials, host isolation and GitHub governance. O0 inspection/integration is permitted only under current protected policy; O1 observation is read-only; O2 development is disabled/fixture only. No root cutover, privileged installation, live grant, active worker, write schedule, production Release or O3/O4.
+
+**Current state at entry:** clean local stacked M5/M6 branch descended from canonical main `8c4c8e5`; PR #26 main-targeted, #27/#28 stacked, #25 separate draft. Existing M3/M6 contracts explicitly say host gates unproven. Required execution capabilities for a live writer, independently eligible review and protected branch rules cannot be assumed from source code.
+
+**Plan:** inspect exact remote GitHub refs/checks/reviews and local diff; stop protected integration at the first unverified review/policy gate. Reconstruct scheduled pilot workspace from actual run evidence, compare with foreground Windows identity and connector permissions, propose request-only alternative without installation. Audit O2 code, isolate the #25 grant-path risk, add only a disabled static preflight with targeted negative tests, and produce the six requested readiness artifacts. Re-run applicable local tests and perform independent source challenge. Open a stacked readiness PR only if the scoped diff and final verification evidence support it.
+
+**Security boundaries:** owner grant must be outside broker/worker write roots, broker/trigger/worker/publisher/QA distinct, no model text/fixture signature as authority, finite externally enforceable budgets, lock held through descendant uncertainty, exact-head hosted checks and independently authenticated review, separate Release. Student data/security/CI/app behavior remain unchanged. Fixture evidence never becomes HOST PASS.
+
+**Acceptance:** truthful O0 status; O1 actual-run observation with explicit unknowns; G1–G8 ledger; device-specific but unexecuted installation proposal; low-risk canary/stop card; OP01–OP24 matrix; final lint/unit/type/build/security/compatibility results; scoped source/PR and resume-first checkpoint. Ineligible review, 403 policy detail or missing installed identity leaves affected gates blocked.
