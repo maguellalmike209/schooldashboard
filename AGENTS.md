@@ -1116,6 +1116,13 @@ Do not use project security testing instructions against unrelated services.
 
 Verify is not Build confirmation.
 
+For PR integration, require a separate adversarial technical review at the
+exact head against frozen founder-approved acceptance. An AI review is advisory
+until a reviewer/check host outside Builder-writable source authenticates its
+execution and evidence. A different role label, chat or Builder-authored report
+does not establish that host boundary. Never describe AI review as a GitHub
+human `APPROVED` event.
+
 Verify independently compares:
 
 ```text
@@ -1366,6 +1373,16 @@ Commit messages should identify the task or coherent change.
 Build should not normally commit unfinished current-task work.
 
 Verify may finalize a task after full PASS when repository policy permits.
+
+For current protected `main`, integration remains a founder-controlled manual
+decision based on recorded technical review and fresh exact-head hosted checks.
+GitHub-native approval is required when the **effective live branch rule** or a
+separately accepted high-risk policy requires it; a second GitHub user is not a
+universal prerequisite for routine engineering. This supersedes any earlier
+wording that treats independent Verify as synonymous with a GitHub approval.
+The authority in this section does not enable agent auto-merge or let a policy
+change approve its own integration. See
+`icm/guides/AI_FIRST_REVIEW_GOVERNANCE.md` and D-067.
 
 The ordinary sequence is:
 

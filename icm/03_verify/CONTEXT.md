@@ -1312,8 +1312,17 @@ successful task-branch push alone does not complete integration. If hosted
 checks fail or the PR head changes, investigate and re-verify the affected
 work before merging. Confirm the merged commit and updated `origin/main`.
 
-Do not ask Mike for a redundant approval checkpoint between these steps when
-the repository instructions authorize autonomous finalization.
+Under D-067, record a separate adversarial technical review against frozen
+acceptance at the exact head. Observe the actual effective branch rule and
+required check context/App identities; require GitHub `APPROVED` only when that
+rule or an accepted high-risk exception requires it. AI review cannot be
+reported as GitHub approval or as externally enforced without a trusted host.
+Until such a host and a merge policy are installed and separately authorized,
+the founder makes the manual integration decision from visible evidence.
+
+Do not ask Mike for a redundant approval checkpoint for commit, push or PR
+preparation. Protected-main integration is the separate manual founder decision
+required by D-067 until a trusted merge gate is separately authorized.
 
 A successful PASS should normally result in a completed task, not a task waiting
 for a separate manual Git round.
@@ -1333,12 +1342,13 @@ After a task reaches PASS, Verify MAY automatically:
 - push the current branch to its configured upstream,
 - confirm synchronization afterward.
 
-For a protected target branch, this authority also covers a normal PR and
-merge after its required checks pass. It never authorizes bypassing or
+For a protected target branch, this authority covers a normal PR and its
+required hosted checks. D-067 reserves the merge decision to the founder under
+the current manual integration model. It never authorizes bypassing or
 weakening the repository's merge rules.
 
-No separate approval is required for these normal operations when the safety
-conditions in this document are satisfied.
+No separate approval is required for the listed commit, push and PR-preparation
+operations when the safety conditions in this document are satisfied.
 
 This authorization applies only to non-destructive Git completion.
 
